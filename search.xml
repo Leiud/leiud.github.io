@@ -11,6 +11,12 @@
         <content type="html"><![CDATA[<blockquote><h1 id="你好"><a href="#你好" class="headerlink" title="你好"></a>你好</h1></blockquote><p>欢迎来到我的博客，今天，2021年12月1日，是我的博客的出生日。</p><p>这篇文章是用来测试的，因为博客刚跟建立，所以可能会有一些小问题，还请多多包涵。如果遇到问题，可以在评论区给我留言。</p><p>如果您也有博客，欢迎前往<a href="/link/">友链</a>，在评论区中留言与我互换友链信息。</p><center><img src="/img/helloworld.jpg" /></center><blockquote><h1 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World!"></a>Hello World!</h1></blockquote><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> main&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello, World&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       
       
+      <categories>
+          
+          <category> 随笔 </category>
+          
+      </categories>
+      
       
     </entry>
     
