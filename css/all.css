@@ -1,7 +1,12 @@
+header.style{
+    background-image:none;
+}
+
 #page-header {
+    background-image:none;
     background:none;
 }
 
-#footer:before {
+#footer {
 	background: none;	
 }
