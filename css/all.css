@@ -1,7 +1,8 @@
-//#page-header {
-//    background:none;
-//}
+#page-header {
+    background:none;
+    background-position:none;
+}
 
-#footer {
-	background: none;	
+#footer:before {
+	    position: none;
 }
