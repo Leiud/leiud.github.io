@@ -1,8 +1,7 @@
 #page-header {
     background:none;
-    background-position:none;
 }
 
 #footer:before {
-	    position: none;
+	background: none;	
 }
