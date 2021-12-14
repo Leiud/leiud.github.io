@@ -6,7 +6,7 @@
   <link href="http://atideas.github.io/atom.xml" rel="self"/>
   
   <link href="http://atideas.github.io/"/>
-  <updated>2021-12-14T02:03:07.759Z</updated>
+  <updated>2021-12-14T12:15:06.198Z</updated>
   <id>http://atideas.github.io/</id>
   
   <author>
@@ -15,6 +15,87 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Markdown链接小卡片</title>
+    <link href="http://atideas.github.io/2021/12/05/Markdown%E9%93%BE%E6%8E%A5%E5%B0%8F%E5%8D%A1%E7%89%87/"/>
+    <id>http://atideas.github.io/2021/12/05/Markdown%E9%93%BE%E6%8E%A5%E5%B0%8F%E5%8D%A1%E7%89%87/</id>
+    <published>2021-12-05T11:08:34.000Z</published>
+    <updated>2021-12-14T12:15:06.198Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;提醒：需要会写基本的&lt;code&gt;Markdown&lt;/code&gt;语法（当然，如果只想学会链接小卡片的话会写图片和链接的语法就可以了）。&lt;/p&gt;
+&lt;h1 id=&quot;什么是链接小卡片&quot;&gt;&lt;a href=&quot;#什么是链接小卡片&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="Markdown" scheme="http://atideas.github.io/tags/Markdown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面向对象设计的SOLID原则</title>
+    <link href="http://atideas.github.io/2021/12/04/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E7%9A%84SOLID%E5%8E%9F%E5%88%99/"/>
+    <id>http://atideas.github.io/2021/12/04/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E7%9A%84SOLID%E5%8E%9F%E5%88%99/</id>
+    <published>2021-12-04T01:10:56.000Z</published>
+    <updated>2021-12-14T11:06:16.956Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;code&gt;S.O.L.I.D&lt;/code&gt;是面向对象设计和编程（&lt;code&gt;OOD&amp;amp;OOP&lt;/code&gt;）中几个重要编码原则（Programming Priciple）的首字母缩写。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="面向对象" scheme="http://atideas.github.io/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>正则表达式介绍.md</title>
+    <link href="http://atideas.github.io/2021/12/03/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://atideas.github.io/2021/12/03/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/</id>
+    <published>2021-12-03T09:07:33.000Z</published>
+    <updated>2021-12-14T09:23:16.792Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;什么是正则表达式？&quot;&gt;&lt;a href=&quot;#什么是正则表达式？&quot; class=&quot;headerlink&quot; title=&quot;什么是正则表达式？&quot;&gt;&lt;/a&gt;什么是正则表达式？&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;正则表达式是一组由字母和符号组成的特殊文本,</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="正则" scheme="http://atideas.github.io/tags/%E6%AD%A3%E5%88%99/"/>
+    
+  </entry>
   
   <entry>
     <title>IDEA注释模板</title>
