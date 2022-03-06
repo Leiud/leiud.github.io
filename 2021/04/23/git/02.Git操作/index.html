@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Git操作 | 漂泊者的理想三旬</title><meta name="keywords" content="Git"><meta name="author" content="未央"><meta name="copyright" content="未央"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本地库初始化1git init  注意：.git目录中存放的是本地库相关的子目录和文件，不要删除，也不要胡乱修改。 设置签名 形式  用户名：tom Email地址：goodMorning@atguigu.com   作用：区分不同开发人员的身份  辨析：这里设置的签名和登录远程库（代码托管中心）的账号、密码没有任何关系。  命令  项目级别&#x2F;仓库级别：仅在当前本地库范围内有效 12git con">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git操作">
+<meta property="og:url" content="http://atideas.github.io/2021/04/23/git/02.Git%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="本地库初始化1git init  注意：.git目录中存放的是本地库相关的子目录和文件，不要删除，也不要胡乱修改。 设置签名 形式  用户名：tom Email地址：goodMorning@atguigu.com   作用：区分不同开发人员的身份  辨析：这里设置的签名和登录远程库（代码托管中心）的账号、密码没有任何关系。  命令  项目级别&#x2F;仓库级别：仅在当前本地库范围内有效 12git con">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080">
+<meta property="article:published_time" content="2021-04-23T02:46:34.000Z">
+<meta property="article:modified_time" content="2022-03-06T06:36:15.171Z">
+<meta property="article:author" content="未央">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets//blog/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2021/04/23/git/02.Git%E6%93%8D%E4%BD%9C/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Git操作',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-06 14:36:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets//blog/static/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://api.yimian.xyz/img?type=moe&amp;size=1920x1080')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Git操作</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-23T02:46:34.000Z" title="发表于 2021-04-23 10:46:34">2021-04-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-06T06:36:15.171Z" title="更新于 2022-03-06 14:36:15">2022-03-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Git操作"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/04/23/git/02.Git%E6%93%8D%E4%BD%9C/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/04/23/git/02.Git%E6%93%8D%E4%BD%9C/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="本地库初始化"><a href="#本地库初始化" class="headerlink" title="本地库初始化"></a>本地库初始化</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>注意：<code>.git</code>目录中存放的是本地库相关的子目录和文件，不要删除，也不要胡乱修改。</p>
+<h1 id="设置签名"><a href="#设置签名" class="headerlink" title="设置签名"></a>设置签名</h1><ul>
+<li><p>形式</p>
+<ul>
+<li>用户名：<code>tom</code></li>
+<li><code>Email</code>地址：<code>goodMorning@atguigu.com</code></li>
+</ul>
+</li>
+<li><p>作用：区分不同开发人员的身份</p>
+</li>
+<li><p>辨析：这里设置的签名和登录远程库（代码托管中心）的账号、密码没有任何关系。</p>
+</li>
+<li><p>命令</p>
+<ul>
+<li><p>项目级别/仓库级别：仅在当前本地库范围内有效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name tom_pro</span><br><span class="line">git config user.email goodMorning_pro@atguigu.com</span><br></pre></td></tr></table></figure>
+
+<p>信息保存位置：<code>./.git/config</code>文件</p>
+</li>
+<li><p>系统用户级别：登录当前操作系统的用户范围</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name tom_glb</span><br><span class="line">git config --global goodMorning_pro@atguigu.com</span><br></pre></td></tr></table></figure>
+
+<p>信息保存位置：<code>~/.gitconfig</code>文件</p>
+</li>
+</ul>
+</li>
+<li><p>级别优先级</p>
+<ul>
+<li>就近原则： 项目级别优先于系统用户级别， 二者都有时采用项目级别的签名</li>
+<li>如果只有系统用户级别的签名，就以系统用户级别的签名为准</li>
+<li>不允许二者都没有</li>
+</ul>
+</li>
+</ul>
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><h2 id="状态查看"><a href="#状态查看" class="headerlink" title="状态查看"></a>状态查看</h2><p>查看工作区、暂存区状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><p>将工作区的“新建/修改”添加到暂存区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add [file name]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ vi test.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git add test.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h2><p>将暂存区的内容提交到本地库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;commit message&quot;</span> [file name]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git commit -m <span class="string">&quot;first commit&quot;</span> test.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看历史记录"><a href="#查看历史记录" class="headerlink" title="查看历史记录"></a>查看历史记录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git <span class="built_in">log</span></span><br><span class="line">commit f60cd6c (HEAD -&gt; master)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span> --oneline</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># HEAD@&#123;移动到当前版本需要多少步&#125;</span></span><br><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+
+<p>多屏显示控制方式：</p>
+<ul>
+<li>空格向下翻页</li>
+<li><code>b</code>向上翻页</li>
+<li><code>q</code>退出</li>
+</ul>
+<h2 id="前进后退"><a href="#前进后退" class="headerlink" title="前进后退"></a>前进后退</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git reflog</span><br><span class="line">ee9b643 (HEAD -&gt; master) HEAD@&#123;0&#125;: commit: <span class="built_in">test</span> add h</span><br><span class="line">bea03f7 HEAD@&#123;1&#125;: commit: <span class="built_in">test</span> add g</span><br><span class="line">2237de4 HEAD@&#123;2&#125;: commit: <span class="built_in">test</span> add f</span><br><span class="line">4e8b43b HEAD@&#123;3&#125;: commit: <span class="built_in">test</span> add e</span><br><span class="line">c9fe281 HEAD@&#123;4&#125;: commit: <span class="built_in">test</span> add d</span><br><span class="line">9c4147d HEAD@&#123;5&#125;: commit: <span class="built_in">test</span> thrid commit </span><br><span class="line">31eebcc HEAD@&#123;6&#125;: commit: <span class="built_in">test</span> second commit </span><br><span class="line">f60cd6c HEAD@&#123;7&#125;: commit: <span class="built_in">test</span> first commit</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>基于索引值操作[<strong>推荐</strong>]</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard [局部索引值]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git reset --hard 9c4147d</span><br><span class="line">HEAD is now at 9c4147d <span class="built_in">test</span> thrid commit</span><br><span class="line">[root@centos /home/gittest (master)]$ git reflog</span><br><span class="line">9c4147d (HEAD -&gt; master) HEAD@&#123;0&#125;: reset: moving to 9c4147d </span><br><span class="line">ee9b643 HEAD@&#123;1&#125;: commit: <span class="built_in">test</span> add h</span><br><span class="line">bea03f7 HEAD@&#123;2&#125;: commit: <span class="built_in">test</span> add g</span><br><span class="line">2237de4 HEAD@&#123;3&#125;: commit: <span class="built_in">test</span> add f</span><br><span class="line">4e8b43b HEAD@&#123;4&#125;: commit: <span class="built_in">test</span> add e</span><br><span class="line">c9fe281 HEAD@&#123;5&#125;: commit: <span class="built_in">test</span> add d</span><br><span class="line">9c4147d (HEAD -&gt; master) HEAD@&#123;6&#125;: commit (initial): <span class="built_in">test</span> thrid commit </span><br><span class="line">31eebcc HEAD@&#123;7&#125;: commit: <span class="built_in">test</span> second commit </span><br><span class="line">f60cd6c HEAD@&#123;8&#125;: commit: <span class="built_in">test</span> first commit</span><br></pre></td></tr></table></figure></li>
+<li><p>使用<code>^</code>符号：只能后退</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git reset --hard HEAD^</span><br><span class="line">HEAD is now at 31eebcc <span class="built_in">test</span> second commit</span><br><span class="line">[root@centos /home/gittest (master)]$ git reflog</span><br><span class="line">31eebcc (HEAD -&gt; master) HEAD@&#123;0&#125;: reset: moving to HEAD^</span><br><span class="line">9c4147d HEAD@&#123;1&#125;: reset: moving to 9c4147d</span><br><span class="line">ee9b643 HEAD@&#123;2&#125;: commit: <span class="built_in">test</span> add h</span><br><span class="line">bea03f7 HEAD@&#123;3&#125;: commit: <span class="built_in">test</span> add g</span><br><span class="line">2237de4 HEAD@&#123;4&#125;: commit: <span class="built_in">test</span> add f</span><br><span class="line">4e8b43b HEAD@&#123;5&#125;: commit: <span class="built_in">test</span> add e</span><br><span class="line">c9fe281 HEAD@&#123;6&#125;: commit: <span class="built_in">test</span> add d</span><br><span class="line">9c4147d HEAD@&#123;7&#125;: commit: <span class="built_in">test</span> thrid commit </span><br><span class="line">31eebcc (HEAD -&gt; master) HEAD@&#123;8&#125;: commit (initial): <span class="built_in">test</span> second commit </span><br><span class="line">f60cd6c HEAD@&#123;9&#125;: commit: <span class="built_in">test</span> first commit</span><br></pre></td></tr></table></figure>
+
+<p>注：一个<code>^</code>表示后退一步，<code>n</code>个表示后退<code>n</code>步</p>
+</li>
+<li><p>使用<code>~</code>符号：只能后退</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD~n</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git reset --hard HEAD~1</span><br><span class="line">HEAD is now at f60cd6c <span class="built_in">test</span> first commit</span><br><span class="line">[root@centos /home/gittest (master)]$ git reflog</span><br><span class="line">f60cd6c (HEAD -&gt; master) HEAD@&#123;0&#125;: reset: moving to HEAD~1</span><br><span class="line">31eebcc HEAD@&#123;1&#125;: reset: moving to HEAD^ </span><br><span class="line">9c4147d HEAD@&#123;2&#125;: reset: moving to 9c4147d</span><br><span class="line">ee9b643 HEAD@&#123;3&#125;: commit: <span class="built_in">test</span> add h</span><br><span class="line">bea03f7 HEAD@&#123;4&#125;: commit: <span class="built_in">test</span> add g</span><br><span class="line">2237de4 HEAD@&#123;5&#125;: commit: <span class="built_in">test</span> add f</span><br><span class="line">4e8b43b HEAD@&#123;6&#125;: commit: <span class="built_in">test</span> add e</span><br><span class="line">c9fe281 HEAD@&#123;7&#125;: commit: <span class="built_in">test</span> add d</span><br><span class="line">9c4147d HEAD@&#123;8&#125;: commit: <span class="built_in">test</span> thrid commit </span><br><span class="line">31eebcc HEAD@&#123;9&#125;: commit: <span class="built_in">test</span> second commit </span><br><span class="line">f60cd6c (HEAD -&gt; master) HEAD@&#123;10&#125;: commit (initial): <span class="built_in">test</span> first commit</span><br></pre></td></tr></table></figure>
+
+<p>注：表示后退<code>n</code>步</p>
+</li>
+</ul>
+<h3 id="reset-命令的三个参数对比"><a href="#reset-命令的三个参数对比" class="headerlink" title="reset 命令的三个参数对比"></a>reset 命令的三个参数对比</h3><ul>
+<li><p><code>--soft</code>参数</p>
+<ul>
+<li>仅仅在本地库移动<code>HEAD</code>指针</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/note/1619145994/1639488543-28b46baa.png"></p>
+</li>
+<li><p><code>--mixed</code>参数</p>
+<ul>
+<li>在本地库移动<code>HEAD</code>指针</li>
+<li>重置暂存区</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/note/1619145994/1639488566-0edd428e.png"></p>
+</li>
+<li><p><code>--hard</code>参数</p>
+<ul>
+<li>在本地库移动<code>HEAD</code>指针</li>
+<li>重置暂存区</li>
+<li>重置工作区</li>
+</ul>
+</li>
+</ul>
+<h2 id="删除文件并找回"><a href="#删除文件并找回" class="headerlink" title="删除文件并找回"></a>删除文件并找回</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ vi delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git add delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git commit -m <span class="string">&quot;create delete.txt&quot;</span> delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ <span class="built_in">rm</span> delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git add delete.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>前提：删除前，文件存在时的状态提交到了本地库。</p>
+</li>
+<li><p>操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard [指针位置]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除操作已经提交到本地库：指针位置指向历史记录<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ <span class="built_in">rm</span> delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git add delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git commit -m <span class="string">&quot;delete delete.txt&quot;</span> delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git reflog</span><br><span class="line">03b0563 (HEAD -&gt; master) HEAD@&#123;0&#125;: commit: delete delete.txt</span><br><span class="line">2d75244 HEAD@&#123;1&#125;: commit: create delete.txt</span><br><span class="line">f60cd6c HEAD@&#123;2&#125;: reset: moving to HEAD~1</span><br><span class="line">31eebcc HEAD@&#123;3&#125;: reset: moving to HEAD^ </span><br><span class="line">9c4147d HEAD@&#123;4&#125;: reset: moving to 9c4147d</span><br><span class="line">ee9b643 HEAD@&#123;5&#125;: commit: <span class="built_in">test</span> add h</span><br><span class="line">bea03f7 HEAD@&#123;6&#125;: commit: <span class="built_in">test</span> add g</span><br><span class="line">2237de4 HEAD@&#123;7&#125;: commit: <span class="built_in">test</span> add f</span><br><span class="line">4e8b43b HEAD@&#123;8&#125;: commit: <span class="built_in">test</span> add e</span><br><span class="line">c9fe281 HEAD@&#123;9&#125;: commit: <span class="built_in">test</span> add d</span><br><span class="line">9c4147d HEAD@&#123;10&#125;: commit: <span class="built_in">test</span> thrid commit </span><br><span class="line">31eebcc HEAD@&#123;11&#125;: commit: <span class="built_in">test</span> second commit </span><br><span class="line">f60cd6c HEAD@&#123;12&#125;: commit (initial): <span class="built_in">test</span> first commit</span><br><span class="line">[root@centos /home/gittest (master)]$ git reset --hard 2d75244</span><br><span class="line">[root@centos /home/gittest (master)]$ ll</span><br></pre></td></tr></table></figure></li>
+<li>删除操作尚未提交到本地库：指针位置使用<code>HEAD</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ ll</span><br><span class="line">total 2</span><br><span class="line">delete.txt</span><br><span class="line">test.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ <span class="built_in">rm</span> delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git add delete.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ ll</span><br><span class="line">total 1</span><br><span class="line">test.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git reset --hard HEAD</span><br><span class="line">[root@centos /home/gittest (master)]$ ll</span><br><span class="line">total 2</span><br><span class="line">delete.txt</span><br><span class="line">test.txt</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="比较文件差异"><a href="#比较文件差异" class="headerlink" title="比较文件差异"></a>比较文件差异</h2><ul>
+<li><p>将工作区中的文件和暂存区进行比较</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff [文件名]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ vi test.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git diff test.txt</span><br></pre></td></tr></table></figure></li>
+<li><p>将工作区中的文件和本地库历史记录比较</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff [本地库中历史版本] [文件名]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git diff HEAD^ test.txt</span><br><span class="line">diff --git a/test.txt b/test.txt</span><br></pre></td></tr></table></figure></li>
+<li><p>不带文件名比较多个文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git diff</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><h3 id="什么是分支"><a href="#什么是分支" class="headerlink" title="什么是分支"></a>什么是分支</h3><p>在版本控制过程中，使用多条线同时推进多个任务。</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/note/1619145994/1639488882-3b2b4f4b.png"></p>
+</div>
+
+<h3 id="分支的好处"><a href="#分支的好处" class="headerlink" title="分支的好处"></a>分支的好处</h3><ul>
+<li>同时并行推进多个功能开发，提高开发效率</li>
+<li>各个分支在开发过程中，如果某一个分支开发失败，不会对其他分支有任 何影响。失败的分支删除重新开始即可。</li>
+</ul>
+<h3 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h3><ul>
+<li><p>创建分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch [分支名]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git branch hot_fix</span><br></pre></td></tr></table></figure></li>
+<li><p>查看分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -v</span><br></pre></td></tr></table></figure></li>
+<li><p>切换分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout [分支名]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git checkout hot_fix</span><br></pre></td></tr></table></figure></li>
+<li><p>合并分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (hot_fix)]$ vi aaa.txt</span><br><span class="line">[root@centos /home/gittest (hot_fix)]$ git add aaa.txt</span><br><span class="line">[root@centos /home/gittest (hot_fix)]$ git commit -m <span class="string">&quot;hot_fix&quot;</span> aaa.txt</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>切换到接受修改的分支（被合并，增加新内容）上</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout [被合并分支名]</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (hot_fix)]$ git checkout master</span><br><span class="line">[root@centos /home/gittest (master)]$ vi aaa.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git add aaa.txt</span><br><span class="line">[root@centos /home/gittest (master)]$ git commit -m <span class="string">&quot;master&quot;</span> aaa.txt</span><br></pre></td></tr></table></figure></li>
+<li><p>第二步：执行<code>merge</code>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge [有新内容分支名]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (master)]$ git merge hot_fix</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>解决冲突</p>
+<ul>
+<li>冲突的表现<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (hot_fix)]$  git merge master</span><br><span class="line">Auto-merging aaa.txt</span><br><span class="line">CONFLICT (ontent): Merge conflict <span class="keyword">in</span> aaa.txt</span><br><span class="line">Automatic merge failed; fix conflicts and <span class="keyword">then</span> commit the</span><br></pre></td></tr></table></figure></li>
+<li>冲突的解决<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前分支内容</span></span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; <span class="string">HEAD</span></span><br><span class="line"><span class="string">hot_fix</span></span><br><span class="line"><span class="string">=======</span></span><br><span class="line"><span class="string"># 另一分支内容</span></span><br><span class="line"><span class="string">master</span></span><br><span class="line"><span class="string">&gt;&gt;&gt;&gt;&gt;&gt;&gt; master</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>编辑文件，删除特殊符号 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hot_fix</span><br><span class="line"></span><br><span class="line">master</span><br></pre></td></tr></table></figure></li>
+<li>把文件修改到满意的程度，保存退出 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hot_fix master</span><br></pre></td></tr></table></figure></li>
+<li><code>git add [文件名]</code> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (hot_fix|MERGING)]$ git add aaa.txt</span><br></pre></td></tr></table></figure></li>
+<li><code>git commit -m &quot;日志信息&quot;</code> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/gittest (hot_fix|MERGING)]$ git commit -m <span class="string">&quot;hot and master&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>此时<code>commit</code>一定不能带具体文件名</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">未央</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2021/04/23/git/02.Git%E6%93%8D%E4%BD%9C/">http://atideas.github.io/2021/04/23/git/02.Git%E6%93%8D%E4%BD%9C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Git/">Git</a></div><div class="post_share"><div class="social-share" data-image="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets//blog/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets//blog/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets//blog/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets//blog/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/04/19/git/01.%E7%AE%80%E4%BB%8B/"><img class="prev-cover" src="https://api.ixiaowai.cn/api/api.php" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">简介</div></div></a></div><div class="next-post pull-right"><a href="/2021/04/27/git/03.Git%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"><img class="next-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Git基本原理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/04/19/git/01.%E7%AE%80%E4%BB%8B/" title="简介"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-19</div><div class="title">简介</div></div></a></div><div><a href="/2021/04/27/git/03.Git%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="Git基本原理"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-27</div><div class="title">Git基本原理</div></div></a></div><div><a href="/2021/04/28/git/04.GitHub/" title="GitHub"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-28</div><div class="title">GitHub</div></div></a></div><div><a href="/2021/04/28/git/06.GitLab%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="GitLab服务器"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-28</div><div class="title">GitLab服务器</div></div></a></div><div><a href="/2021/04/28/git/05.Git%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="Git工作流"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-28</div><div class="title">Git工作流</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets//blog/static/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">未央</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/acrystals" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%BA%93%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">本地库初始化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%AD%BE%E5%90%8D"><span class="toc-number">2.</span> <span class="toc-text">设置签名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%9F%A5%E7%9C%8B"><span class="toc-number">3.1.</span> <span class="toc-text">状态查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0"><span class="toc-number">3.2.</span> <span class="toc-text">添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4"><span class="toc-number">3.3.</span> <span class="toc-text">提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95"><span class="toc-number">3.4.</span> <span class="toc-text">查看历史记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%BF%9B%E5%90%8E%E9%80%80"><span class="toc-number">3.5.</span> <span class="toc-text">前进后退</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reset-%E5%91%BD%E4%BB%A4%E7%9A%84%E4%B8%89%E4%B8%AA%E5%8F%82%E6%95%B0%E5%AF%B9%E6%AF%94"><span class="toc-number">3.5.1.</span> <span class="toc-text">reset 命令的三个参数对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E5%B9%B6%E6%89%BE%E5%9B%9E"><span class="toc-number">3.6.</span> <span class="toc-text">删除文件并找回</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E6%96%87%E4%BB%B6%E5%B7%AE%E5%BC%82"><span class="toc-number">3.7.</span> <span class="toc-text">比较文件差异</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86"><span class="toc-number">3.8.</span> <span class="toc-text">分支管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E6%94%AF"><span class="toc-number">3.8.1.</span> <span class="toc-text">什么是分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-number">3.8.2.</span> <span class="toc-text">分支的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E6%93%8D%E4%BD%9C"><span class="toc-number">3.8.3.</span> <span class="toc-text">分支操作</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/12/05/%E6%8A%80%E6%9C%AF/02.Markdown%E9%93%BE%E6%8E%A5%E5%B0%8F%E5%8D%A1%E7%89%87/" title="Markdown链接小卡片"><img src="https://www.dmoe.cc/random.php" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Markdown链接小卡片"/></a><div class="content"><a class="title" href="/2021/12/05/%E6%8A%80%E6%9C%AF/02.Markdown%E9%93%BE%E6%8E%A5%E5%B0%8F%E5%8D%A1%E7%89%87/" title="Markdown链接小卡片">Markdown链接小卡片</a><time datetime="2021-12-05T11:08:34.000Z" title="发表于 2021-12-05 19:08:34">2021-12-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/04/%E6%8A%80%E6%9C%AF/01.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E7%9A%84SOLID%E5%8E%9F%E5%88%99/" title="面向对象设计的SOLID原则"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面向对象设计的SOLID原则"/></a><div class="content"><a class="title" href="/2021/12/04/%E6%8A%80%E6%9C%AF/01.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E7%9A%84SOLID%E5%8E%9F%E5%88%99/" title="面向对象设计的SOLID原则">面向对象设计的SOLID原则</a><time datetime="2021-12-04T01:10:56.000Z" title="发表于 2021-12-04 09:10:56">2021-12-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/03/%E6%8A%80%E6%9C%AF/%E6%AD%A3%E5%88%99/01.%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/" title="正则表达式介绍"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="正则表达式介绍"/></a><div class="content"><a class="title" href="/2021/12/03/%E6%8A%80%E6%9C%AF/%E6%AD%A3%E5%88%99/01.%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/" title="正则表达式介绍">正则表达式介绍</a><time datetime="2021-12-03T09:07:33.000Z" title="发表于 2021-12-03 17:07:33">2021-12-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/02/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/01.IDEA%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF/" title="IDEA注释模板"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="IDEA注释模板"/></a><div class="content"><a class="title" href="/2021/12/02/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/01.IDEA%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF/" title="IDEA注释模板">IDEA注释模板</a><time datetime="2021-12-02T10:25:57.000Z" title="发表于 2021-12-02 18:25:57">2021-12-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/01/%E9%9A%8F%E7%AC%94/01.Hello%20World/" title="Hello World"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/2021/12/01/%E9%9A%8F%E7%AC%94/01.Hello%20World/" title="Hello World">Hello World</a><time datetime="2021-12-01T12:48:09.000Z" title="发表于 2021-12-01 20:48:09">2021-12-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By 未央</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
