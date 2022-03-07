@@ -10,7 +10,7 @@
   <id>http://atideas.github.io/</id>
   
   <author>
-    <name>未央</name>
+    <name>Feng Deng</name>
     
   </author>
   
@@ -102,7 +102,7 @@
     <link href="http://atideas.github.io/2021/12/02/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/01.IDEA%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF/"/>
     <id>http://atideas.github.io/2021/12/02/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/01.IDEA%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF/</id>
     <published>2021-12-02T10:25:57.000Z</published>
-    <updated>2022-03-06T06:32:44.105Z</updated>
+    <updated>2022-03-07T01:04:30.416Z</updated>
     
     
       
@@ -148,8 +148,8 @@
   
   <entry>
     <title>数据卷、Dockerfile 与 Docker 网络</title>
-    <link href="http://atideas.github.io/2021/11/01/docker/02.%E6%95%B0%E6%8D%AE%E5%8D%B7%E3%80%81Dockerfile%E4%B8%8EDocker%E7%BD%91%E7%BB%9C/"/>
-    <id>http://atideas.github.io/2021/11/01/docker/02.%E6%95%B0%E6%8D%AE%E5%8D%B7%E3%80%81Dockerfile%E4%B8%8EDocker%E7%BD%91%E7%BB%9C/</id>
+    <link href="http://atideas.github.io/2021/11/01/Docker/02.%E6%95%B0%E6%8D%AE%E5%8D%B7%E3%80%81Dockerfile%E4%B8%8EDocker%E7%BD%91%E7%BB%9C/"/>
+    <id>http://atideas.github.io/2021/11/01/Docker/02.%E6%95%B0%E6%8D%AE%E5%8D%B7%E3%80%81Dockerfile%E4%B8%8EDocker%E7%BD%91%E7%BB%9C/</id>
     <published>2021-11-01T01:14:12.000Z</published>
     <updated>2022-03-06T06:37:25.982Z</updated>
     
@@ -173,8 +173,8 @@
   
   <entry>
     <title>镜像与容器</title>
-    <link href="http://atideas.github.io/2021/10/26/docker/01.%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8/"/>
-    <id>http://atideas.github.io/2021/10/26/docker/01.%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8/</id>
+    <link href="http://atideas.github.io/2021/10/26/Docker/01.%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8/"/>
+    <id>http://atideas.github.io/2021/10/26/Docker/01.%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8/</id>
     <published>2021-10-26T02:11:41.000Z</published>
     <updated>2022-03-06T06:37:09.450Z</updated>
     
@@ -193,6 +193,156 @@
     
     
     <category term="Dockcer" scheme="http://atideas.github.io/tags/Dockcer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Elasticsearch 优化与面试题</title>
+    <link href="http://atideas.github.io/2021/10/21/ElasticSearch/06.Elasticsearch%20%E4%BC%98%E5%8C%96%E4%B8%8E%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
+    <id>http://atideas.github.io/2021/10/21/ElasticSearch/06.Elasticsearch%20%E4%BC%98%E5%8C%96%E4%B8%8E%E9%9D%A2%E8%AF%95%E9%A2%98/</id>
+    <published>2021-10-21T08:49:45.000Z</published>
+    <updated>2022-03-07T01:06:46.419Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;硬件选择&quot;&gt;&lt;a href=&quot;#硬件选择&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Elasticsearch 集成</title>
+    <link href="http://atideas.github.io/2021/10/21/ElasticSearch/05.Elasticsearch%20%E9%9B%86%E6%88%90/"/>
+    <id>http://atideas.github.io/2021/10/21/ElasticSearch/05.Elasticsearch%20%E9%9B%86%E6%88%90/</id>
+    <published>2021-10-21T03:20:25.000Z</published>
+    <updated>2022-03-07T01:06:37.616Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Spring-Data-框架集成&quot;&gt;&lt;a href=&quot;#Spring-Data-框架集成&quot; class=&quot;headerlink&quot; title=&quot;Spring Data 框架集成&quot;&gt;&lt;/a&gt;Spring Data 框架集成&lt;/h1&gt;&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Elasticsearch 进阶</title>
+    <link href="http://atideas.github.io/2021/10/17/ElasticSearch/04.Elasticsearch%20%E8%BF%9B%E9%98%B6/"/>
+    <id>http://atideas.github.io/2021/10/17/ElasticSearch/04.Elasticsearch%20%E8%BF%9B%E9%98%B6/</id>
+    <published>2021-10-17T11:06:38.000Z</published>
+    <updated>2022-03-07T01:06:28.550Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;核心概念&quot;&gt;&lt;a href=&quot;#核心概念&quot; class=&quot;headerlink&quot; title=&quot;核心概念&quot;&gt;&lt;/a&gt;核心概念&lt;/h1&gt;&lt;h2 id=&quot;索引（Index）&quot;&gt;&lt;a href=&quot;#索引（Index）&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Elasticsearch 环境</title>
+    <link href="http://atideas.github.io/2021/10/15/ElasticSearch/03.Elasticsearch%20%E7%8E%AF%E5%A2%83/"/>
+    <id>http://atideas.github.io/2021/10/15/ElasticSearch/03.Elasticsearch%20%E7%8E%AF%E5%A2%83/</id>
+    <published>2021-10-15T03:18:17.000Z</published>
+    <updated>2022-03-07T01:06:18.466Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;相关概念&quot;&gt;&lt;a href=&quot;#相关概念&quot; class=&quot;headerlink&quot; title=&quot;相关概念&quot;&gt;&lt;/a&gt;相关概念&lt;/h1&gt;&lt;h2 id=&quot;单机-amp-集群&quot;&gt;&lt;a href=&quot;#单机-amp-集群&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ElasticSearch 基本操作</title>
+    <link href="http://atideas.github.io/2021/10/12/ElasticSearch/02.ElasticSearch%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
+    <id>http://atideas.github.io/2021/10/12/ElasticSearch/02.ElasticSearch%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</id>
+    <published>2021-10-12T01:51:12.000Z</published>
+    <updated>2022-03-07T01:06:05.867Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;RESTful&quot;&gt;&lt;a href=&quot;#RESTful&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ElasticSearch 概述</title>
+    <link href="http://atideas.github.io/2021/10/11/ElasticSearch/01.ElasticSearch%E6%A6%82%E8%BF%B0/"/>
+    <id>http://atideas.github.io/2021/10/11/ElasticSearch/01.ElasticSearch%E6%A6%82%E8%BF%B0/</id>
+    <published>2021-10-11T12:19:07.000Z</published>
+    <updated>2022-03-07T01:05:54.510Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;ElasticSearch-是什么&quot;&gt;&lt;a href=&quot;#ElasticSearch-是什么&quot; class=&quot;headerlink&quot; title=&quot;ElasticSearch 是什么&quot;&gt;&lt;/a&gt;ElasticSearch</summary>
+        
+      
+    
+    
+    
+    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
     
   </entry>
   
