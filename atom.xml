@@ -6,7 +6,7 @@
   <link href="http://atideas.github.io/atom.xml" rel="self"/>
   
   <link href="http://atideas.github.io/"/>
-  <updated>2021-12-14T12:15:06.198Z</updated>
+  <updated>2022-03-10T02:05:45.261Z</updated>
   <id>http://atideas.github.io/</id>
   
   <author>
@@ -17,11 +17,288 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Markdown链接小卡片</title>
+    <title>SpringCloud | 熔断与限流</title>
+    <link href="http://atideas.github.io/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/"/>
+    <id>http://atideas.github.io/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/</id>
+    <published>2022-01-10T13:17:54.000Z</published>
+    <updated>2022-03-10T02:05:45.261Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Sentinel&quot;&gt;&lt;a href=&quot;#Sentinel&quot; class=&quot;headerlink&quot; title=&quot;Sentinel&quot;&gt;&lt;/a&gt;Sentinel&lt;/h1&gt;&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringCloud | 服务注册和配置中心</title>
+    <link href="http://atideas.github.io/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/"/>
+    <id>http://atideas.github.io/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</id>
+    <published>2022-01-05T14:19:38.000Z</published>
+    <updated>2022-03-10T02:05:40.915Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;SpringCloud-Alibaba&quot;&gt;&lt;a href=&quot;#SpringCloud-Alibaba&quot; class=&quot;headerlink&quot; title=&quot;SpringCloud Alibaba&quot;&gt;&lt;/a&gt;SpringCloud</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringCloud | 服务配置</title>
+    <link href="http://atideas.github.io/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/"/>
+    <id>http://atideas.github.io/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/</id>
+    <published>2021-12-30T13:16:50.000Z</published>
+    <updated>2022-03-10T02:05:20.105Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Config&quot;&gt;&lt;a href=&quot;#Config&quot; class=&quot;headerlink&quot; title=&quot;Config&quot;&gt;&lt;/a&gt;Config&lt;/h1&gt;&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringCloud | 服务网关</title>
+    <link href="http://atideas.github.io/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/"/>
+    <id>http://atideas.github.io/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/</id>
+    <published>2021-12-27T12:34:37.000Z</published>
+    <updated>2022-03-10T02:05:34.575Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;GateWay&quot;&gt;&lt;a href=&quot;#GateWay&quot; class=&quot;headerlink&quot; title=&quot;GateWay&quot;&gt;&lt;/a&gt;GateWay&lt;/h1&gt;&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mybatis | Mybatis开发dao</title>
+    <link href="http://atideas.github.io/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/"/>
+    <id>http://atideas.github.io/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/</id>
+    <published>2021-12-23T10:55:53.000Z</published>
+    <updated>2022-03-10T01:49:50.414Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;sqlSession-使用范围&quot;&gt;&lt;a href=&quot;#sqlSession-使用范围&quot; class=&quot;headerlink&quot; title=&quot;sqlSession 使用范围&quot;&gt;&lt;/a&gt;sqlSession 使用范围&lt;/h1&gt;&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Mybatis" scheme="http://atideas.github.io/tags/Mybatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringCloud | 服务降级</title>
+    <link href="http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/"/>
+    <id>http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/</id>
+    <published>2021-12-22T09:08:56.000Z</published>
+    <updated>2022-03-10T02:05:15.691Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Hystrix-断路器&quot;&gt;&lt;a href=&quot;#Hystrix-断路器&quot; class=&quot;headerlink&quot; title=&quot;Hystrix 断路器&quot;&gt;&lt;/a&gt;Hystrix 断路器&lt;/h1&gt;&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringCloud | 服务调用</title>
+    <link href="http://atideas.github.io/2021/12/13/SpringCloud/03.%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8/"/>
+    <id>http://atideas.github.io/2021/12/13/SpringCloud/03.%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8/</id>
+    <published>2021-12-13T08:06:23.000Z</published>
+    <updated>2022-03-10T02:05:12.588Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;code&gt;RestTemplate&lt;/code&gt;虽然已经提供远程调用了，但还需要在发送请求时通过负载均衡算法从提供者列表中进行选择。&lt;/p&gt;
+&lt;h1 id=&quot;Ribbon&quot;&gt;&lt;a href=&quot;#Ribbon&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java多线程 | 同步集合类</title>
+    <link href="http://atideas.github.io/2021/12/12/Multithread/09.%E5%90%8C%E6%AD%A5%E9%9B%86%E5%90%88%E7%B1%BB/"/>
+    <id>http://atideas.github.io/2021/12/12/Multithread/09.%E5%90%8C%E6%AD%A5%E9%9B%86%E5%90%88%E7%B1%BB/</id>
+    <published>2021-12-12T09:20:47.521Z</published>
+    <updated>2022-03-10T01:49:39.050Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;传统集合的缺陷&quot;&gt;&lt;a href=&quot;#传统集合的缺陷&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Java多线程" scheme="http://atideas.github.io/tags/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringMVC | 异常处理</title>
+    <link href="http://atideas.github.io/2021/12/12/SpringMVC/10.%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"/>
+    <id>http://atideas.github.io/2021/12/12/SpringMVC/10.%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</id>
+    <published>2021-12-12T09:20:47.396Z</published>
+    <updated>2022-03-10T02:06:18.711Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;我们知道，系统中异常包括：编译时异常和运行时异常RuntimeException，前者通过捕获异常从而获取异常信息，后者主要通过规范代码开发、测试通过手段减少运行时异常的发生。在开发中，不管是dao层、service层还是controller层，都有可能抛出异常，在spri</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringMVC" scheme="http://atideas.github.io/tags/SpringMVC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringMVC | json 交互</title>
+    <link href="http://atideas.github.io/2021/12/12/SpringMVC/09.json%E4%BA%A4%E4%BA%92/"/>
+    <id>http://atideas.github.io/2021/12/12/SpringMVC/09.json%E4%BA%A4%E4%BA%92/</id>
+    <published>2021-12-12T09:20:47.396Z</published>
+    <updated>2022-03-10T02:06:15.912Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;　　json数据格式在接口调用中、html页面中比较常用，json格式比较简单，解析也比较方便，所以使用很普遍。在springmvc中，也支持对json数据的解析和转换，这篇文章主要总结一下springmvc中如何和前台交互json数据&lt;/p&gt;
+&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringMVC" scheme="http://atideas.github.io/tags/SpringMVC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mybatis | 逆向工程</title>
+    <link href="http://atideas.github.io/2021/12/12/Mybatis/08.%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/"/>
+    <id>http://atideas.github.io/2021/12/12/Mybatis/08.%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/</id>
+    <published>2021-12-12T09:20:47.365Z</published>
+    <updated>2022-03-10T01:50:02.512Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;什么是逆向工程&quot;&gt;&lt;a href=&quot;#什么是逆向工程&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Mybatis" scheme="http://atideas.github.io/tags/Mybatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Markdown | Markdown链接小卡片</title>
     <link href="http://atideas.github.io/2021/12/05/%E6%8A%80%E6%9C%AF/02.Markdown%E9%93%BE%E6%8E%A5%E5%B0%8F%E5%8D%A1%E7%89%87/"/>
     <id>http://atideas.github.io/2021/12/05/%E6%8A%80%E6%9C%AF/02.Markdown%E9%93%BE%E6%8E%A5%E5%B0%8F%E5%8D%A1%E7%89%87/</id>
     <published>2021-12-05T11:08:34.000Z</published>
-    <updated>2021-12-14T12:15:06.198Z</updated>
+    <updated>2022-03-09T09:13:50.049Z</updated>
     
     
       
@@ -43,11 +320,11 @@
   </entry>
   
   <entry>
-    <title>面向对象设计的SOLID原则</title>
+    <title>面向对象 | 面向对象设计的SOLID原则</title>
     <link href="http://atideas.github.io/2021/12/04/%E6%8A%80%E6%9C%AF/01.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E7%9A%84SOLID%E5%8E%9F%E5%88%99/"/>
     <id>http://atideas.github.io/2021/12/04/%E6%8A%80%E6%9C%AF/01.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E7%9A%84SOLID%E5%8E%9F%E5%88%99/</id>
     <published>2021-12-04T01:10:56.000Z</published>
-    <updated>2021-12-14T11:06:16.956Z</updated>
+    <updated>2022-03-09T09:13:41.098Z</updated>
     
     
       
@@ -72,11 +349,11 @@
   </entry>
   
   <entry>
-    <title>正则表达式介绍</title>
+    <title>正则 | 正则表达式介绍</title>
     <link href="http://atideas.github.io/2021/12/03/%E6%8A%80%E6%9C%AF/%E6%AD%A3%E5%88%99/01.%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/"/>
     <id>http://atideas.github.io/2021/12/03/%E6%8A%80%E6%9C%AF/%E6%AD%A3%E5%88%99/01.%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%8B%E7%BB%8D/</id>
     <published>2021-12-03T09:07:33.000Z</published>
-    <updated>2021-12-14T12:19:57.396Z</updated>
+    <updated>2022-03-09T09:13:31.517Z</updated>
     
     
       
@@ -98,11 +375,36 @@
   </entry>
   
   <entry>
-    <title>IDEA注释模板</title>
+    <title>SpringCloud | 服务注册中心</title>
+    <link href="http://atideas.github.io/2021/12/03/SpringCloud/02.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/"/>
+    <id>http://atideas.github.io/2021/12/03/SpringCloud/02.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/</id>
+    <published>2021-12-03T01:12:45.000Z</published>
+    <updated>2022-03-10T02:05:05.228Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;如果只有两个微服务，通过&lt;code&gt;RestTemplate&lt;/code&gt;，是可以相互调用的，但是当微服务项目的数量增大，就需要服务注册中心。目前没有学习服务调用相关技术，使用&lt;code&gt;SpringCloud&lt;/code&gt;自带的&lt;code&gt;RestTemplate&lt;/co</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IDEA | IDEA注释模板</title>
     <link href="http://atideas.github.io/2021/12/02/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/01.IDEA%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF/"/>
     <id>http://atideas.github.io/2021/12/02/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/01.IDEA%E6%B3%A8%E9%87%8A%E6%A8%A1%E6%9D%BF/</id>
     <published>2021-12-02T10:25:57.000Z</published>
-    <updated>2022-03-07T01:04:30.416Z</updated>
+    <updated>2022-03-09T09:14:03.376Z</updated>
     
     
       
@@ -147,11 +449,36 @@
   </entry>
   
   <entry>
-    <title>发布确认高级、其他知识点与集群</title>
+    <title>SpringCloud | 基础入门</title>
+    <link href="http://atideas.github.io/2021/11/30/SpringCloud/01.%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/"/>
+    <id>http://atideas.github.io/2021/11/30/SpringCloud/01.%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/</id>
+    <published>2021-11-30T14:04:48.000Z</published>
+    <updated>2022-03-10T02:04:59.209Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;微服务架构概述&quot;&gt;&lt;a href=&quot;#微服务架构概述&quot; class=&quot;headerlink&quot; title=&quot;微服务架构概述&quot;&gt;&lt;/a&gt;微服务架构概述&lt;/h1&gt;&lt;h2 id=&quot;什么是微服务&quot;&gt;&lt;a href=&quot;#什么是微服务&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RabbitMQ | 发布确认高级、其他知识点与集群</title>
     <link href="http://atideas.github.io/2021/11/27/RabbitMQ/04.%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E9%AB%98%E7%BA%A7%E3%80%81%E5%85%B6%E4%BB%96%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%8E%E9%9B%86%E7%BE%A4/"/>
     <id>http://atideas.github.io/2021/11/27/RabbitMQ/04.%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E9%AB%98%E7%BA%A7%E3%80%81%E5%85%B6%E4%BB%96%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B8%8E%E9%9B%86%E7%BE%A4/</id>
     <published>2021-11-27T07:17:50.000Z</published>
-    <updated>2022-03-08T09:28:20.246Z</updated>
+    <updated>2022-03-10T02:03:19.218Z</updated>
     
     
       
@@ -164,7 +491,7 @@
     
     
     
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
     <category term="RabbitMQ" scheme="http://atideas.github.io/tags/RabbitMQ/"/>
@@ -172,11 +499,11 @@
   </entry>
   
   <entry>
-    <title>队列</title>
+    <title>RabbitMQ | 队列</title>
     <link href="http://atideas.github.io/2021/11/25/RabbitMQ/03.%E9%98%9F%E5%88%97/"/>
     <id>http://atideas.github.io/2021/11/25/RabbitMQ/03.%E9%98%9F%E5%88%97/</id>
     <published>2021-11-25T06:48:26.000Z</published>
-    <updated>2022-03-08T09:26:36.421Z</updated>
+    <updated>2022-03-10T02:03:16.382Z</updated>
     
     
       
@@ -189,335 +516,10 @@
     
     
     
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
     
     
     <category term="RabbitMQ" scheme="http://atideas.github.io/tags/RabbitMQ/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>发布确认与交换机</title>
-    <link href="http://atideas.github.io/2021/11/22/RabbitMQ/02.%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA/"/>
-    <id>http://atideas.github.io/2021/11/22/RabbitMQ/02.%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA/</id>
-    <published>2021-11-22T12:36:33.000Z</published>
-    <updated>2022-03-08T09:26:25.187Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;发布确认&quot;&gt;&lt;a href=&quot;#发布确认&quot; class=&quot;headerlink&quot; title=&quot;发布确认&quot;&gt;&lt;/a&gt;发布确认&lt;/h1&gt;&lt;h2 id=&quot;发布确认原理&quot;&gt;&lt;a href=&quot;#发布确认原理&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="RabbitMQ" scheme="http://atideas.github.io/tags/RabbitMQ/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>消息队列</title>
-    <link href="http://atideas.github.io/2021/11/19/RabbitMQ/01.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"/>
-    <id>http://atideas.github.io/2021/11/19/RabbitMQ/01.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</id>
-    <published>2021-11-19T07:28:34.000Z</published>
-    <updated>2022-03-08T09:26:15.568Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;MQ-的相关概念&quot;&gt;&lt;a href=&quot;#MQ-的相关概念&quot; class=&quot;headerlink&quot; title=&quot;MQ 的相关概念&quot;&gt;&lt;/a&gt;MQ 的相关概念&lt;/h1&gt;&lt;h2 id=&quot;什么是-MQ&quot;&gt;&lt;a href=&quot;#什么是-MQ&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="RabbitMQ" scheme="http://atideas.github.io/tags/RabbitMQ/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据卷、Dockerfile 与 Docker 网络</title>
-    <link href="http://atideas.github.io/2021/11/01/Docker/02.%E6%95%B0%E6%8D%AE%E5%8D%B7%E3%80%81Dockerfile%E4%B8%8EDocker%E7%BD%91%E7%BB%9C/"/>
-    <id>http://atideas.github.io/2021/11/01/Docker/02.%E6%95%B0%E6%8D%AE%E5%8D%B7%E3%80%81Dockerfile%E4%B8%8EDocker%E7%BD%91%E7%BB%9C/</id>
-    <published>2021-11-01T01:14:12.000Z</published>
-    <updated>2022-03-08T09:17:21.879Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;数据卷&quot;&gt;&lt;a href=&quot;#数据卷&quot; class=&quot;headerlink&quot; title=&quot;数据卷&quot;&gt;&lt;/a&gt;数据卷&lt;/h1&gt;&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="Dockcer" scheme="http://atideas.github.io/tags/Dockcer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>镜像与容器</title>
-    <link href="http://atideas.github.io/2021/10/26/Docker/01.%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8/"/>
-    <id>http://atideas.github.io/2021/10/26/Docker/01.%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8/</id>
-    <published>2021-10-26T02:11:41.000Z</published>
-    <updated>2022-03-08T09:16:17.863Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Docker概述&quot;&gt;&lt;a href=&quot;#Docker概述&quot; class=&quot;headerlink&quot; title=&quot;Docker概述&quot;&gt;&lt;/a&gt;Docker概述&lt;/h1&gt;&lt;h2 id=&quot;基本介绍&quot;&gt;&lt;a href=&quot;#基本介绍&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="Dockcer" scheme="http://atideas.github.io/tags/Dockcer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Elasticsearch 优化与面试题</title>
-    <link href="http://atideas.github.io/2021/10/21/ElasticSearch/06.Elasticsearch%20%E4%BC%98%E5%8C%96%E4%B8%8E%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
-    <id>http://atideas.github.io/2021/10/21/ElasticSearch/06.Elasticsearch%20%E4%BC%98%E5%8C%96%E4%B8%8E%E9%9D%A2%E8%AF%95%E9%A2%98/</id>
-    <published>2021-10-21T08:49:45.000Z</published>
-    <updated>2022-03-08T09:24:57.517Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;硬件选择&quot;&gt;&lt;a href=&quot;#硬件选择&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Elasticsearch 集成</title>
-    <link href="http://atideas.github.io/2021/10/21/ElasticSearch/05.Elasticsearch%20%E9%9B%86%E6%88%90/"/>
-    <id>http://atideas.github.io/2021/10/21/ElasticSearch/05.Elasticsearch%20%E9%9B%86%E6%88%90/</id>
-    <published>2021-10-21T03:20:25.000Z</published>
-    <updated>2022-03-08T09:24:44.911Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;Spring-Data-框架集成&quot;&gt;&lt;a href=&quot;#Spring-Data-框架集成&quot; class=&quot;headerlink&quot; title=&quot;Spring Data 框架集成&quot;&gt;&lt;/a&gt;Spring Data 框架集成&lt;/h1&gt;&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Elasticsearch 进阶</title>
-    <link href="http://atideas.github.io/2021/10/17/ElasticSearch/04.Elasticsearch%20%E8%BF%9B%E9%98%B6/"/>
-    <id>http://atideas.github.io/2021/10/17/ElasticSearch/04.Elasticsearch%20%E8%BF%9B%E9%98%B6/</id>
-    <published>2021-10-17T11:06:38.000Z</published>
-    <updated>2022-03-08T09:24:29.007Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;核心概念&quot;&gt;&lt;a href=&quot;#核心概念&quot; class=&quot;headerlink&quot; title=&quot;核心概念&quot;&gt;&lt;/a&gt;核心概念&lt;/h1&gt;&lt;h2 id=&quot;索引（Index）&quot;&gt;&lt;a href=&quot;#索引（Index）&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Elasticsearch 环境</title>
-    <link href="http://atideas.github.io/2021/10/15/ElasticSearch/03.Elasticsearch%20%E7%8E%AF%E5%A2%83/"/>
-    <id>http://atideas.github.io/2021/10/15/ElasticSearch/03.Elasticsearch%20%E7%8E%AF%E5%A2%83/</id>
-    <published>2021-10-15T03:18:17.000Z</published>
-    <updated>2022-03-08T09:24:13.594Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;相关概念&quot;&gt;&lt;a href=&quot;#相关概念&quot; class=&quot;headerlink&quot; title=&quot;相关概念&quot;&gt;&lt;/a&gt;相关概念&lt;/h1&gt;&lt;h2 id=&quot;单机-amp-集群&quot;&gt;&lt;a href=&quot;#单机-amp-集群&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ElasticSearch 基本操作</title>
-    <link href="http://atideas.github.io/2021/10/12/ElasticSearch/02.ElasticSearch%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-    <id>http://atideas.github.io/2021/10/12/ElasticSearch/02.ElasticSearch%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</id>
-    <published>2021-10-12T01:51:12.000Z</published>
-    <updated>2022-03-08T09:23:40.574Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;RESTful&quot;&gt;&lt;a href=&quot;#RESTful&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ElasticSearch 概述</title>
-    <link href="http://atideas.github.io/2021/10/11/ElasticSearch/01.ElasticSearch%E6%A6%82%E8%BF%B0/"/>
-    <id>http://atideas.github.io/2021/10/11/ElasticSearch/01.ElasticSearch%E6%A6%82%E8%BF%B0/</id>
-    <published>2021-10-11T12:19:07.000Z</published>
-    <updated>2022-03-07T01:05:54.510Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;ElasticSearch-是什么&quot;&gt;&lt;a href=&quot;#ElasticSearch-是什么&quot; class=&quot;headerlink&quot; title=&quot;ElasticSearch 是什么&quot;&gt;&lt;/a&gt;ElasticSearch</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="ElasticSearch" scheme="http://atideas.github.io/tags/ElasticSearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>集群搭建</title>
-    <link href="http://atideas.github.io/2021/05/18/ZooKeeper/04.%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/"/>
-    <id>http://atideas.github.io/2021/05/18/ZooKeeper/04.%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</id>
-    <published>2021-05-18T00:22:10.000Z</published>
-    <updated>2022-03-09T03:27:15.811Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;集群搭建&quot;&gt;&lt;a href=&quot;#集群搭建&quot; class=&quot;headerlink&quot; title=&quot;集群搭建&quot;&gt;&lt;/a&gt;集群搭建&lt;/h1&gt;&lt;p&gt;&lt;code&gt;zookeeper&lt;/code&gt;官网——&lt;code&gt;Getting started&lt;/code&gt;——&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="Zookeeper" scheme="http://atideas.github.io/tags/Zookeeper/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>事件监听机制</title>
-    <link href="http://atideas.github.io/2021/05/17/ZooKeeper/03.%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E6%9C%BA%E5%88%B6/"/>
-    <id>http://atideas.github.io/2021/05/17/ZooKeeper/03.%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E6%9C%BA%E5%88%B6/</id>
-    <published>2021-05-17T01:42:10.000Z</published>
-    <updated>2022-03-09T03:26:48.930Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;事件监听机制&quot;&gt;&lt;a href=&quot;#事件监听机制&quot; class=&quot;headerlink&quot; title=&quot;事件监听机制&quot;&gt;&lt;/a&gt;事件监听机制&lt;/h1&gt;&lt;h2 id=&quot;watcher-概念&quot;&gt;&lt;a href=&quot;#watcher-概念&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="Zookeeper" scheme="http://atideas.github.io/tags/Zookeeper/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>常用shell命令</title>
-    <link href="http://atideas.github.io/2021/05/16/ZooKeeper/02.%E5%B8%B8%E7%94%A8shell%E5%91%BD%E4%BB%A4/"/>
-    <id>http://atideas.github.io/2021/05/16/ZooKeeper/02.%E5%B8%B8%E7%94%A8shell%E5%91%BD%E4%BB%A4/</id>
-    <published>2021-05-16T09:50:31.000Z</published>
-    <updated>2022-03-09T03:26:09.432Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;常用-shell-命令&quot;&gt;&lt;a href=&quot;#常用-shell-命令&quot; class=&quot;headerlink&quot; title=&quot;常用 shell 命令&quot;&gt;&lt;/a&gt;常用 shell</summary>
-        
-      
-    
-    
-    
-    <category term="技术" scheme="http://atideas.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-    <category term="Zookeeper" scheme="http://atideas.github.io/tags/Zookeeper/"/>
     
   </entry>
   
