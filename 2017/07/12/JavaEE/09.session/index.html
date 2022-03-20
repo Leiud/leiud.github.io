@@ -1,0 +1,296 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>JavaEE | Session | 漂泊者的理想三旬</title><meta name="keywords" content="JavaEE"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Session简介在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。 Session属于服务器技术。服务器为每个用户创建一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaEE | Session">
+<meta property="og:url" content="http://atideas.github.io/2017/07/12/JavaEE/09.session/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="Session简介在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。 Session属于服务器技术。服务器为每个用户创建一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080">
+<meta property="article:published_time" content="2017-07-12T11:12:40.000Z">
+<meta property="article:modified_time" content="2022-03-20T02:16:38.606Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="JavaEE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2017/07/12/JavaEE/09.session/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JavaEE | Session',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-20 10:16:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://api.yimian.xyz/img?type=moe&amp;size=1920x1080')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">JavaEE | Session</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2017-07-12T11:12:40.000Z" title="发表于 2017-07-12 19:12:40">2017-07-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-20T02:16:38.606Z" title="更新于 2022-03-20 10:16:38">2022-03-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="JavaEE | Session"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2017/07/12/JavaEE/09.session/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2017/07/12/JavaEE/09.session/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在<code>WEB</code>开发中，服务器可以为每个用户浏览器创建一个会话对象（<code>session</code>对象），注意：一个浏览器独占一个<code>session</code>对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的<code>session</code>中，当用户使用浏览器访问其它程序时，其它程序可以从用户的<code>session</code>中取出该用户的数据，为用户服务。</p>
+<p><code>Session</code>属于服务器技术。服务器为每个用户创建一个其独享的<code>HttpSession</code>对象，当不同的浏览器访问服务器时会将这些数据放在用户各自的<code>HttpSession</code>上。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ol>
+<li>当程序需要为某个客户端的请求创建一个<code>session</code>的时候，服务器首先检查这个客户端的请求里是否已包含了一个<code>session</code>标识 - 称为<code>session id</code>，如果已包含一个<code>session id</code>则说明以前已经为此客户端创建过<code>session</code>，服务器就按照<code>session id</code>把这个<code>session</code>检索出来使用（如果检索不到，可能会新建一个），如果客户端请求不包含<code>session id</code>，则为此客户端创建一个<code>session</code>并且生成一个与此<code>session</code>相关联的<code>session id</code>，<code>session id</code>的值应该是一个既不会重复，又不容易被找到规律以仿造的字符串，这个<code>session id</code>将被在本次响应中返回给客户端保存。</li>
+<li>保存这个<code>session id</code>的方式可以采用<code>cookie</code>，这样在交互过程中浏览器可以自动的按照规则把这个标识发挥给服务器。一般这个<code>cookie</code>的名字都是类似于<code>SEEESIONID</code>，而。比如<code>weblogic</code>对于<code>web</code>应用程序生成的<code>cookie</code>，<code>JSESSIONID= ByOK3vjFD75aPnrF7C2HmdnV6QZcEbzWoWiBYEnLerjQ99zWpBng!-145788764</code>，它的名字就是<code>JSESSIONID</code>。</li>
+<li>由于<code>cookie</code>可以被人为的禁止，必须有其他机制以便在<code>cookie</code>被禁止时仍然能够把<code>session id</code>传递回服务器。经常被使用的一种技术叫做<code>URL</code>重写，就是把<code>session id</code>直接附加在<code>URL</code>路径的后面，附加方式也有两种，一种是作为<code>URL</code>路径的附加信息，表现形式为<code>http://...../xxx;jsessionid= ByOK3vjFD75aPnrF7C2HmdnV6QZcEbzWoWiBYEnLerjQ99zWpBng!-145788764</code>，另一种是作为查询字符串附加在<code>URL</code>后面，表现形式为<code>http://...../xxx?jsessionid=ByOK3vjFD75aPnrF7C2HmdnV6QZcEbzWoWiBYEnLerjQ99zWpBng!-145788764</code>， 这两种方式对于用户来说是没有区别的，只是服务器在解析的时候处理的方式不同，采用第一种方式也有利于把<code>session id</code>的信息和正常程序参数区分开来。为了在整个交互过程中始终保持状态，就必须在每个客户端可能请求的路径后面都包含这个<code>session id</code>。</li>
+</ol>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><table>
+<thead>
+<tr>
+<th align="center">方法</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">String getId()</td>
+<td align="center">返回一个包含分配给该 session 会话的唯一标识符的字符串</td>
+</tr>
+<tr>
+<td align="center">Object getAttribute(String name)</td>
+<td align="center">返回在该 session 会话中具有指定名称的对象，如果没有指定名称的对象，则返回 null</td>
+</tr>
+<tr>
+<td align="center">Enumeration getAttributeNames()</td>
+<td align="center">返回 String 对象的Enumeration，String 对象包含所有绑定到该 session 会话的对象的名称</td>
+</tr>
+<tr>
+<td align="center">void removeAttribute(String name)</td>
+<td align="center">从该 session 会话移除指定名称的对象</td>
+</tr>
+<tr>
+<td align="center">void setAttribute(String name, Object value)</td>
+<td align="center">使用指定的名称绑定一个对象到该 session 会话</td>
+</tr>
+<tr>
+<td align="center">long getCreationTime()</td>
+<td align="center">返回该 session 会话被创建的时间，自格林尼治标准时间 1970 年 1 月 1 日午夜算起，以毫秒为单位</td>
+</tr>
+<tr>
+<td align="center">long getLastAccessedTime()</td>
+<td align="center">返回客户端最后一次发送与该 session 会话相关的请求的时间自格林尼治标准时间 1970 年 1 月 1 日午夜算起，以毫秒为单位</td>
+</tr>
+<tr>
+<td align="center">int getMaxInactiveInterval()</td>
+<td align="center">返回 Servlet 容器在客户端访问时保持 session 会话打开的最大时间间隔，以秒为单位</td>
+</tr>
+<tr>
+<td align="center">void setMaxInactiveInterval(int interval)</td>
+<td align="center">在 Servlet 容器指示该 session 会话无效之前，指定客户端请求之间的时间，以秒为单位</td>
+</tr>
+<tr>
+<td align="center">void invalidate()</td>
+<td align="center">指示该 session 会话无效，并解除绑定到它上面的任何对象</td>
+</tr>
+<tr>
+<td align="center">boolean isNew()</td>
+<td align="center">如果客户端还不知道该 session 会话，或者如果客户选择不参入该 session 会话，则该方法返回 true</td>
+</tr>
+</tbody></table>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><code>Session</code>在用户第一次访问服务器的时候自动创建。</p>
+<p>需要注意只有访问<code>JSP</code>、<code>Servlet</code>等程序时才会创建<code>Session</code>，只访问<code>HTML</code>、<code>IMAGE</code>等静态资源并不会创建<code>Session</code>。如果尚未生成<code>Session</code>，也可以使用<code>request.getSession(true)</code>强制生成<code>Session</code>。</p>
+<p><code>session</code>是服务器建立的，但服务器不会主动建立。当一个请求过来时，服务器并不会建立一个<code>session</code>，而是要这样：<code>request.getSession();</code>，当用程序通知服务器时它才会建立一个会话。</p>
+<p>在<code>jsp</code>文件中有一个默认的属性<code>&lt;%@ page session=“true” %&gt;</code>，翻译成<code>java</code>后就是<code>session = pageContext.getSession();</code>。</p>
+<p>所以当访问一个<code>jsp</code>文件时，如果没有去更改这个默认值，那也会建立一个会话，这也是大多数人会认为自动创建<code>session</code>的原因了，其实还是相当于主动通知服务器去创建。</p>
+<p>综上所述：<code>Tomcat</code>这类服务器不会自动的创建<code>session</code>，只有当主动通知它时，才会创建会话。</p>
+<p><code>Session</code>生成后，只要用户继续访问，服务器就会更新<code>Session</code>的最后访问时间，并维护该<code>Session</code>。用户每访问服务器一次，无论是否读写<code>Session</code>，服务器都认为该用户的<code>Session</code>活跃（<code>active</code>）了一次。</p>
+<p>要判断一个<code>session</code>里面是否存在自己想要的东西（这个<code>session</code>是否有效），是不能用<code>isNew()</code>的，应该用如下类似代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UserInfo userInfo=(UserInfo)session.getAttribute(”USERINFO”);</span><br><span class="line"><span class="keyword">if</span> (userInfo!=<span class="literal">null</span>)&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="默认设置"><a href="#默认设置" class="headerlink" title="默认设置"></a>默认设置</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">session-config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">session-timeout</span>&gt;</span>10<span class="tag">&lt;/<span class="name">session-timeout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">session-config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>session</code>中的属性的默认生命周期是 $30$ min，这个默认时间可以通过在<code>Tomcat</code>根目录<code>\conf\web.xml</code>文件中修改</p>
+<h3 id="人工设置"><a href="#人工设置" class="headerlink" title="人工设置"></a>人工设置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.setMaxInactiveInterval(<span class="number">60</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="得到-session"><a href="#得到-session" class="headerlink" title="得到 session"></a>得到 session</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回这个 request 绑定的 session 对象，如果没有，则创建一个</span></span><br><span class="line"><span class="type">HttpSession</span> <span class="variable">session</span> <span class="operator">=</span> request.getSession();</span><br><span class="line"><span class="comment">// 返回这个 request 绑定的 session 对象，如果没有，则根据 create 的值决定是否创建一个</span></span><br><span class="line"><span class="type">HttpSession</span> <span class="variable">session</span> <span class="operator">=</span> request.getSession(<span class="type">boolean</span> create)</span><br></pre></td></tr></table></figure>
+
+<h3 id="向-session-中添加属性"><a href="#向-session-中添加属性" class="headerlink" title="向 session 中添加属性"></a>向 session 中添加属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.setAttribute(String name,Object val);</span><br></pre></td></tr></table></figure>
+
+<h3 id="session-中得到某个属性"><a href="#session-中得到某个属性" class="headerlink" title="session 中得到某个属性"></a>session 中得到某个属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> session.getAttribute(String name);</span><br></pre></td></tr></table></figure>
+
+<h3 id="session-中删除某个属性"><a href="#session-中删除某个属性" class="headerlink" title="session 中删除某个属性"></a>session 中删除某个属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session.removeAttribute(String name);</span><br></pre></td></tr></table></figure>
+
+<h3 id="url重写"><a href="#url重写" class="headerlink" title="url重写"></a>url重写</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// URL 重写：访问服务器都是通过点超链接的形式访问，不以 Cookie 的形式带过来，点超链接的时候带过来。一访问首页就创建 session，在每个超链接后面都带上 session 的 id 号</span></span><br><span class="line"><span class="comment">// URL 重写的 session 只在本浏览器会话中起作用（这个问题是没有办法解决的！</span></span><br><span class="line"><span class="comment">// 但是如果浏览器没禁用 Cookie 就能解决，写程序的时候用上 URL 重写，然后按照没有禁用 Cookie 的方法写，</span></span><br><span class="line"><span class="comment">// 这个时候如果浏览器禁用了 Cookie 可以用 URL 重写的方式使用 session，如果没禁用只有第一次访问的时候 URL 地址后面会重写，</span></span><br><span class="line"><span class="comment">// 第二次就访问的时候就可以用 Cookie 中的 sessionid 了）</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">	response.setCharacterEncoding(<span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">	response.setHeader(<span class="string">&quot;Content-type&quot;</span>, <span class="string">&quot;text/html;charset=UTF-8&quot;</span>);</span><br><span class="line">	<span class="type">PrintWriter</span> <span class="variable">out</span> <span class="operator">=</span> response.getWriter();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 拿到 session</span></span><br><span class="line">	request.getSession();</span><br><span class="line">	<span class="comment">// 实现 URL 重写，这个重写很常见，所以 SUN 公司定义了一个方法，超链接后面会跟上 session 的 id 号，上面的代码已经获取 session 了</span></span><br><span class="line">	<span class="type">String</span> <span class="variable">url1</span> <span class="operator">=</span> response.encodeURL(<span class="string">&quot;/day07/servlet/SessionDemo1&quot;</span>);</span><br><span class="line">	<span class="type">String</span> <span class="variable">url2</span> <span class="operator">=</span> response.encodeURL(<span class="string">&quot;/day07/servlet/SessionDemo2&quot;</span>);</span><br><span class="line"></span><br><span class="line">	out.print(<span class="string">&quot;&lt;a href=&#x27;&quot;</span> + url1 + <span class="string">&quot;&#x27;&gt;购买&lt;/a&gt;&quot;</span>);</span><br><span class="line">	out.print(<span class="string">&quot;&lt;a href=&#x27;&quot;</span> + url2 + <span class="string">&quot;&#x27;&gt;结账&lt;/a&gt;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 当没有禁用 Cookie 的时候使用 URL 重写，第一次访问的时候 地址还是会被 URL 重写，session 的 id 号也会被写给浏览器，</span></span><br><span class="line"><span class="comment"> * 这个时候刷新页面的话服务器发现浏览器请求中带 Cookie 过来了，就不会对地址进行 URL 重写了，</span></span><br><span class="line"><span class="comment"> * 这样就可以设置 Cookie 的有效期，让浏览器关了重开也能拿到原来 session 中的内容了</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> ServletException,IOException &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果不存在 session 会话，则创建一个 session 对象</span></span><br><span class="line">	<span class="type">HttpSession</span> <span class="variable">session</span> <span class="operator">=</span> request.getSession(<span class="literal">true</span>);</span><br><span class="line">	<span class="comment">// 获取 session 创建时间</span></span><br><span class="line">	<span class="type">Date</span> <span class="variable">createTime</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(session.getCreationTime());</span><br><span class="line">	<span class="comment">// 获取该网页的最后一次访问时间</span></span><br><span class="line">	<span class="type">Date</span> <span class="variable">lastAccessTime</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Date</span>(session.getLastAccessedTime());</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 设置日期输出的格式  </span></span><br><span class="line">	<span class="type">SimpleDateFormat</span> <span class="variable">df</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="type">String</span> <span class="variable">title</span> <span class="operator">=</span> <span class="string">&quot;Servlet Session 实例教程&quot;</span>;</span><br><span class="line">	<span class="type">Integer</span> <span class="variable">visitCount</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">0</span>);</span><br><span class="line">	<span class="type">String</span> <span class="variable">visitCountKey</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;visitCount&quot;</span>);</span><br><span class="line">	<span class="type">String</span> <span class="variable">userIDKey</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;userID&quot;</span>);</span><br><span class="line">	<span class="type">String</span> <span class="variable">userID</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;Runoob&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 检查网页上是否有新的访问者</span></span><br><span class="line">	<span class="keyword">if</span> (session.isNew()) &#123;</span><br><span class="line">		title = <span class="string">&quot;Servlet Session 实例教程&quot;</span>;</span><br><span class="line">		session.setAttribute(userIDKey, userID);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		visitCount = (Integer) session.getAttribute(visitCountKey);</span><br><span class="line">		visitCount = visitCount + <span class="number">1</span>;</span><br><span class="line">		userID = (String) session.getAttribute(userIDKey);</span><br><span class="line">	&#125;</span><br><span class="line">	session.setAttribute(visitCountKey, visitCount);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 设置响应内容类型</span></span><br><span class="line">	response.setContentType(<span class="string">&quot;text/html;charset=UTF-8&quot;</span>);</span><br><span class="line">	<span class="type">PrintWriter</span> <span class="variable">out</span> <span class="operator">=</span> response.getWriter();</span><br><span class="line"></span><br><span class="line">	<span class="type">String</span> <span class="variable">docType</span> <span class="operator">=</span> <span class="string">&quot;&lt;!DOCTYPE html&gt;\n&quot;</span>;</span><br><span class="line">	out.println(docType + <span class="string">&quot;&lt;html&gt;\n&quot;</span> + <span class="string">&quot;&lt;head&gt;&lt;title&gt;&quot;</span> + title + <span class="string">&quot;&lt;/title&gt;&lt;/head&gt;\n&quot;</span> + <span class="string">&quot;&lt;body bgcolor=\&quot;#f0f0f0\&quot;&gt;\n&quot;</span> + <span class="string">&quot;&lt;h1 align=\&quot;center\&quot;&gt;&quot;</span> + title + <span class="string">&quot;&lt;/h1&gt;\n&quot;</span> + <span class="string">&quot;&lt;h2 align=\&quot;center\&quot;&gt;Session 信息&lt;/h2&gt;\n&quot;</span> + <span class="string">&quot;&lt;table border=\&quot;1\&quot; align=\&quot;center\&quot;&gt;\n&quot;</span> + <span class="string">&quot;&lt;tr bgcolor=\&quot;#949494\&quot;&gt;\n&quot;</span> + <span class="string">&quot;  &lt;th&gt;Session 信息&lt;/th&gt;&lt;th&gt;值&lt;/th&gt;&lt;/tr&gt;\n&quot;</span> + <span class="string">&quot;&lt;tr&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;id&lt;/td&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;&quot;</span> + session.getId() + <span class="string">&quot;&lt;/td&gt;&lt;/tr&gt;\n&quot;</span> + <span class="string">&quot;&lt;tr&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;创建时间&lt;/td&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;&quot;</span> + df.format(createTime) + <span class="string">&quot;  &lt;/td&gt;&lt;/tr&gt;\n&quot;</span> + <span class="string">&quot;&lt;tr&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;最后访问时间&lt;/td&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;&quot;</span> + df.format(lastAccessTime) + <span class="string">&quot;  &lt;/td&gt;&lt;/tr&gt;\n&quot;</span> + <span class="string">&quot;&lt;tr&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;用户 ID&lt;/td&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;&quot;</span> + userID + <span class="string">&quot;  &lt;/td&gt;&lt;/tr&gt;\n&quot;</span> + <span class="string">&quot;&lt;tr&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;访问统计：&lt;/td&gt;\n&quot;</span> + <span class="string">&quot;  &lt;td&gt;&quot;</span> + visitCount + <span class="string">&quot;&lt;/td&gt;&lt;/tr&gt;\n&quot;</span> + <span class="string">&quot;&lt;/table&gt;\n&quot;</span> + <span class="string">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><code>session</code>是存在服务器的内存中的，一个浏览器独享一个<code>session</code>域对象</li>
+<li><code>session</code>中可以存放多个属性，同时也可以存放对象</li>
+<li>如果<code>session</code>设置的属性存在重名，则会替换为新的值</li>
+<li>直接调用<code>HttpSession</code>的<code>invalidate()</code>方法可以使<code>Session</code>失效</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2017/07/12/JavaEE/09.session/">http://atideas.github.io/2017/07/12/JavaEE/09.session/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaEE/">JavaEE</a></div><div class="post_share"><div class="social-share" data-image="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2017/07/12/JavaEE/08.cookie/"><img class="prev-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JavaEE | Cookie</div></div></a></div><div class="next-post pull-right"><a href="/2017/07/12/JavaEE/10.jdbc/"><img class="next-cover" src="https://img.paulzzh.com/touhou/random" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaEE | Jdbc</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2017/07/12/JavaEE/01.xml%E7%AE%80%E4%BB%8B/" title="JavaEE | xml简介"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-07-12</div><div class="title">JavaEE | xml简介</div></div></a></div><div><a href="/2017/07/12/JavaEE/02.xml%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" title="JavaEE | xml基础操作"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-07-12</div><div class="title">JavaEE | xml基础操作</div></div></a></div><div><a href="/2017/07/12/JavaEE/03.sax/" title="JavaEE | Sax"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-07-12</div><div class="title">JavaEE | Sax</div></div></a></div><div><a href="/2017/07/12/JavaEE/04.properties/" title="JavaEE | Properties"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-07-12</div><div class="title">JavaEE | Properties</div></div></a></div><div><a href="/2017/07/12/JavaEE/05.request/" title="JavaEE | Request"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-07-12</div><div class="title">JavaEE | Request</div></div></a></div><div><a href="/2017/07/12/JavaEE/07.servlet/" title="JavaEE | Servlet"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-07-12</div><div class="title">JavaEE | Servlet</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Session"><span class="toc-number">1.</span> <span class="toc-text">Session</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.4.</span> <span class="toc-text">生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.4.1.</span> <span class="toc-text">默认设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.4.2.</span> <span class="toc-text">人工设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%97%E5%88%B0-session"><span class="toc-number">1.5.1.</span> <span class="toc-text">得到 session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91-session-%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7"><span class="toc-number">1.5.2.</span> <span class="toc-text">向 session 中添加属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session-%E4%B8%AD%E5%BE%97%E5%88%B0%E6%9F%90%E4%B8%AA%E5%B1%9E%E6%80%A7"><span class="toc-number">1.5.3.</span> <span class="toc-text">session 中得到某个属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session-%E4%B8%AD%E5%88%A0%E9%99%A4%E6%9F%90%E4%B8%AA%E5%B1%9E%E6%80%A7"><span class="toc-number">1.5.4.</span> <span class="toc-text">session 中删除某个属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#url%E9%87%8D%E5%86%99"><span class="toc-number">1.5.5.</span> <span class="toc-text">url重写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.6.</span> <span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mybatis | Mybatis开发dao"/></a><div class="content"><a class="title" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao">Mybatis | Mybatis开发dao</a><time datetime="2021-12-23T10:55:53.000Z" title="发表于 2021-12-23 18:55:53">2021-12-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
