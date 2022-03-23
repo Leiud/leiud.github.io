@@ -1,0 +1,715 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>JavaSE | 变量与运算符 | 漂泊者的理想三旬</title><meta name="keywords" content="JavaSE"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="变量变量概述　　什么是变量? 　　变量是内存中装载数据的容器，只能用它来存数据和取数据。 计算机存储单元　　**计算机存储设备的最小信息单元叫位(bit)**，又称之为“比特位”，通常用小写的字母b表示。 　　**计算机的最小存储单元叫字节(byte)**，通常用大写字母B表示，字节是由连续的8个位组成。 　　当程序需要使用存储空间时，操作系统最小会分派给程序1个字节，而不是1个位。 　　计算机中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE | 变量与运算符">
+<meta property="og:url" content="http://atideas.github.io/2017/05/23/JavaSE/03.%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="变量变量概述　　什么是变量? 　　变量是内存中装载数据的容器，只能用它来存数据和取数据。 计算机存储单元　　**计算机存储设备的最小信息单元叫位(bit)**，又称之为“比特位”，通常用小写的字母b表示。 　　**计算机的最小存储单元叫字节(byte)**，通常用大写字母B表示，字节是由连续的8个位组成。 　　当程序需要使用存储空间时，操作系统最小会分派给程序1个字节，而不是1个位。 　　计算机中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.paulzzh.com/touhou/random">
+<meta property="article:published_time" content="2017-05-23T05:48:22.000Z">
+<meta property="article:modified_time" content="2022-03-19T01:43:42.318Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.paulzzh.com/touhou/random"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2017/05/23/JavaSE/03.%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JavaSE | 变量与运算符',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-19 09:43:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img.paulzzh.com/touhou/random')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">JavaSE | 变量与运算符</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2017-05-23T05:48:22.000Z" title="发表于 2017-05-23 13:48:22">2017-05-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-19T01:43:42.318Z" title="更新于 2022-03-19 09:43:42">2022-03-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="JavaSE | 变量与运算符"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2017/05/23/JavaSE/03.%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2017/05/23/JavaSE/03.%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h1><h2 id="变量概述"><a href="#变量概述" class="headerlink" title="变量概述"></a>变量概述</h2><p>　　什么是变量?</p>
+<p>　　变量是内存中装载数据的容器，只能用它来存数据和取数据。</p>
+<h2 id="计算机存储单元"><a href="#计算机存储单元" class="headerlink" title="计算机存储单元"></a>计算机存储单元</h2><p>　　**计算机存储设备的最小信息单元叫位(bit)**，又称之为“比特位”，通常用小写的字母b表示。</p>
+<p>　　**计算机的最小存储单元叫字节(byte)**，通常用大写字母B表示，字节是由连续的8个位组成。</p>
+<p>　　当程序需要使用存储空间时，操作系统最小会分派给程序1个字节，而不是1个位。</p>
+<p>　　<strong>计算机中储存和运算的最小单位是一个字节,也就是一个byte</strong>。</p>
+<p>　　常用储存单位：</p>
+<ul>
+<li>1B（字节） = 8bit</li>
+<li>1KB = 1024B</li>
+<li>1MB = 1024KB</li>
+<li>1GB = 1024MB</li>
+<li>1TB = 1024GB</li>
+<li>1PB = 1024TB</li>
+</ul>
+<h2 id="Java中数据类型——四类八种"><a href="#Java中数据类型——四类八种" class="headerlink" title="Java中数据类型——四类八种"></a>Java中数据类型——四类八种</h2><table>
+<thead>
+<tr>
+<th><strong>四类</strong></th>
+<th><strong>八种</strong></th>
+<th><strong>字节数</strong></th>
+<th><strong>数据表示范围</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>整型</strong></td>
+<td><strong>byte</strong></td>
+<td>1</td>
+<td>-128～127</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>short</strong></td>
+<td>2</td>
+<td>-32768～32767</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>int</strong></td>
+<td>4</td>
+<td>-2147483648～2147483648</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>long</strong></td>
+<td>8</td>
+<td>-263～263-1</td>
+</tr>
+<tr>
+<td><strong>浮点型</strong></td>
+<td><strong>float</strong></td>
+<td>4</td>
+<td>-3.403E38～3.403E38</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>double</strong></td>
+<td>8</td>
+<td>-1.798E308～1.798E308</td>
+</tr>
+<tr>
+<td><strong>字符型</strong></td>
+<td><strong>char</strong></td>
+<td>2</td>
+<td>表示一个字符，如(‘a’，’A’，’0’，’家’)</td>
+</tr>
+<tr>
+<td><strong>布尔型</strong></td>
+<td><strong>boolean</strong></td>
+<td>1</td>
+<td>只有两个值true与false</td>
+</tr>
+</tbody></table>
+<h2 id="常量的数据类型"><a href="#常量的数据类型" class="headerlink" title="常量的数据类型"></a>常量的数据类型</h2><ul>
+<li>整形常量默认是int类型</li>
+<li>小数常量默认是double类型</li>
+<li>定义长整形数据如果值超过int取值范围后面要+”L”</li>
+<li>定义float类型的数据后面要+”f”，否则默认是double</li>
+</ul>
+<h2 id="变量创建的三要素"><a href="#变量创建的三要素" class="headerlink" title="变量创建的三要素"></a>变量创建的三要素</h2><p>　　定义变量的语法格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据类型  变量名  =  数据值；</span></span><br><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">100</span>;  </span><br></pre></td></tr></table></figure>
+
+<p>　　Variabe.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">变量定义格式：</span></span><br><span class="line"><span class="comment">数据类型  变量名  =  变量值;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Variable</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="type">double</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">3.14</span>;</span><br><span class="line">    <span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> <span class="string">&#x27;z&#x27;</span>;</span><br><span class="line">    <span class="comment">// 创建字符串数据类型变量，String 是引用数据类型</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;i love java&quot;</span>;</span><br><span class="line">  </span><br><span class="line">    a = <span class="number">20</span>;</span><br><span class="line">    System.out.println(a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量定义使用注意事项"><a href="#变量定义使用注意事项" class="headerlink" title="变量定义使用注意事项"></a>变量定义使用注意事项</h2><ul>
+<li>变量定义后可以不赋值，使用时再赋值。不赋值不能使用。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="type">int</span> x;</span><br><span class="line">  <span class="comment">//为x赋值20</span></span><br><span class="line">  x = <span class="number">20</span>;</span><br><span class="line">  <span class="comment">//读取x变量中的值，再打印</span></span><br><span class="line">  System.out.println(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>变量使用时有作用域的限制。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//读取x变量中的值，再打印</span></span><br><span class="line">  System.out.println(x);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//读取y变量中的值失败，失败原因，找不到y变量，因为超出了y变量作用范围，所以不能使用y变量</span></span><br><span class="line">  System.out.println(y);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>变量不可以重复定义</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">  <span class="type">double</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">5.5</span>;<span class="comment">//编译失败，变量重复定义</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型转换"><a href="#数据类型转换" class="headerlink" title="数据类型转换"></a>数据类型转换</h2><p>　　不同类型的变量可以在一起运算，但要先进行类型转换再运算。</p>
+<p>　　转换的过程中，数据遵循一个原则：</p>
+<ul>
+<li>范围小的数据类型值（如byte），可以直接转换为范围大的数据类型值（如int）；</li>
+<li>范围大的数据类型值（如int），不可以直接转换为范围小的数据类型值（如byte）</li>
+</ul>
+<p>　　将各种数据类型按照数据范围从小到大依次列出：</p>
+<blockquote>
+<p>byte -&gt; short -&gt; int -&gt; long -&gt; float -&gt; double</p>
+</blockquote>
+<p>　　数据类型转换有两种方式：</p>
+<ol>
+<li><p>自动类型转换<br>表示范围小的数据类型转换成范围大的数据类型，这种方式称为自动类型转换<br>自动类型转换格式：</p>
+<blockquote>
+<p>范围大的数据类型 变量 = 范围小的数据类型值；</p>
+</blockquote>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">1000</span>;</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">100</span>;</span><br><span class="line"><span class="type">double</span> <span class="variable">d2</span> <span class="operator">=</span> i;</span><br></pre></td></tr></table></figure></li>
+<li><p>强制类型转换<br>表示范围大的数据类型转换成范围小的数据类型，这种方式称为强制类型转换<br>强制类型转换格式：</p>
+<blockquote>
+<p>范围小的数据类型 变量 = (范围小的数据类型) 范围大的数据类型值;</p>
+</blockquote>
+<p>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> (<span class="type">int</span>)<span class="number">6.718</span>;   <span class="comment">//i的值为6</span></span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span>  <span class="variable">d</span> <span class="operator">=</span> <span class="number">3.14</span>;</span><br><span class="line"><span class="comment">//i2的值为3 </span></span><br><span class="line"><span class="type">int</span>  <span class="variable">i2</span> <span class="operator">=</span> (<span class="type">int</span>)d;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><h2 id="算数运算符"><a href="#算数运算符" class="headerlink" title="算数运算符"></a>算数运算符</h2><p>　　算术运算符最常见的操作就是将操作数参与数学计算。</p>
+<table>
+<thead>
+<tr>
+<th><strong>运算符</strong></th>
+<th><strong>运算规则</strong></th>
+<th><strong>范例</strong></th>
+<th><strong>结果</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>正号</td>
+<td>+3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>+</td>
+<td>加</td>
+<td>2+3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>+</td>
+<td>连接字符串</td>
+<td>“中”+“国”</td>
+<td>“中国”</td>
+</tr>
+<tr>
+<td>-</td>
+<td>负号</td>
+<td>int a=3;-a</td>
+<td>-3</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减</td>
+<td>3-1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘</td>
+<td>2*3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>/</td>
+<td>除</td>
+<td>5/2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>%</td>
+<td>取模</td>
+<td>5/2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>++</td>
+<td>自增</td>
+<td>int a=1;a++/++a</td>
+<td>2</td>
+</tr>
+<tr>
+<td>–</td>
+<td>自减</td>
+<td>int b=3;a–/–a</td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p>　　加法运算符在连接字符串时要注意，只有直接与字符串相加才会转成字符串。</p>
+<p>　　除法“/”当两边为整数时，取整数部分，舍余数。当其中一边为浮点型时，按正常规则相除。</p>
+<p>　　“%”为整除取余符号，小数取余没有意义。结果符号与被取余符号相同。</p>
+<p>　　整数做被除数，0不能做除数，否则报错。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 算术运算符</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OperatorDemo1</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 常量使用算数运算符</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    System.out.println(<span class="number">10</span>+<span class="number">20</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 变量使用算数运算符</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//&quot;+&quot;作为加法运算使用</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">z</span> <span class="operator">=</span> x + y; </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//&quot;+&quot;作为连接字符串使用</span></span><br><span class="line">    System.out.println(<span class="string">&quot;x=&quot;</span>+x);</span><br><span class="line">    System.out.println(<span class="string">&quot;y=&quot;</span>+y);</span><br><span class="line">    System.out.println(<span class="string">&quot;z=&quot;</span>+z);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　++运算符：在原有值的基础上自增1</p>
+<p>　　–运算符：在原有值的基础上自减1</p>
+<p>　　++、– 位置的使用：</p>
+<ul>
+<li>++、–运算符后置时，先使用变量a原有值参与运算操作，运算操作完成后，变量a的值自增1或者自减1</li>
+<li>++、–运算符前置时，先将变量a的值自增1或者自减1，然后使用更新后的新值参与运算操作</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">a++;</span><br><span class="line">b--;</span><br><span class="line"></span><br><span class="line">System.out.println(a);</span><br><span class="line">System.out.println(b);</span><br><span class="line"></span><br><span class="line">b = a++ + <span class="number">10</span>;</span><br><span class="line">System.out.println(a);</span><br><span class="line">System.out.println(b); </span><br><span class="line"></span><br><span class="line">b = ++a + <span class="number">10</span>;</span><br><span class="line">System.out.println(a);</span><br><span class="line">System.out.println(b); </span><br></pre></td></tr></table></figure>
+
+<h2 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h2><p>　　赋值运算符就是为变量赋值的符号。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>运算符</strong></td>
+<td><strong>运算规则</strong></td>
+<td><strong>范例</strong></td>
+<td><strong>结果</strong></td>
+</tr>
+<tr>
+<td>=</td>
+<td>赋值</td>
+<td>int a=2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>+=</td>
+<td>加后赋值</td>
+<td>int a=2，a+=2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>-=</td>
+<td>减后赋值</td>
+<td>int a=2，a-=2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>*=</td>
+<td>乘后赋值</td>
+<td>int a=2，a*=2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>/=</td>
+<td>整除后赋值</td>
+<td>int a=2，a/=2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>%=</td>
+<td>取模后赋值</td>
+<td>int a=2，a%=2</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>　　诸如+=这样形式的赋值运算符，会将结果自动强转成等号左边的数据类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 赋值运算符</span></span><br><span class="line"><span class="comment"> * +=, -=, *=, /=, %= ： </span></span><br><span class="line"><span class="comment"> * 上面的运算符作用：将等号左右两边计算，会将结果自动强转成等号左边的数据类型,再赋值给等号左边的</span></span><br><span class="line"><span class="comment"> * 注意：赋值运算符左边必须是变量</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OperatorDemo2</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="type">byte</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    x += <span class="number">20</span>;<span class="comment">// 相当于 x = (byte)(x+20);</span></span><br><span class="line">    System.out.println(x);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h2><p>　　比较运算符，又叫关系运算符，它是用来判断两个操作数的大小关系及是否相等关系的，结果是布尔值true或者false。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>运算符</strong></td>
+<td><strong>运算规则</strong></td>
+<td><strong>范例</strong></td>
+<td><strong>结果</strong></td>
+</tr>
+<tr>
+<td>==</td>
+<td>相等于</td>
+<td>4==3</td>
+<td>False</td>
+</tr>
+<tr>
+<td>!=</td>
+<td>不等于</td>
+<td>4!=3</td>
+<td>True</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+<td>4&lt;3</td>
+<td>False</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+<td>4&gt;3</td>
+<td>True</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于</td>
+<td>4&lt;=3</td>
+<td>False</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于</td>
+<td>4&gt;=3</td>
+<td>True</td>
+</tr>
+</tbody></table>
+<p>　　赋值运算符的 = 符号与比较运算符的 == 符号是有区别的，如下：<br>赋值运算符的 = 符号，是用来将 = 符号右边的值，赋值给 = 符号左边的变量；<br>比较运算符的 == 符号，是用来判断 == 符号 左右变量的值是否相等的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">4</span>;</span><br><span class="line">System.out.println( a=b );</span><br><span class="line">System.out.println( a==b );</span><br></pre></td></tr></table></figure>
+
+<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2><p>　　逻辑运算符，它是用于布尔值进行运算的，运算的最终结果为布尔值true或false。</p>
+<table>
+<thead>
+<tr>
+<th><strong>运算符</strong></th>
+<th><strong>运算规则</strong></th>
+<th><strong>范例</strong></th>
+<th><strong>结果</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&amp;</td>
+<td>与</td>
+<td>false&amp;true</td>
+<td>False</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>或</td>
+<td>false</td>
+</tr>
+<tr>
+<td>^</td>
+<td>异或</td>
+<td>true^flase</td>
+<td>True</td>
+</tr>
+<tr>
+<td>!</td>
+<td>非</td>
+<td>!true</td>
+<td>Flase</td>
+</tr>
+<tr>
+<td>&amp;&amp;</td>
+<td>短路与</td>
+<td>false&amp;&amp;true</td>
+<td>False</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>短路或</td>
+<td>false</td>
+</tr>
+</tbody></table>
+<ul>
+<li>逻辑运算符通常连接两个其他表达式计算后的布尔值结果</li>
+<li>当使用短路与或者短路或时，只要能判断出结果则后边的部分就不再判断</li>
+<li>短路与&amp;&amp;:参与运算的两边数据，有false，则运算结果为false；</li>
+<li>短路或||:参与运算的两边数据，有true，则运算结果为true；</li>
+<li>逻辑非! : 参与运算的数据，原先是true则变成false，原先是false则变成true。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">boolean</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">100</span>&gt;<span class="number">10</span>;</span><br><span class="line"><span class="type">boolean</span> <span class="variable">b2</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 打印结果为 false</span></span><br><span class="line">System.out.println(b&amp;&amp;b2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印结果为 true</span></span><br><span class="line">System.out.println(b||b2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印结果为 true </span></span><br><span class="line">System.out.println(!b2); </span><br><span class="line"></span><br><span class="line"><span class="comment">//打印结果为 true，本行结果的计算方式稍后讲解运算符优先级时解答</span></span><br><span class="line">System.out.println(b &amp;&amp; <span class="number">100</span>&gt;<span class="number">10</span>); </span><br></pre></td></tr></table></figure>
+
+<h2 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h2><p>　　之前学习的均为一元或者二元运算符。元即参与运算的数据。</p>
+<p>　　格式:</p>
+<blockquote>
+<p>(条件表达式)？表达式1：表达式2；</p>
+</blockquote>
+<p>　　表达式：通俗的说，即通过使用运算符将操作数联系起来的式子，例如：</p>
+<ul>
+<li>3+2，使用算数运算符将操作数联系起来，这种情况，我们称为算数表达式。</li>
+<li>3&gt;2，使用比较运算符（也称为条件运算符）将操作数联系起来，这种情况，我们称为条件表达式。</li>
+<li>其他表达式，不再一一举例。</li>
+</ul>
+<p>　　三元运算符运算规则：</p>
+<p>　　先判断条件表达式的值，若为true，运算结果为表达式1；若为false，运算结果为表达式2。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方式一：</span></span><br><span class="line"><span class="comment">// 三元运算符运算后的结果为true，运算结果为表达式1的值“正确”，然后将结果“正确”，在控制台输出打印</span></span><br><span class="line">System.out.println( <span class="number">3</span>&gt;<span class="number">2</span> ? “正确” : “错误” ); </span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式二：</span></span><br><span class="line"><span class="comment">// 三元运算符运算后的结果为false，运算结果为表达式2的值“不相等”，然后将结果赋值给了变量result</span></span><br><span class="line"><span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> <span class="number">4</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> (a==b) ? “相等” : “不相等”;  </span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式三：</span></span><br><span class="line"><span class="comment">// 三元运算符运算后的结果为false，运算结果为表达式2的值200,然后将结果200赋值给了变量n</span></span><br><span class="line"><span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> (<span class="number">3</span>&gt;<span class="number">2</span> &amp;&amp; <span class="number">4</span>&gt;<span class="number">6</span>) ? <span class="number">100</span> : <span class="number">200</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="运算符优先级"><a href="#运算符优先级" class="headerlink" title="运算符优先级"></a>运算符优先级</h2><p>　　下图是每种运算符的优先级，按照运算先后顺序排序（优先级相同的情况下，按照从左到右的顺序依次运算）</p>
+<table>
+<thead>
+<tr>
+<th><strong>优先级</strong></th>
+<th><strong>描述</strong></th>
+<th><strong>运算符</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1</strong></td>
+<td>括号</td>
+<td>()、[]</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>正负号</td>
+<td>+、-</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>自增自减，非</td>
+<td>++、–、!</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>乘除，取余</td>
+<td>*、/、%</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>加减</td>
+<td>+、-</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>移位运算</td>
+<td>&lt;&lt;、&gt;&gt;、&gt;&gt;&gt;</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td>大小关系</td>
+<td>&gt;、&gt;=、&lt;、&lt;=</td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td>相等关系</td>
+<td>==、!=</td>
+</tr>
+<tr>
+<td><strong>9</strong></td>
+<td>按位与</td>
+<td>&amp;</td>
+</tr>
+<tr>
+<td><strong>10</strong></td>
+<td>按位异或</td>
+<td>^</td>
+</tr>
+<tr>
+<td><strong>11</strong></td>
+<td>按位或</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>12</strong></td>
+<td>逻辑与</td>
+<td>&amp;&amp;</td>
+</tr>
+<tr>
+<td><strong>13</strong></td>
+<td>逻辑或</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>14</strong></td>
+<td>条件运算</td>
+<td>?:</td>
+</tr>
+<tr>
+<td><strong>15</strong></td>
+<td>赋值运算</td>
+<td>=、+=、-=、*=、/=、%=</td>
+</tr>
+<tr>
+<td><strong>16</strong></td>
+<td>位赋值运算</td>
+<td>&amp;=、</td>
+</tr>
+</tbody></table>
+<h1 id="商场库存清单案例"><a href="#商场库存清单案例" class="headerlink" title="商场库存清单案例"></a>商场库存清单案例</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">------------------------------商城库存清单---------------------------</span><br><span class="line">品牌型号      尺寸      价格      库存数</span><br><span class="line">MacBookAir    13.3      6988.88   5</span><br><span class="line">ThinkpadT450  14.8      5999.99   10</span><br><span class="line">ASUS-FL5800   15.6      4999.5    18</span><br><span class="line">--------------------------------------------------------------------</span><br><span class="line">总库存数：33</span><br><span class="line">库存商品总金额：184935.3</span><br></pre></td></tr></table></figure>
+
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><p>　　观察清单后，可将清单分解为三个部分（清单顶部、清单中部、清单底部）：</p>
+<ul>
+<li>清单顶部为固定的数据，直接打印即可</li>
+<li>清单中部为商品，为变化的数据，需要记录商品信息后，打印</li>
+</ul>
+<p>　　经过观察，确定一项商品应该有如下几个属性：</p>
+<ul>
+<li>品牌型号: 即商品名称，String型</li>
+<li>尺寸：物品大小，double型</li>
+<li>价格：物品单价，double型</li>
+<li>配置：这一项为每种商品的配置信息，String型</li>
+<li>库存数：这一项为每种商品的库存个数，int型</li>
+</ul>
+<p>　　清单底部包含了统计操作，需经过计算后，打印</p>
+<p>　　发现两个单独的可变化量：</p>
+<ul>
+<li>总库存数：所有商品总个数，int型</li>
+<li>库存商品总金额：所有商品金额，double型</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//步骤一:  创建Demo01库存清单.java文件，编写main主方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo01</span>库存清单 &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">//步骤二:  记录每种库存商品信息</span></span><br><span class="line">        <span class="comment">//苹果笔记本电脑</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">macBrand</span> <span class="operator">=</span> <span class="string">&quot;MacBookAir&quot;</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">macSize</span> <span class="operator">=</span> <span class="number">13.3</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">macPrice</span> <span class="operator">=</span> <span class="number">6988.88</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">macCount</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">        <span class="comment">//联想Thinkpad笔记本电脑</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">thinkpadBrand</span> <span class="operator">=</span> <span class="string">&quot;ThinkpadT450&quot;</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">thinkpadSize</span> <span class="operator">=</span> <span class="number">14.0</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">thinkpadPrice</span> <span class="operator">=</span> <span class="number">5999.99</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">thinkpadCount</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">        <span class="comment">//华硕ASUS笔记本电脑</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">ASUSBrand</span> <span class="operator">=</span> <span class="string">&quot;ASUS-FL5800&quot;</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">ASUSSize</span> <span class="operator">=</span> <span class="number">15.6</span>;</span><br><span class="line">        <span class="type">double</span> <span class="variable">ASUSPrice</span> <span class="operator">=</span> <span class="number">4999.50</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">ASUSCount</span> <span class="operator">=</span> <span class="number">18</span>;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">//步骤三: 统计库存总个数、库存总金额</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">totalCount</span> <span class="operator">=</span> macCount + thinkpadCount + ASUSCount;</span><br><span class="line">        <span class="type">double</span> <span class="variable">totalMoney</span> <span class="operator">=</span> (macCount * macPrice) + (thinkpadCount * thinkpadPrice) + (ASUSCount * ASUSPrice);</span><br><span class="line">  </span><br><span class="line">        <span class="comment">//步骤四: 列表顶部</span></span><br><span class="line">        System.out.println(<span class="string">&quot;------------------------------商城库存清单-----------------------------&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;品牌型号  尺寸  价格  库存数&quot;</span>);</span><br><span class="line">        <span class="comment">//列表中部</span></span><br><span class="line">        System.out.println(macBrand+<span class="string">&quot;  &quot;</span>+macSize+<span class="string">&quot;  &quot;</span>+macPrice+<span class="string">&quot;  &quot;</span>+macCount);</span><br><span class="line">        System.out.println(thinkpadBrand+<span class="string">&quot;  &quot;</span>+thinkpadSize+<span class="string">&quot;  &quot;</span>+thinkpadPrice+<span class="string">&quot;  &quot;</span>+thinkpadCount);</span><br><span class="line">        System.out.println(ASUSBrand+<span class="string">&quot;  &quot;</span>+ASUSSize+<span class="string">&quot;  &quot;</span>+ASUSPrice+<span class="string">&quot;  &quot;</span>ASUSCount);</span><br><span class="line">        <span class="comment">//列表底部</span></span><br><span class="line">        System.out.println(<span class="string">&quot;-----------------------------------------------------------------------&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;总库存数：&quot;</span>+totalCount); </span><br><span class="line">        System.out.println(<span class="string">&quot;库存商品总金额：&quot;</span>+totalMoney);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2017/05/23/JavaSE/03.%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/">http://atideas.github.io/2017/05/23/JavaSE/03.%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaSE/">JavaSE</a></div><div class="post_share"><div class="social-share" data-image="https://img.paulzzh.com/touhou/random" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2017/05/23/JavaSE/02.%E6%A0%87%E8%AF%86%E7%AC%A6%E4%B8%8E%E6%95%B0%E6%8D%AE/"><img class="prev-cover" src="https://api.ixiaowai.cn/api/api.php" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JavaSE | 标识符与数据</div></div></a></div><div class="next-post pull-right"><a href="/2017/05/23/JavaSE/04.%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/"><img class="next-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaSE | 引用数据类型与流程控制语句</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2017/05/23/JavaSE/01.Java%E6%A6%82%E8%BF%B0/" title="JavaSE | Java 概述"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-05-23</div><div class="title">JavaSE | Java 概述</div></div></a></div><div><a href="/2017/05/23/JavaSE/02.%E6%A0%87%E8%AF%86%E7%AC%A6%E4%B8%8E%E6%95%B0%E6%8D%AE/" title="JavaSE | 标识符与数据"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-05-23</div><div class="title">JavaSE | 标识符与数据</div></div></a></div><div><a href="/2017/05/23/JavaSE/04.%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/" title="JavaSE | 引用数据类型与流程控制语句"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-05-23</div><div class="title">JavaSE | 引用数据类型与流程控制语句</div></div></a></div><div><a href="/2017/05/23/JavaSE/05.%E6%95%B0%E7%BB%84/" title="JavaSE | 数组"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-05-23</div><div class="title">JavaSE | 数组</div></div></a></div><div><a href="/2017/05/24/JavaSE/06.%E6%96%B9%E6%B3%95/" title="JavaSE | 方法"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-05-24</div><div class="title">JavaSE | 方法</div></div></a></div><div><a href="/2017/05/24/JavaSE/07.%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E9%9B%86%E5%90%88/" title="JavaSE | 引用数据类型与集合"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-05-24</div><div class="title">JavaSE | 引用数据类型与集合</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">变量概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AD%98%E5%82%A8%E5%8D%95%E5%85%83"><span class="toc-number">1.2.</span> <span class="toc-text">计算机存储单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E2%80%94%E2%80%94%E5%9B%9B%E7%B1%BB%E5%85%AB%E7%A7%8D"><span class="toc-number">1.3.</span> <span class="toc-text">Java中数据类型——四类八种</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">常量的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%88%9B%E5%BB%BA%E7%9A%84%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="toc-number">1.5.</span> <span class="toc-text">变量创建的三要素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.6.</span> <span class="toc-text">变量定义使用注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.7.</span> <span class="toc-text">数据类型转换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.1.</span> <span class="toc-text">算数运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.2.</span> <span class="toc-text">赋值运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.3.</span> <span class="toc-text">比较运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.4.</span> <span class="toc-text">逻辑运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.5.</span> <span class="toc-text">三元运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.6.</span> <span class="toc-text">运算符优先级</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%95%86%E5%9C%BA%E5%BA%93%E5%AD%98%E6%B8%85%E5%8D%95%E6%A1%88%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">商场库存清单案例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="toc-number">3.1.</span> <span class="toc-text">案例分析</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="Mybatis | Mybatis开发dao"/></a><div class="content"><a class="title" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao">Mybatis | Mybatis开发dao</a><time datetime="2021-12-23T10:55:53.000Z" title="发表于 2021-12-23 18:55:53">2021-12-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

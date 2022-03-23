@@ -1,0 +1,327 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Git | GitHub | 漂泊者的理想三旬</title><meta name="keywords" content="Git, GitHub"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="账号信息GitHub首页就是注册页面。 创建远程库     创建远程库地址别名 查看当前所有远程地址别名1git remote -v 创建远程库地址别名1git remote add [别名] [远程地址]  1234[root@centos &#x2F;home&#x2F;huashan]$ gitt remote add origin https:&#x2F;&#x2F;github.com&#x2F;atguigu2018ybuq&#x2F;huas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git | GitHub">
+<meta property="og:url" content="http://atideas.github.io/2021/04/28/Git/04.GitHub/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="账号信息GitHub首页就是注册页面。 创建远程库     创建远程库地址别名 查看当前所有远程地址别名1git remote -v 创建远程库地址别名1git remote add [别名] [远程地址]  1234[root@centos &#x2F;home&#x2F;huashan]$ gitt remote add origin https:&#x2F;&#x2F;github.com&#x2F;atguigu2018ybuq&#x2F;huas">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.paulzzh.com/touhou/random">
+<meta property="article:published_time" content="2021-04-28T02:41:26.000Z">
+<meta property="article:modified_time" content="2022-03-10T01:46:18.591Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.paulzzh.com/touhou/random"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2021/04/28/Git/04.GitHub/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Git | GitHub',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 09:46:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img.paulzzh.com/touhou/random')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Git | GitHub</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-28T02:41:26.000Z" title="发表于 2021-04-28 10:41:26">2021-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T01:46:18.591Z" title="更新于 2022-03-10 09:46:18">2022-03-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">767</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Git | GitHub"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/04/28/Git/04.GitHub/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/04/28/Git/04.GitHub/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="账号信息"><a href="#账号信息" class="headerlink" title="账号信息"></a>账号信息</h1><p><a target="_blank" rel="noopener" href="https://github.com/"><code>GitHub</code>首页</a>就是注册页面。</p>
+<h1 id="创建远程库"><a href="#创建远程库" class="headerlink" title="创建远程库"></a>创建远程库</h1><div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557218-5af0e8b3.png"></p>
+</div>
+
+<h1 id="创建远程库地址别名"><a href="#创建远程库地址别名" class="headerlink" title="创建远程库地址别名"></a>创建远程库地址别名</h1><ul>
+<li>查看当前所有远程地址别名<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
+<li>创建远程库地址别名<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add [别名] [远程地址]</span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/huashan]$ gitt remote add origin https://github.com/atguigu2018ybuq/huashan.git</span><br><span class="line">[root@centos /home/huashan (master)]$ git remote -v</span><br><span class="line">origin https://github.com/atguigu2018ybuq/huashan.git (fetch)</span><br><span class="line">origin https://github.com/atguigu2018ybuq/huashan.git (push)</span><br></pre></td></tr></table></figure>
+
+<h1 id="推送"><a href="#推送" class="headerlink" title="推送"></a>推送</h1><p>开发修改完把本地库的文件推送到远程仓库，前提是提交到了本地库才可以推送。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push [别名] [分支名]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/huashan (master)]$ git push origin master</span><br></pre></td></tr></table></figure>
+
+<h1 id="克隆"><a href="#克隆" class="headerlink" title="克隆"></a>克隆</h1><p>完整的把远程库克隆到本地，克隆下来后不要在主分支里面做开发。<code>clone</code>进行一次，从无到有的过程，更新用<code>pull</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> [远程地址]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos /home/huashan]$ git <span class="built_in">clone</span> https://github.com/atguigu2018ybuq/huashan.git</span><br></pre></td></tr></table></figure>
+
+<p>效果：</p>
+<ul>
+<li>完整的把远程库下载到本地</li>
+<li>创建<code>origin</code>远程地址别名</li>
+<li>初始化本地库</li>
+</ul>
+<h1 id="团队成员邀请"><a href="#团队成员邀请" class="headerlink" title="团队成员邀请"></a>团队成员邀请</h1><div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557651-9a390d49.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557663-a076fc64.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557676-32257b87.png"></p>
+</div>
+
+<p>“岳不群”把邀请链接发送给“令狐冲”，令狐冲”登录自己的<code>GitHub</code>账号，访问邀请链接。</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557711-64b05b32.png"></p>
+</div>
+
+<h1 id="拉取"><a href="#拉取" class="headerlink" title="拉取"></a>拉取</h1><p><code>pull=fetch+merge</code></p>
+<ul>
+<li><code>fetch</code>只是抓取远程库，不会修改本地，想要查看可以<code>git checkout origin/master</code></li>
+<li>将<code>fetch</code>和<code>merge</code>分开来做，可以更方便，先将远程库抓取，查看之后再合并，合并使用<code>git merge origin/master</code></li>
+<li>直接使用<code>pull</code>可能会在其中的<code>merge</code>操作发生冲突</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git fetch [远程库地址别名] [远程分支名]</span><br><span class="line">git merge [远程库地址别名/远程分支名]</span><br><span class="line">git pull [远程库地址别名] [远程分支名]</span><br></pre></td></tr></table></figure>
+
+<h1 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h1><p><code>A</code>和<code>B</code>原本都是同样的文件，<code>A</code>修改后推送到<code>GitHub</code>上，<code>B</code>再修改后推送就不允许了。</p>
+<ul>
+<li>要点<ul>
+<li>如果不是基于<code>GitHub</code>远程库的最新版所做的修改，不能推送，必须先拉取</li>
+<li>拉取下来后如果进入冲突状态，则按照“分支冲突解决”操作解决即可</li>
+<li>解决冲突后的提交是不能带文件名的</li>
+</ul>
+</li>
+<li>类比<ul>
+<li>债权人：老王</li>
+<li>债务人：小刘</li>
+<li>老王说：10 天后归还。小刘接受，双方达成一致</li>
+<li>老王媳妇说：5 天后归还。小刘不能接受。老王媳妇需要找老王确认后再执行</li>
+</ul>
+</li>
+</ul>
+<h1 id="跨团队协作"><a href="#跨团队协作" class="headerlink" title="跨团队协作"></a>跨团队协作</h1><ul>
+<li><p>Fork</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557754-87fca229.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557765-5461c3c0.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557780-1e770727.png"></p>
+</div></li>
+<li><p>本地修改，然后推送到远程</p>
+</li>
+<li><p><code>Pull Request</code></p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557862-447a0f29.png"></p>
+</div>
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557916-ebe49a0b.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557886-18db53f1.png"></p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557932-f58d4579.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557946-b390062f.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557962-38ab0f68.png"></p>
+</div></li>
+<li><p>对话</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557977-2b0b667b.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557986-cce3aaa4.png"></p>
+</div></li>
+<li><p>审核代码</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639557999-1259ec27.png"></p>
+</div></li>
+<li><p>合并代码</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639558016-53f4e673.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639558024-8fbb202c.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1619577686/1639558033-b1ca4f8c.png"></p>
+</div></li>
+<li><p>将远程库修改拉取到本地</p>
+</li>
+</ul>
+<h1 id="SSH-登录"><a href="#SSH-登录" class="headerlink" title="SSH 登录"></a>SSH 登录</h1><p>缺点：每台电脑只能登陆一个账号。</p>
+<ul>
+<li>进入当前用户的家目录<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br></pre></td></tr></table></figure></li>
+<li>删除<code>.ssh</code>目录<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rvf .ssh</span><br></pre></td></tr></table></figure></li>
+<li>运行命令生成<code>.ssh</code>密钥目录<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意：这里 -C 参数是大写的 C</span></span><br><span class="line">ssh-keygen -t rsa -C atguigu2018ybuq@aliyun.com</span><br></pre></td></tr></table></figure></li>
+<li>进入<code>.ssh</code>目录查看文件列表<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> .ssh</span><br><span class="line"> <span class="built_in">ls</span> -lF</span><br></pre></td></tr></table></figure></li>
+<li>查看<code>id_rsa.pub</code>文件内容<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> id_rsa.pub</span><br></pre></td></tr></table></figure></li>
+<li>复制<code>id_rsa.pub</code>文件内容， 登录<code>GitHub</code>，点击用户头像→<code>Settings</code>→<code>SSH and GPG keys</code></li>
+<li><code>New SSH Key</code></li>
+<li>输入复制的密钥信息</li>
+<li>回到<code>Git bash</code>创建远程地址别名<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin_ssh git@github.com:atguigu2018ybuq/huashan.git</span><br></pre></td></tr></table></figure></li>
+<li>推送文件进行测试</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2021/04/28/Git/04.GitHub/">http://atideas.github.io/2021/04/28/Git/04.GitHub/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Git/">Git</a></div><div class="post_share"><div class="social-share" data-image="https://img.paulzzh.com/touhou/random" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/04/27/Git/03.Git%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/"><img class="prev-cover" src="https://www.dmoe.cc/random.php" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git | Git基本原理</div></div></a></div><div class="next-post pull-right"><a href="/2021/04/28/Git/05.Git%E5%B7%A5%E4%BD%9C%E6%B5%81/"><img class="next-cover" src="https://www.dmoe.cc/random.php" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Git | Git工作流</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/04/19/Git/01.%E7%AE%80%E4%BB%8B/" title="Git | 简介"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-19</div><div class="title">Git | 简介</div></div></a></div><div><a href="/2021/04/23/Git/02.Git%E6%93%8D%E4%BD%9C/" title="Git | Git操作"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-23</div><div class="title">Git | Git操作</div></div></a></div><div><a href="/2021/04/27/Git/03.Git%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" title="Git | Git基本原理"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-27</div><div class="title">Git | Git基本原理</div></div></a></div><div><a href="/2021/04/28/Git/05.Git%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="Git | Git工作流"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-28</div><div class="title">Git | Git工作流</div></div></a></div><div><a href="/2021/04/28/Git/06.GitLab%E6%9C%8D%E5%8A%A1%E5%99%A8/" title="Git | GitLab服务器"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-28</div><div class="title">Git | GitLab服务器</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B4%A6%E5%8F%B7%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">账号信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%BF%9C%E7%A8%8B%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">创建远程库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%BF%9C%E7%A8%8B%E5%BA%93%E5%9C%B0%E5%9D%80%E5%88%AB%E5%90%8D"><span class="toc-number">3.</span> <span class="toc-text">创建远程库地址别名</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A8%E9%80%81"><span class="toc-number">4.</span> <span class="toc-text">推送</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%8B%E9%9A%86"><span class="toc-number">5.</span> <span class="toc-text">克隆</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%A2%E9%98%9F%E6%88%90%E5%91%98%E9%82%80%E8%AF%B7"><span class="toc-number">6.</span> <span class="toc-text">团队成员邀请</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%89%E5%8F%96"><span class="toc-number">7.</span> <span class="toc-text">拉取</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81"><span class="toc-number">8.</span> <span class="toc-text">解决冲突</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%A8%E5%9B%A2%E9%98%9F%E5%8D%8F%E4%BD%9C"><span class="toc-number">9.</span> <span class="toc-text">跨团队协作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH-%E7%99%BB%E5%BD%95"><span class="toc-number">10.</span> <span class="toc-text">SSH 登录</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="Mybatis | Mybatis开发dao"/></a><div class="content"><a class="title" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao">Mybatis | Mybatis开发dao</a><time datetime="2021-12-23T10:55:53.000Z" title="发表于 2021-12-23 18:55:53">2021-12-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

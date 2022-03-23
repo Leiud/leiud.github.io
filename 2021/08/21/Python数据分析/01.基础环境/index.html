@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Python数据分析 | 基础环境 | 漂泊者的理想三旬</title><meta name="keywords" content="Python, DataAnalysis"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="库的安装 matplotlib：2.2.2 numpy：1.14.2 pandas：0.20.3 TA-Lib：0.4.16 技术指标库 tables：3.4.2 hdf5 jupyter：1.0.0 数据分析与展示的平台  Jupyter Notebook使用Jupyter Notebook介绍Jupyter项目是一个非盈利的开源项目，源于 $2014$ 年的ipython项目，并逐渐发展成为支">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python数据分析 | 基础环境">
+<meta property="og:url" content="http://atideas.github.io/2021/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/01.%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="库的安装 matplotlib：2.2.2 numpy：1.14.2 pandas：0.20.3 TA-Lib：0.4.16 技术指标库 tables：3.4.2 hdf5 jupyter：1.0.0 数据分析与展示的平台  Jupyter Notebook使用Jupyter Notebook介绍Jupyter项目是一个非盈利的开源项目，源于 $2014$ 年的ipython项目，并逐渐发展成为支">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080">
+<meta property="article:published_time" content="2021-08-21T07:46:43.000Z">
+<meta property="article:modified_time" content="2022-03-10T02:00:23.581Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="Python数据分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2021/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/01.%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Python数据分析 | 基础环境',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 10:00:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://api.yimian.xyz/img?type=moe&amp;size=1920x1080')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Python数据分析 | 基础环境</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-21T07:46:43.000Z" title="发表于 2021-08-21 15:46:43">2021-08-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T02:00:23.581Z" title="更新于 2022-03-10 10:00:23">2022-03-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">585</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Python数据分析 | 基础环境"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/01.%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/01.%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="库的安装"><a href="#库的安装" class="headerlink" title="库的安装"></a>库的安装</h1><ul>
+<li>matplotlib：2.2.2</li>
+<li>numpy：1.14.2</li>
+<li>pandas：0.20.3</li>
+<li>TA-Lib：0.4.16 技术指标库</li>
+<li>tables：3.4.2 hdf5</li>
+<li>jupyter：1.0.0 数据分析与展示的平台</li>
+</ul>
+<h1 id="Jupyter-Notebook使用"><a href="#Jupyter-Notebook使用" class="headerlink" title="Jupyter Notebook使用"></a>Jupyter Notebook使用</h1><h2 id="Jupyter-Notebook介绍"><a href="#Jupyter-Notebook介绍" class="headerlink" title="Jupyter Notebook介绍"></a>Jupyter Notebook介绍</h2><p><code>Jupyter</code>项目是一个非盈利的开源项目，源于 $2014$ 年的<code>ipython</code>项目，并逐渐发展成为支持所有编程语言的交互式数据科学计算的工具</p>
+<ul>
+<li><code>Jupyter Notebook</code>，原名<code> IPython Notebook</code>，是<code>IPython</code>的加强网页版，一个开源的应用程序</li>
+<li>名字源自<code>Julia</code>、<code>Python</code>和<code>R</code>（数据科学的三种开右语言）<ul>
+<li><code>ju - Julia</code></li>
+<li><code>py - Python</code></li>
+<li><code>ter - R</code></li>
+<li><code>Jupiter</code> 木星 宙斯</li>
+</ul>
+</li>
+<li>是一款程序员和科学工作者的<strong>编程</strong>/<strong>文档</strong>/<strong>笔记</strong>展示软件</li>
+<li><code>.ipynb</code>文件格式是用于计算型叙述的<code>JSON</code>文档格式的正式规范</li>
+</ul>
+<h2 id="为什么使用-Jupyter-Notebook"><a href="#为什么使用-Jupyter-Notebook" class="headerlink" title="为什么使用 Jupyter Notebook?"></a>为什么使用 Jupyter Notebook?</h2><ul>
+<li>传统软件开发：工程/目标明确<ul>
+<li>需求分析，设计架构，开发模块，测试</li>
+</ul>
+</li>
+<li>数据挖掘：艺术/目标不明确<ul>
+<li>目的是具体的洞察目标，而不是机械的完成任务</li>
+<li>通过执行代码来理解问题</li>
+<li>迭代式地改进代码来改进解决方法</li>
+</ul>
+</li>
+</ul>
+<p>实时运行的代码，叙事性的文本和可视化被整合在一起，方便使用代码和数据来讲述故事</p>
+<h2 id="Jupyter-Notebook的使用"><a href="#Jupyter-Notebook的使用" class="headerlink" title="Jupyter Notebook的使用"></a>Jupyter Notebook的使用</h2><h3 id="界面启动"><a href="#界面启动" class="headerlink" title="界面启动"></a>界面启动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在终端输入</span><br><span class="line">jupyter notebook / ipython notebook</span><br><span class="line"></span><br><span class="line">运行代码快捷键</span><br><span class="line">shift + enter</span><br></pre></td></tr></table></figure>
+
+<h3 id="cell-操作"><a href="#cell-操作" class="headerlink" title="cell 操作"></a>cell 操作</h3><p><code>cell</code>：一对<code>In Out</code>会话被视作一个代码单元，称为<code>cell</code></p>
+<h4 id="编辑模式"><a href="#编辑模式" class="headerlink" title="编辑模式"></a>编辑模式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">enter</span><br><span class="line"></span><br><span class="line">鼠标直接点</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">esc</span><br><span class="line"></span><br><span class="line">鼠标在本单元格之外点一下</span><br></pre></td></tr></table></figure>
+
+<h4 id="快捷键操作"><a href="#快捷键操作" class="headerlink" title="快捷键操作"></a>快捷键操作</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shift + enter：执行本单元代码，并跳转到下一单元</span><br><span class="line"></span><br><span class="line">ctrl+enter：执行本单元代码，留在本单元</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令模式-1"><a href="#命令模式-1" class="headerlink" title="命令模式"></a>命令模式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">A：在当前cell的上面添加cell</span><br><span class="line"></span><br><span class="line">B：当前cell的下面添加cell</span><br><span class="line"></span><br><span class="line">双击D：删除当前cell</span><br><span class="line"></span><br><span class="line">Y：切换到 code 模式</span><br><span class="line"></span><br><span class="line">M：切换到 markdown 模式</span><br><span class="line"></span><br><span class="line">L：为当前的 cell 加行号</span><br><span class="line"></span><br><span class="line">ctrl+home：快速跳转到首个 cell</span><br><span class="line"></span><br><span class="line">ctrl+end：快速跳转到最后一个 cell</span><br></pre></td></tr></table></figure>
+
+<h4 id="编辑模式-1"><a href="#编辑模式-1" class="headerlink" title="编辑模式"></a>编辑模式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">多光标操作：Ctrl键点击鼠标（Mac:CMD+点击鼠标）</span><br><span class="line"></span><br><span class="line">回退：Ctrl+Z（Mac:CMD+Z）</span><br><span class="line"></span><br><span class="line">补全代码：变量、方法后跟Tab键</span><br><span class="line"></span><br><span class="line">为一行或多行代码添加/取消注释：Ctrl+/（Mac:CMD+/）</span><br><span class="line"></span><br><span class="line">屏蔽自动输出信息：在最后一条语句后加分号</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2021/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/01.%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/">http://atideas.github.io/2021/08/21/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/01.%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">Python数据分析</a></div><div class="post_share"><div class="social-share" data-image="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/05/18/ZooKeeper/04.%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/"><img class="prev-cover" src="https://api.ixiaowai.cn/api/api.php" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Zookeeper | 集群搭建</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/22/Redis/02.%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"><img class="next-cover" src="https://img.paulzzh.com/touhou/random" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Redis | 数据类型</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/08/22/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/02.matplotlib/" title="Python数据分析 | Matplotlib"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Python数据分析 | Matplotlib</div></div></a></div><div><a href="/2021/08/22/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/03.numpy/" title="Python数据分析 | Numpy"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Python数据分析 | Numpy</div></div></a></div><div><a href="/2021/08/22/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/04.pandas/" title="Python数据分析 | Pandas"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Python数据分析 | Pandas</div></div></a></div><div><a href="/2021/08/22/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/05.pandas%E9%AB%98%E7%BA%A7%E5%A4%84%E7%90%86/" title="Python数据分析 | Pandas高级处理"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Python数据分析 | Pandas高级处理</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%93%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">库的安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Jupyter-Notebook%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">Jupyter Notebook使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jupyter-Notebook%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.1.</span> <span class="toc-text">Jupyter Notebook介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-Jupyter-Notebook"><span class="toc-number">2.2.</span> <span class="toc-text">为什么使用 Jupyter Notebook?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jupyter-Notebook%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">Jupyter Notebook的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%8C%E9%9D%A2%E5%90%AF%E5%8A%A8"><span class="toc-number">2.3.1.</span> <span class="toc-text">界面启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cell-%E6%93%8D%E4%BD%9C"><span class="toc-number">2.3.2.</span> <span class="toc-text">cell 操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">编辑模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">命令模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">快捷键操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.3.2.4.</span> <span class="toc-text">命令模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.3.2.5.</span> <span class="toc-text">编辑模式</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="Mybatis | Mybatis开发dao"/></a><div class="content"><a class="title" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao">Mybatis | Mybatis开发dao</a><time datetime="2021-12-23T10:55:53.000Z" title="发表于 2021-12-23 18:55:53">2021-12-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

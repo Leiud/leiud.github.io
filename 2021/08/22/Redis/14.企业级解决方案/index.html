@@ -1,0 +1,603 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Redis | 企业级解决方案 | 漂泊者的理想三旬</title><meta name="keywords" content="Redis"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="缓存预热宕机服务器启动后迅速宕机。 问题排查 请求数量较高 主从之间数据吞吐量较大，数据同步操作频度较高  解决方案前置准备工作：  日常例行统计数据访问记录，统计访问频度较高的热点数据 利用LRU数据删除策略，构建数据留存队列。例如：storm与kafka配合  准备工作：  将统计结果中的数据分类，根据级别，redis优先加载级别较高的热点数据 利用分布式多服务器同时进行数据读取，提速数据加载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis | 企业级解决方案">
+<meta property="og:url" content="http://atideas.github.io/2021/08/22/Redis/14.%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="缓存预热宕机服务器启动后迅速宕机。 问题排查 请求数量较高 主从之间数据吞吐量较大，数据同步操作频度较高  解决方案前置准备工作：  日常例行统计数据访问记录，统计访问频度较高的热点数据 利用LRU数据删除策略，构建数据留存队列。例如：storm与kafka配合  准备工作：  将统计结果中的数据分类，根据级别，redis优先加载级别较高的热点数据 利用分布式多服务器同时进行数据读取，提速数据加载">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.ixiaowai.cn/api/api.php">
+<meta property="article:published_time" content="2021-08-22T14:20:00.000Z">
+<meta property="article:modified_time" content="2022-03-10T02:03:57.241Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://api.ixiaowai.cn/api/api.php"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2021/08/22/Redis/14.%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis | 企业级解决方案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 10:03:57'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://api.ixiaowai.cn/api/api.php')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis | 企业级解决方案</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-08-22T14:20:00.000Z" title="发表于 2021-08-22 22:20:00">2021-08-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T02:03:57.241Z" title="更新于 2022-03-10 10:03:57">2022-03-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis | 企业级解决方案"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/08/22/Redis/14.%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/08/22/Redis/14.%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="缓存预热"><a href="#缓存预热" class="headerlink" title="缓存预热"></a>缓存预热</h1><h2 id="宕机"><a href="#宕机" class="headerlink" title="宕机"></a>宕机</h2><p>服务器启动后迅速宕机。</p>
+<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2><ol>
+<li>请求数量较高</li>
+<li>主从之间数据吞吐量较大，数据同步操作频度较高</li>
+</ol>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>前置准备工作：</p>
+<ol>
+<li>日常例行统计数据访问记录，统计访问频度较高的热点数据</li>
+<li>利用<code>LRU</code>数据删除策略，构建数据留存队列。例如：<code>storm</code>与<code>kafka</code>配合</li>
+</ol>
+<p>准备工作：</p>
+<ol>
+<li>将统计结果中的数据分类，根据级别，<code>redis</code>优先加载级别较高的热点数据</li>
+<li>利用分布式多服务器同时进行数据读取，提速数据加载过程</li>
+<li>热点数据主从同时预热</li>
+</ol>
+<p>实施：</p>
+<ol>
+<li>使用脚本程序固定触发数据预热过程</li>
+<li>如果条件允许，使用<code>CDN</code>（内容分发网络），效果会更好</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>缓存预热就是系统启动前，提前将相关的缓存数据直接加载到缓存系统。避免在用户请求的时候，先查询数据库，然后再将数据缓存的问题！用户直接查询事先被预热的缓存数据！</p>
+<h1 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h1><h2 id="数据库服务器崩溃"><a href="#数据库服务器崩溃" class="headerlink" title="数据库服务器崩溃"></a>数据库服务器崩溃</h2><ol>
+<li>系统平稳运行过程中，忽然数据库连接量激增</li>
+<li>应用服务器无法及时处理请求</li>
+<li>大量 $408$，$500$ 错误页面出现</li>
+<li>客户反复刷新页面获取数据</li>
+<li>数据库崩溃</li>
+<li>应用服务器崩溃</li>
+<li>重启应用服务器无效</li>
+<li><code>Redis</code>服务器崩溃</li>
+<li><code>Redis</code>集群崩溃</li>
+<li>重启数据库后再次被瞬间流量放倒</li>
+</ol>
+<h2 id="问题排查-1"><a href="#问题排查-1" class="headerlink" title="问题排查"></a>问题排查</h2><ol>
+<li>在一个<strong>较短</strong>的时间内，缓存中<strong>较多</strong>的<code>key</code><strong>集中过期</strong></li>
+<li>此周期内请求访问过期的数据，<code>redis</code>未命中，<code>redis</code>向数据库获取数据</li>
+<li>数据库同时接收到大量的请求无法及时处理</li>
+<li><code>Redis</code>大量请求被积压，开始出现超时现象</li>
+<li>数据库流量激增，数据库崩溃</li>
+<li>重启后仍然面对缓存中无数据可用</li>
+<li><code>Redis</code>服务器资源被严重占用，<code>Redis</code>服务器崩溃</li>
+<li><code>Redis</code>集群呈现崩塌，集群瓦解</li>
+<li>应用服务器无法及时得到数据响应请求，来自客户端的请求数量越来越多，应用服务器崩溃</li>
+<li>应用服务器，<code>redis</code>，数据库全部重启，效果不理想</li>
+</ol>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><ul>
+<li>短时间范围内</li>
+<li>大量<code>key</code>集中过期</li>
+</ul>
+<h2 id="解决方案（道）"><a href="#解决方案（道）" class="headerlink" title="解决方案（道）"></a>解决方案（道）</h2><ol>
+<li>更多的页面静态化处理</li>
+<li>构建多级缓存架构：<code>Nginx</code>缓存 + <code>redis</code>缓存 + <code>ehcache</code>缓存</li>
+<li>检测<code>Mysql</code>严重耗时业务进行优化：对数据库的瓶颈排查：例如超时查询、耗时较高事务等</li>
+<li>灾难预警机制<br>监控<code>redis</code>服务器性能指标：<ul>
+<li><code>CPU</code>占用、<code>CPU</code>使用率</li>
+<li>内存容量</li>
+<li>查询平均响应时间</li>
+<li>线程数</li>
+</ul>
+</li>
+<li>限流、降级：短时间范围内牺牲一些客户体验，限制一部分请求访问，降低应用服务器压力，待业务低速运转后再逐步放开访问</li>
+</ol>
+<h2 id="解决方案（术）"><a href="#解决方案（术）" class="headerlink" title="解决方案（术）"></a>解决方案（术）</h2><ol>
+<li><code>LRU</code>与<code>LFU</code>切换</li>
+<li>数据有效期策略调整<ul>
+<li>根据业务数据有效期进行分类错峰，<code>A</code>类 $90$ 分钟，<code>B</code>类 $80$ 分钟，<code>C</code>类 $70$ 分钟</li>
+<li>过期时间使用<strong>固定时间+随机值</strong>的形式，稀释集中到期的<code>key</code>的数量</li>
+</ul>
+</li>
+<li>超热数据使用永久<code>key</code></li>
+<li>定期维护（自动+人工）：对即将过期数据做访问量分析，确认是否延时，配合访问量统计，做热点数据的延时</li>
+<li>加锁，<strong>慎用</strong>！</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>缓存雪崩就是瞬间过期数据量太大，导致对数据库服务器造成压力。如能够有效避免过期时间集中，可以有效解决雪崩现象的出现（约 $40 %$），配合其他策略一起使用，并监控服务器的运行数据，根据运行记录做快速调整。</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1629642000/1640057309-a91e1e83.png"></p>
+</div>
+
+<h1 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h1><h2 id="数据库服务器崩溃-1"><a href="#数据库服务器崩溃-1" class="headerlink" title="数据库服务器崩溃"></a>数据库服务器崩溃</h2><ol>
+<li>系统平稳运行过程中</li>
+<li>数据库连接量瞬间激增</li>
+<li><code>Redis</code>服务器无大量<code>key</code>过期</li>
+<li><code>Redis</code>内存平稳，无波动</li>
+<li><code>Redis</code>服务器<code>CPU</code>正常</li>
+<li>数据库崩溃</li>
+</ol>
+<h2 id="问题排查-2"><a href="#问题排查-2" class="headerlink" title="问题排查"></a>问题排查</h2><ol>
+<li><code>Redis</code>中某个<code>key</code>过期，该<code>key</code>访问量巨大</li>
+<li>多个数据请求从服务器直接压到<code>Redis</code>后，均未命中</li>
+<li><code>Redis</code>在短时间内发起了大量对数据库中同一数据的访问</li>
+</ol>
+<h2 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h2><ul>
+<li>单个<code>key</code>高热数据</li>
+<li><code>key</code>过期</li>
+</ul>
+<h2 id="解决方案（术）-1"><a href="#解决方案（术）-1" class="headerlink" title="解决方案（术）"></a>解决方案（术）</h2><ol>
+<li>预先设定：以电商为例，每个商家根据店铺等级，指定若干款主打商品，在购物节期间，加大此类信息<code>key</code>的过期时长。<br>注意：购物节不仅仅指当天，以及后续若干天，访问峰值呈现逐渐降低的趋势</li>
+<li>现场调整：监控访问量，对自然流量激增的数据延长过期时间或设置为永久性<code>key</code></li>
+<li>后台刷新数据：启动定时任务，高峰期来临之前，刷新数据有效期，确保不丢失</li>
+<li>二级缓存：设置不同的失效时间，保障不会被同时淘汰就行</li>
+<li>加锁：分布式锁，防止被击穿，但是要注意也是性能瓶颈，<strong>慎重</strong>！</li>
+</ol>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><p>缓存击穿就是单个高热数据过期的瞬间，数据访问量较大，未命中<code>redis</code>后，发起了大量对同一数据的数据库访问，导致对数据库服务器造成压力。应对策略应该在业务数据分析与预防方面进行，配合运行监控测试与即时调整策略，毕竟单个<code>key</code>的过期监控难度较高，配合雪崩处理策略即可。</p>
+<h1 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h1><h2 id="数据库服务器崩溃-2"><a href="#数据库服务器崩溃-2" class="headerlink" title="数据库服务器崩溃"></a>数据库服务器崩溃</h2><ol>
+<li>系统平稳运行过程中</li>
+<li>应用服务器流量随时间增量较大</li>
+<li><code>Redis</code>服务器命中率随时间逐步降低</li>
+<li><code>Redis</code>内存平稳，内存无压力</li>
+<li><code>Redis</code>服务器<code>CPU</code>占用激增</li>
+<li>数据库服务器压力激增</li>
+<li>数据库崩溃</li>
+</ol>
+<h2 id="问题排查-3"><a href="#问题排查-3" class="headerlink" title="问题排查"></a>问题排查</h2><ol>
+<li><code>Redis</code>中大面积出现未命中</li>
+<li>出现非正常<code>URL</code>访问</li>
+</ol>
+<h2 id="问题分析-2"><a href="#问题分析-2" class="headerlink" title="问题分析"></a>问题分析</h2><ul>
+<li>获取的数据在数据库中也不存在，数据库查询未得到对应数据</li>
+<li><code>Redis</code>获取到<code>null</code>数据未进行持久化，直接返回</li>
+<li>下次此类数据到达重复上述过程</li>
+<li>出现黑客攻击服务器</li>
+</ul>
+<h2 id="解决方案（术）-2"><a href="#解决方案（术）-2" class="headerlink" title="解决方案（术）"></a>解决方案（术）</h2><ol>
+<li><p>缓存<code>null</code>：对查询结果为<code>null</code>的数据进行缓存（长期使用，定期清理），设定短时限，例如 $30 - 60$ 秒，最高 $5$ 分钟</p>
+</li>
+<li><p>白名单策略</p>
+<ul>
+<li>提前预热各种分类数据<code>id</code>对应的<code>bitmaps</code>，<code>id</code>作为<code>bitmaps</code>的<code>offset</code>，相当于设置了数据白名单。当加载正常数据时，放行，加载异常数据时直接拦截（效率偏低）</li>
+<li>使用布隆过滤器（有关布隆过滤器的命中问题对当前状况可以忽略）</li>
+</ul>
+</li>
+<li><p>实施监控：实时监控<code>redis</code>命中率（业务正常范围时，通常会有一个波动值）与<code>null</code>数据的占比</p>
+<ul>
+<li>非活动时段波动：通常检测 $3 - 5$ 倍，超过 $5$ 倍纳入重点排查对象</li>
+<li>活动时段波动：通常检测 $10 - 50$ 倍，超过 $50$ 倍纳入重点排查对象</li>
+</ul>
+<p>根据倍数不同，启动不同的排查流程。然后使用黑名单进行防控（运营）</p>
+</li>
+<li><p><code>key</code>加密：问题出现后，临时启动防灾业务<code>key</code>，对<code>key</code>进行业务层传输加密服务，设定校验程序，过来的<code>key</code>校验。例如每天随机分配 $60$ 个加密串，挑选 $2$ 到 $3$ 个，混淆到页面数据<code>id</code>中，发现访问<code>key</code>不满足规则，驳回数据访问。</p>
+</li>
+</ol>
+<h2 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h2><p>缓存击穿访问了不存在的数据，跳过了合法数据的<code>redis</code>数据缓存阶段，每次访问数据库，导致对数据库服务器造成压力。通常此类数据的出现量是一个较低的值，当出现此类情况以毒攻毒，并及时<strong>报警</strong>。应对策略应该在临时预案防范方面多做文章。</p>
+<p>无论是黑名单还是白名单，都是对整体系统的压力，警报解除后尽快移除。</p>
+<h1 id="性能指标监控"><a href="#性能指标监控" class="headerlink" title="性能指标监控"></a>性能指标监控</h1><h2 id="监控指标"><a href="#监控指标" class="headerlink" title="监控指标"></a>监控指标</h2><ul>
+<li>性能指标：<code>Performance</code></li>
+<li>内存指标：<code>Memory</code></li>
+<li>基本活动指标：<code>Basic activity</code></li>
+<li>持久性指标：<code>Persistence</code></li>
+<li>错误指标：<code>Error</code></li>
+</ul>
+<h3 id="性能指标：Performance"><a href="#性能指标：Performance" class="headerlink" title="性能指标：Performance"></a>性能指标：Performance</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>latency       </code></td>
+<td><code>Redis</code>响应一个请求的时间</td>
+</tr>
+<tr>
+<td><code>instantaneous_ops_per_sec</code></td>
+<td>平均每秒处理请求总数</td>
+</tr>
+<tr>
+<td><code>hit rate (calculated)</code></td>
+<td>缓存命中率（计算出来的）</td>
+</tr>
+</tbody></table>
+<h3 id="内存指标：Memory"><a href="#内存指标：Memory" class="headerlink" title="内存指标：Memory"></a>内存指标：Memory</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>used_memory</code></td>
+<td>已使用内存</td>
+</tr>
+<tr>
+<td><code>mem_fragmentation_ratio</code></td>
+<td>内存碎片率</td>
+</tr>
+<tr>
+<td><code>evicted_keys</code></td>
+<td>由于最大内存限制被移除的<code>key</code>的数量</td>
+</tr>
+<tr>
+<td><code>blocked_clients</code></td>
+<td>由于<code>BLPOP, BRPOP, or BRPOPLPUSH</code>而被阻塞的客户端</td>
+</tr>
+</tbody></table>
+<h3 id="基本活动指标：Basic-activity"><a href="#基本活动指标：Basic-activity" class="headerlink" title="基本活动指标：Basic activity"></a>基本活动指标：Basic activity</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>connected_clients</code></td>
+<td>客户端连接数</td>
+</tr>
+<tr>
+<td><code>connected_slaves</code></td>
+<td><code>Slave</code>数量</td>
+</tr>
+<tr>
+<td><code>master_last_io_seconds_ago</code></td>
+<td>最近一次主从交互之后的秒数</td>
+</tr>
+<tr>
+<td><code>keyspace</code></td>
+<td>数据库中的<code>key</code>值总数</td>
+</tr>
+</tbody></table>
+<h3 id="持久性指标：Persistence"><a href="#持久性指标：Persistence" class="headerlink" title="持久性指标：Persistence"></a>持久性指标：Persistence</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rdb_last_save_time</code></td>
+<td>最后一次持久化保存到磁盘的时间戳</td>
+</tr>
+<tr>
+<td><code>rdb_changes_since_last_save</code></td>
+<td>自最后一次持久化以来数据库的更改数</td>
+</tr>
+</tbody></table>
+<h3 id="错误指标：Error"><a href="#错误指标：Error" class="headerlink" title="错误指标：Error"></a>错误指标：Error</h3><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rejected_connections</code></td>
+<td>由于到达<code>maxclient</code>限制而被拒绝的连接数</td>
+</tr>
+<tr>
+<td><code>keyspace_misses</code></td>
+<td><code>Key</code>值查找失败（没有命中）次数</td>
+</tr>
+<tr>
+<td><code>master_link_down_since_seconds</code></td>
+<td>主从断开的持续时间（以秒为单位）</td>
+</tr>
+</tbody></table>
+<h2 id="监控方式"><a href="#监控方式" class="headerlink" title="监控方式"></a>监控方式</h2><ul>
+<li>工具<ul>
+<li><code>Cloud Insight Redis</code></li>
+<li><code>Prometheus</code></li>
+<li><code>Redis-stat</code></li>
+<li><code>Redis-faina</code></li>
+<li><code>RedisLive</code></li>
+<li><code>zabbix</code></li>
+</ul>
+</li>
+<li>命令<ul>
+<li><code>benchmark</code></li>
+<li><code>redis cli</code><ul>
+<li><code>monitor</code></li>
+<li><code>showlog</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="benchmark"><a href="#benchmark" class="headerlink" title="benchmark"></a>benchmark</h3><ul>
+<li><p>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-benchmark [-h ] [-p ] [-c ] [-n &lt;requests]&gt; [-k]</span><br></pre></td></tr></table></figure></li>
+<li><p>范例 $1$</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认：50个连接，10000次请求对应的性能</span></span><br><span class="line">redis-benchmark</span><br></pre></td></tr></table></figure></li>
+<li><p>范例 $2$</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 100个连接，5000次请求对应的性能</span></span><br><span class="line">redis-benchmark -c 100 -n 5000</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[<span class="built_in">echo</span>@centos ~]$ redis-benchmark</span><br><span class="line">===== PING_INLINE =====</span><br><span class="line">  100000 requests completed <span class="keyword">in</span> 2.62 seconds</span><br><span class="line">  50 parallel clients</span><br><span class="line">  3 bytes payload</span><br><span class="line">  keep alive: </span><br><span class="line">  host configuration <span class="string">&quot;save&quot;</span>: 10 2</span><br><span class="line">  host configuration <span class="string">&quot;appendonly&quot;</span>: <span class="built_in">yes</span></span><br><span class="line">  multi-thread: no</span><br><span class="line">[<span class="built_in">echo</span>@centos ~]$ redis-benchmark -c 1000 -n 1000</span><br><span class="line">===== PING_INLINE =====</span><br><span class="line">  1000 requests completed <span class="keyword">in</span> 0.11 seconds</span><br><span class="line">  1000 parallel clients</span><br><span class="line">  3 bytes payload</span><br><span class="line">  keep alive: </span><br><span class="line">  host configuration <span class="string">&quot;save&quot;</span>: 10 2</span><br><span class="line">  host configuration <span class="string">&quot;appendonly&quot;</span>: <span class="built_in">yes</span></span><br><span class="line">  multi-thread: no</span><br></pre></td></tr></table></figure></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>选项</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>-h</code></td>
+<td>指定服务器主机名</td>
+<td>$127.0.0.1$</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>-p</code></td>
+<td>指定服务器端口</td>
+<td>$6379$</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>-s</code></td>
+<td>指定服务器<code>socket</code></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>-c </code></td>
+<td>指定并发连接数</td>
+<td>$50$</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>-n</code></td>
+<td>指定请求数</td>
+<td>$10000$</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>-d</code></td>
+<td>以字节的形式指定<code>SET/GET</code>值的数据大小</td>
+<td>$2$</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>-k</code></td>
+<td><code>1 = keep alive &lt;br /&gt; </code>0 = reconnect`</td>
+<td>$1$</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>-r</code></td>
+<td><code>SET/GET/INCR</code>使用随机<code>key</code>，<code>SADD</code>使用随机值</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>-p</code></td>
+<td>通过管道传输<code>&lt;numreq&gt;</code>请求</td>
+<td>$1$</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>-q</code></td>
+<td>强制退出<code>redis</code>，仅显示<code>query/sec</code>值</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>--csv</code></td>
+<td>以<code>CSV</code>格式输出</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>-l</code></td>
+<td>生成循环，永久执行测试</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>-t</code></td>
+<td>仅运行以逗号分隔的测试命令列表</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>-I</code></td>
+<td><code>Idle</code>模式，仅打开<code>N</code>个<code>idle</code>连接并等待</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="monitor"><a href="#monitor" class="headerlink" title="monitor"></a>monitor</h3><ul>
+<li>命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印服务器调试信息</span></span><br><span class="line">monitor</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="built_in">echo</span>@centos ~]$ sudo redis-cli -p 6379</span><br><span class="line">127.0.0.1:6379&gt; monitor</span><br><span class="line">OK</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="showlog"><a href="#showlog" class="headerlink" title="showlog"></a>showlog</h3><ul>
+<li><p>命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">showlog [operator]</span><br></pre></td></tr></table></figure>
+
+<p><code>[operator]</code>：</p>
+<ul>
+<li><code>get</code>：获取慢查询日志</li>
+<li><code>len</code>：获取慢查询日志条目数</li>
+<li><code>reset</code>：重置慢查询日志</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="built_in">echo</span>@centos ~]$ sudo redis-cli -p 6379</span><br><span class="line">127.0.0.1:6379&gt; slowlog get</span><br><span class="line">(empty array)</span><br><span class="line">127.0.0.1:6379&gt; </span><br></pre></td></tr></table></figure></li>
+<li><p>相关配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置慢查询的时间下线，单位：微妙</span></span><br><span class="line">slowlog-log-slower-than 1000</span><br><span class="line"><span class="comment"># 设置慢查询命令对应的日志显示长度，单位：命令数</span></span><br><span class="line">slowlog-max-len 100</span><br></pre></td></tr></table></figure></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2021/08/22/Redis/14.%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">http://atideas.github.io/2021/08/22/Redis/14.%E4%BC%81%E4%B8%9A%E7%BA%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Redis/">Redis</a></div><div class="post_share"><div class="social-share" data-image="https://api.ixiaowai.cn/api/api.php" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/08/22/Redis/13.%E9%9B%86%E7%BE%A4/"><img class="prev-cover" src="https://api.ixiaowai.cn/api/api.php" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis | 集群</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/22/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/02.matplotlib/"><img class="next-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Python数据分析 | Matplotlib</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/03/02/Redis/01.%E5%85%A5%E9%97%A8%E7%AE%80%E4%BB%8B/" title="Redis | 入门简介"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">Redis | 入门简介</div></div></a></div><div><a href="/2021/08/22/Redis/02.%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Redis | 数据类型"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Redis | 数据类型</div></div></a></div><div><a href="/2021/08/22/Redis/03.%E9%80%9A%E7%94%A8%E6%8C%87%E4%BB%A4/" title="Redis | 通用指令"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Redis | 通用指令</div></div></a></div><div><a href="/2021/08/22/Redis/04.Jedis/" title="Redis | Jedis"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Redis | Jedis</div></div></a></div><div><a href="/2021/08/22/Redis/05.%E5%AE%89%E8%A3%85linux%E7%89%88%E6%9C%AC/" title="Redis | 安装Linux版本"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Redis | 安装Linux版本</div></div></a></div><div><a href="/2021/08/22/Redis/06.%E6%8C%81%E4%B9%85%E5%8C%96/" title="Redis | 持久化"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-22</div><div class="title">Redis | 持久化</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%A2%84%E7%83%AD"><span class="toc-number">1.</span> <span class="toc-text">缓存预热</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%95%E6%9C%BA"><span class="toc-number">1.1.</span> <span class="toc-text">宕机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5"><span class="toc-number">1.2.</span> <span class="toc-text">问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.3.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-number">2.</span> <span class="toc-text">缓存雪崩</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B4%A9%E6%BA%83"><span class="toc-number">2.1.</span> <span class="toc-text">数据库服务器崩溃</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5-1"><span class="toc-number">2.2.</span> <span class="toc-text">问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-number">2.3.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E9%81%93%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">解决方案（道）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E6%9C%AF%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">解决方案（术）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-number">2.6.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-number">3.</span> <span class="toc-text">缓存击穿</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B4%A9%E6%BA%83-1"><span class="toc-number">3.1.</span> <span class="toc-text">数据库服务器崩溃</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5-2"><span class="toc-number">3.2.</span> <span class="toc-text">问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90-1"><span class="toc-number">3.3.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E6%9C%AF%EF%BC%89-1"><span class="toc-number">3.4.</span> <span class="toc-text">解决方案（术）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number">3.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-number">4.</span> <span class="toc-text">缓存穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B4%A9%E6%BA%83-2"><span class="toc-number">4.1.</span> <span class="toc-text">数据库服务器崩溃</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5-3"><span class="toc-number">4.2.</span> <span class="toc-text">问题排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90-2"><span class="toc-number">4.3.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E6%9C%AF%EF%BC%89-2"><span class="toc-number">4.4.</span> <span class="toc-text">解决方案（术）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-3"><span class="toc-number">4.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E7%9B%91%E6%8E%A7"><span class="toc-number">5.</span> <span class="toc-text">性能指标监控</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87"><span class="toc-number">5.1.</span> <span class="toc-text">监控指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%EF%BC%9APerformance"><span class="toc-number">5.1.1.</span> <span class="toc-text">性能指标：Performance</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%8C%87%E6%A0%87%EF%BC%9AMemory"><span class="toc-number">5.1.2.</span> <span class="toc-text">内存指标：Memory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%B4%BB%E5%8A%A8%E6%8C%87%E6%A0%87%EF%BC%9ABasic-activity"><span class="toc-number">5.1.3.</span> <span class="toc-text">基本活动指标：Basic activity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E6%80%A7%E6%8C%87%E6%A0%87%EF%BC%9APersistence"><span class="toc-number">5.1.4.</span> <span class="toc-text">持久性指标：Persistence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%8C%87%E6%A0%87%EF%BC%9AError"><span class="toc-number">5.1.5.</span> <span class="toc-text">错误指标：Error</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7%E6%96%B9%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">监控方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#benchmark"><span class="toc-number">5.2.1.</span> <span class="toc-text">benchmark</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#monitor"><span class="toc-number">5.2.2.</span> <span class="toc-text">monitor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#showlog"><span class="toc-number">5.2.3.</span> <span class="toc-text">showlog</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="Mybatis | Mybatis开发dao"/></a><div class="content"><a class="title" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao">Mybatis | Mybatis开发dao</a><time datetime="2021-12-23T10:55:53.000Z" title="发表于 2021-12-23 18:55:53">2021-12-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

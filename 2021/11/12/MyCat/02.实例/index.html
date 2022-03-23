@@ -1,0 +1,778 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>MyCAT | 实例 | 漂泊者的理想三旬</title><meta name="keywords" content="Mycat"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="读写分离通过MyCAT和MySQL的主从复制配合搭建数据库的读写分离，实现MySQL的高可用性。将搭建一主一从、双主双从两种读写分离模式。 一主一从一个主机用于处理所有写请求，一台从机负责所有读请求，架构图如下：       搭建MySQL数据库主从复制  MySQL主从复制原理   主机配置（192.168.30.134） 修改配置文件：vim &#x2F;etc&#x2F;my.cnf    1234567891">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyCAT | 实例">
+<meta property="og:url" content="http://atideas.github.io/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="读写分离通过MyCAT和MySQL的主从复制配合搭建数据库的读写分离，实现MySQL的高可用性。将搭建一主一从、双主双从两种读写分离模式。 一主一从一个主机用于处理所有写请求，一台从机负责所有读请求，架构图如下：       搭建MySQL数据库主从复制  MySQL主从复制原理   主机配置（192.168.30.134） 修改配置文件：vim &#x2F;etc&#x2F;my.cnf    1234567891">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080">
+<meta property="article:published_time" content="2021-11-12T08:21:36.000Z">
+<meta property="article:modified_time" content="2022-03-10T01:50:09.294Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="Mycat">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://api.yimian.xyz/img?type=moe&size=1920x1080"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MyCAT | 实例',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 09:50:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://api.yimian.xyz/img?type=moe&amp;size=1920x1080')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MyCAT | 实例</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-12T08:21:36.000Z" title="发表于 2021-11-12 16:21:36">2021-11-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T01:50:09.294Z" title="更新于 2022-03-10 09:50:09">2022-03-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>34分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MyCAT | 实例"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h1><p>通过<code>MyCAT</code>和<code>MySQL</code>的主从复制配合搭建数据库的读写分离，实现<code>MySQL</code>的高可用性。将搭建一主一从、双主双从两种读写分离模式。</p>
+<h2 id="一主一从"><a href="#一主一从" class="headerlink" title="一主一从"></a>一主一从</h2><p>一个主机用于处理所有写请求，一台从机负责所有读请求，架构图如下：</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1636699851/1639746412-a0ac25ae.png"></p>
+</div>
+
+<ol>
+<li><p>搭建<code>MySQL</code>数据库主从复制</p>
+<ol>
+<li><p><code>MySQL</code>主从复制原理<br> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1636699851/1639746429-4a6a5405.png"></p>
+</li>
+<li><p>主机配置（<a href="192.168.30.134">192.168.30.134</a>）<br> 修改配置文件：<code>vim /etc/my.cnf</code>  </p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 主服务器唯一ID</span><br><span class="line">server-id=1</span><br><span class="line"># 启用二进制日志</span><br><span class="line">log-bin=mysql-bin</span><br><span class="line"># 设置不要复制的数据库(可设置多个)</span><br><span class="line">binlog-ignore-db=mysql</span><br><span class="line">binlog-ignore-db=information_schema</span><br><span class="line"># 设置需要复制的数据库，binlog-do-db=需要复制的主数据库名字</span><br><span class="line">binlog-do-db=testdb</span><br><span class="line"># 设置 logbin 格式</span><br><span class="line">binlog_format=STATEMENT</span><br><span class="line"></span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br></pre></td></tr></table></figure>
+
+<p> <code>binlog</code>日志三种格式：</p>
+<ul>
+<li><code>Statement</code>：每一条会修改数据的<code>sql</code>都会记录在<code>binlog</code>中<ul>
+<li>优点：不需要记录每一行的变化，减少了<code>binlog</code>日志量，节约了<code>IO</code>，提高性能。相比<code>row</code>能节约多少性能与日志量，这个取决于应用的<code>SQL</code>情况，正常同一条记录修改或者插入<code>row</code>格式所产生的日志量还小于<code>Statement</code>产生的日志量，但是考虑到如果带条件的<code>update</code>操作，以及整表删除，<code>alter</code>表等操作，<code>ROW</code>格式会产生大量日志，因此在考虑是否使用<code>ROW</code>格式日志时应该跟据应用的实际情况，其所产生的日志量会增加多少，以及带来的<code>IO</code>性能问题。</li>
+<li>缺点：由于记录的只是执行语句，为了这些语句能在<code>slave</code>上正确运行，因此还必须记录每条语句在执行的时候的一些相关信息，以保证所有语句能在<code>slave</code>得到和<code>master</code>端执行时候相同的结果。另外<code>MySQL</code>的复制，像一些特定函数功能，<code>slave</code>可与<code>master</code>上要保持一致会有很多相关问题（如<code>sleep()</code>函数，<code>last_insert_id()</code>，以及<code>user-defined functions(udf)</code>会出现问题）。</li>
+</ul>
+</li>
+<li><code>Row</code>：不记录<code>sql</code>语句上下文相关信息，仅保存哪条记录被修改<ul>
+<li>优点：<code>binlog</code>中可以不记录执行的<code>sql</code>语句的上下文相关的信息，仅需要记录那一条记录被修改成什么了。所以<code>ROW-level</code>的日志内容会非常清楚的记录下每一行数据修改的细节。而且不会出现某些特定情况下的存储过程，或<code>function</code>，以及<code>trigger</code>的调用和触发无法被正确复制的问题。</li>
+<li>缺点:所有的执行的语句当记录到日志中的时候，都将以每行记录的修改来记录，这样可能会产生大量的日志内容，比如一条<code>update</code>语句，修改多条记录，则<code>binlog</code>中每一条修改都会有记录，这样造成<code>binlog</code>日志量会很大，特别是当执行<code>alter table</code>之类的语句的时候，由于表结构修改，每条记录都发生改变，那么该表每一条记录都会记录到日志中。</li>
+</ul>
+</li>
+<li><code>Mixedlevel</code>：是以上两种<code>level</code>的混合使用<ul>
+<li>一般的语句修改使用<code>Statment</code>格式保存<code>binlog</code>，如一些函数，<code>Statement</code>无法完成主从复制的操作，则采用<code>ROW</code>格式保存<code>binlog</code>，<code>MySQL</code>会根据执行的每一条具体的<code>sql</code>语句来区分对待记录的日志形式，也就是在<code>Statement</code>和<code>Row</code>之间选择一种，新版本的<code>MySQL</code>中对<code>ROW-level</code>模式也被做了优化，并不是所有的修改都会以<code>ROW-level</code>来记录，像遇到表结构变更的时候就会以<code>Statement</code>模式来记录。至于<code>update</code>或者<code>delete</code>等修改数据的语句，还是会记录所有行的变更。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>从机配置（<a href="192.168.30.130">192.168.30.130</a>）<br> 修改配置文件：<code>vim /etc/my.cnf</code></p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 从服务器唯一ID</span><br><span class="line">server-id=2</span><br><span class="line"># 启用中继日志</span><br><span class="line">relay-log=mysql-relay</span><br><span class="line"></span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br></pre></td></tr></table></figure></li>
+<li><p>主机、从机重启<code>MySQL</code>服务</p>
+</li>
+<li><p>主机从机都关闭防火墙</p>
+</li>
+<li><p>在主机上建立帐户并授权<code>slave</code></p>
+<ul>
+<li>在主机<code>MySQL</code>里执行授权命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="built_in">set</span> global validate_password_policy=0;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="built_in">set</span> global validate_password_length=4;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; GRANT REPLICATION SLAVE ON *.* TO <span class="string">&#x27;slave&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure></li>
+<li>查询<code>master</code>的状态<br>记录下<code>File</code>和<code>Position</code>的值，执行完此步骤后不要再操作主服务器<code>MySQL</code>，防止主服务器状态值变化。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show master status;</span><br><span class="line">+------------------+----------+--------------+--------------------------+-------------------+</span><br><span class="line">| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB         | Executed_Gtid_Set |</span><br><span class="line">+------------------+----------+--------------+--------------------------+-------------------+</span><br><span class="line">| mysql-bin.000001 |      430 | testdb       | mysql,information_schema |                   |</span><br><span class="line">+------------------+----------+--------------+--------------------------+-------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>在从机上配置需要复制的主机</p>
+<ul>
+<li><p>复制主机</p>
+<ul>
+<li>复制主机的命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_HOST=<span class="string">&#x27;主机的IP地址&#x27;</span>,</span><br><span class="line">MASTER_USER=<span class="string">&#x27;slave&#x27;</span>,</span><br><span class="line">MASTER_PASSWORD=<span class="string">&#x27;123456&#x27;</span>,</span><br><span class="line">MASTER_LOG_FILE=<span class="string">&#x27;mysql-bin.具体数字&#x27;</span>,MASTER_LOG_POS=具体值;</span><br></pre></td></tr></table></figure></li>
+<li>输入<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_HOST=<span class="string">&#x27;192.168.30.134&#x27;</span>,</span><br><span class="line">MASTER_USER=<span class="string">&#x27;slave&#x27;</span>,</span><br><span class="line">MASTER_PASSWORD=<span class="string">&#x27;123456&#x27;</span>,</span><br><span class="line">MASTER_LOG_FILE=<span class="string">&#x27;mysql-bin.000001&#x27;</span>,MASTER_LOG_POS=430;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>启动从服务器复制功能</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; start slave;</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>查看从服务器状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show slave status\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">               Slave_IO_State: Waiting <span class="keyword">for</span> <span class="built_in">source</span> to send event</span><br><span class="line">                  Master_Host: 192.168.30.134</span><br><span class="line">                  Master_User: slave</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: mysql-bin.000001</span><br><span class="line">          Read_Master_Log_Pos: 974</span><br><span class="line">               Relay_Log_File: mysql-relay.000002</span><br><span class="line">                Relay_Log_Pos: 324</span><br><span class="line">        Relay_Master_Log_File: mysql-bin.000001</span><br><span class="line">             Slave_IO_Running: Yes</span><br><span class="line">            Slave_SQL_Running: Yes</span><br><span class="line">...</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+
+<p>下面两个参数都是Yes，则说明主从配置成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Slave_IO_Running: Yes</span><br><span class="line">Slave_SQL_Running: Yes</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>主机新建库、新建表、<code>insert</code>记录，从机复制</p>
+<ul>
+<li>主机<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create database testdb;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use testdb;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">Empty <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create table mytbl(<span class="built_in">id</span> int, name varchar(100));</span><br><span class="line">Query OK, 0 rows affected (0.04 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into mytbl values(1, <span class="string">&#x27;zhang3&#x27;</span>);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mytbl;</span><br><span class="line">+------+--------+</span><br><span class="line">| <span class="built_in">id</span>   | name   |</span><br><span class="line">+------+--------+</span><br><span class="line">|    1 | zhang3 |</span><br><span class="line">+------+--------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></li>
+<li>从机<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">| testdb             |</span><br><span class="line">+--------------------+</span><br><span class="line">5 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use testdb;</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+------------------+</span><br><span class="line">| Tables_in_testdb |</span><br><span class="line">+------------------+</span><br><span class="line">| mytbl            |</span><br><span class="line">+------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mytbl;</span><br><span class="line">+------+--------+</span><br><span class="line">| <span class="built_in">id</span>   | name   |</span><br><span class="line">+------+--------+</span><br><span class="line">|    1 | zhang3 |</span><br><span class="line">+------+--------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>如何停止从服务复制功能</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; stop slave; </span><br></pre></td></tr></table></figure></li>
+<li><p>如何重新配置主从</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; stop slave; </span><br><span class="line">mysql&gt; reset master;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>修改<code>Mycat</code>的配置文件<code>schema.xml</code><br> 修改的<code>balance</code>属性，通过此属性配置读写分离的类型。负载均衡类型，目前的取值有 $4$ 种：</p>
+<ol>
+<li><code>balance=&quot;0&quot;</code>：不开启读写分离机制，所有读操作都发送到当前可用的<code>writeHost</code>上</li>
+<li><code>balance=&quot;1&quot;</code>：全部的<code>readHost</code>与<code>stand by writeHost</code>参与<code>select</code>语句的负载均衡，简单的说，当双主双从模式（<code>M1-&gt;S1</code>，<code>M2-&gt;S2</code>，并且<code>M1</code>与<code>M2</code>互为主备），正常情况下，<code>M2</code>、<code>S1</code>、<code>S2</code>都参与<code>select</code>语句的负载均衡。</li>
+<li><code>balance=&quot;2&quot;</code>：所有读操作都随机的在<code>writeHost</code>、<code>readhost</code>上分发。</li>
+<li><code>balance=&quot;3&quot;</code>：所有读请求随机的分发到<code>readhost</code>执行，<code>writerHost</code>不负担读压力</li>
+</ol>
+<p> 为了能看到读写分离的效果，把<code>balance</code>设置成 $2$，会在两个主机间切换查询：</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;2&quot;</span></span></span><br><span class="line"><span class="tag">                         <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;jdbc&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>启动<code>Mycat</code></p>
+</li>
+<li><p>验证读写分离</p>
+<ul>
+<li>在写主机数据库表<code>mytbl</code>中插入带系统变量数据，造成主从数据不一致<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 写主机中插入并查询</span><br><span class="line">mysql&gt; INSERT INTO mytbl VALUES(2,@@hostname);</span><br><span class="line">Query OK, 1 row affected, 1 warning (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from mytbl;</span><br><span class="line">+------+----------+</span><br><span class="line">| id   | name     |</span><br><span class="line">+------+----------+</span><br><span class="line">|    1 | zhang3   |</span><br><span class="line">|    2 | centos02 |</span><br><span class="line">+------+----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br><span class="line"># 读主机从查询</span><br><span class="line">mysql&gt; select * from mytbl;</span><br><span class="line">+------+----------+</span><br><span class="line">| id   | name     |</span><br><span class="line">+------+----------+</span><br><span class="line">|    1 | zhang3   |</span><br><span class="line">|    2 | centos03 |</span><br><span class="line">+------+----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>在<code>Mycat</code>里查询<code>mytbl</code>表，可以看到查询语句在主从两个主机间切换<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># -A 是不预读取数据库，查询比较快</span><br><span class="line">[root@localhost bin]# mysql -umycat -p123456 -P 8066 -h 192.168.30.134 -A</span><br><span class="line"></span><br><span class="line">mysql&gt; show databases;</span><br><span class="line">+----------+</span><br><span class="line">| DATABASE |</span><br><span class="line">+----------+</span><br><span class="line">| TESTDB   |</span><br><span class="line">+----------+</span><br><span class="line">1 row in set (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; use TESTDB;</span><br><span class="line">Database changed</span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">+------------------+</span><br><span class="line">| Tables in TESTDB |</span><br><span class="line">+------------------+</span><br><span class="line">| mytbl            |</span><br><span class="line">+------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h2 id="双主双从"><a href="#双主双从" class="headerlink" title="双主双从"></a>双主双从</h2><p>一个主机<code>M1</code>用于处理所有写请求，它的从机<code>S1</code>和另一台主机<code>M2</code>还有它的从机<code>S2</code>负责所有读请<br>求。当<code>M1</code>主机宕机后，<code>M2</code>主机负责写请求，<code>M1</code>、<code>M2</code>互为备机。</p>
+<p>架构图如下：</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1636699851/1639746465-58730c63.png"></p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>角色</th>
+<th>IP</th>
+<th>机器名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>M1</td>
+<td>192.168.30.134</td>
+<td>centos02.02</td>
+</tr>
+<tr>
+<td>2</td>
+<td>S1</td>
+<td>192.168.30.130</td>
+<td>centos03.03</td>
+</tr>
+<tr>
+<td>3</td>
+<td>M2</td>
+<td>192.168.30.129</td>
+<td>centos01.01</td>
+</tr>
+<tr>
+<td>4</td>
+<td>S2</td>
+<td>192.168.30.131</td>
+<td>cdntos04.04</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>搭建<code>MySQL</code>数据库主从复制（双主双从）</p>
+<ol>
+<li><p>双主机配置<br> 修改配置文件：<code>vim /etc/my.cnf</code></p>
+<ul>
+<li><code>M1</code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 主服务器唯一 ID</span><br><span class="line">server-id=1</span><br><span class="line"># 启用二进制日志</span><br><span class="line">log-bin=mysql-bin</span><br><span class="line"># 设置不要复制的数据库（可设置多个）</span><br><span class="line">binlog-ignore-db=mysql</span><br><span class="line">binlog-ignore-db=information_schema</span><br><span class="line"># 设置需要复制的数据库</span><br><span class="line">binlog-do-db=需要复制的主数据库名字</span><br><span class="line"># 设置 logbin 格式</span><br><span class="line">binlog_format=STATEMENT</span><br><span class="line"># 在作为从数据库的时候，有写入操作也要更新二进制日志文件</span><br><span class="line">log-slave-updates </span><br><span class="line"># 表示自增长字段每次递增的量，指自增字段的起始值，其默认值是 1，取值范围是 1 .. 65535</span><br><span class="line">auto-increment-increment=2 </span><br><span class="line"># 表示自增长字段从哪个数开始，指字段一次递增多少，取值范围是 1 .. 65535</span><br><span class="line">auto-increment-offset=1</span><br></pre></td></tr></table></figure></li>
+<li><code>M2</code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 主服务器唯一 ID</span><br><span class="line">server-id=3</span><br><span class="line"># 启用二进制日志</span><br><span class="line">log-bin=mysql-bin</span><br><span class="line"># 设置不要复制的数据库（可设置多个）</span><br><span class="line">binlog-ignore-db=mysql</span><br><span class="line">binlog-ignore-db=information_schema</span><br><span class="line"># 设置需要复制的数据库</span><br><span class="line">binlog-do-db=需要复制的主数据库名字</span><br><span class="line"># 设置 logbin 格式</span><br><span class="line">binlog_format=STATEMENT</span><br><span class="line"># 在作为从数据库的时候，有写入操作也要更新二进制日志文件</span><br><span class="line">log-slave-updates </span><br><span class="line"># 表示自增长字段每次递增的量，指自增字段的起始值，其默认值是 1，取值范围是 1 .. 65535</span><br><span class="line">auto-increment-increment=2 </span><br><span class="line"># 表示自增长字段从哪个数开始，指字段一次递增多少，取值范围是 1 .. 65535</span><br><span class="line">auto-increment-offset=2</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>双主机配置<br> 修改配置文件：<code>vim /etc/my.cnf</code></p>
+<ul>
+<li><code>S1</code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 从服务器唯一 ID</span><br><span class="line">server-id=2</span><br><span class="line"># 启用中继日志</span><br><span class="line">relay-log=mysql-relay</span><br></pre></td></tr></table></figure></li>
+<li><code>S2</code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 从服务器唯一 ID</span><br><span class="line">server-id=4</span><br><span class="line"># 启用中继日志</span><br><span class="line">relay-log=mysql-relay</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>双主机、双从机重启<code>MySQL</code>服务</p>
+</li>
+<li><p>主机从机都关闭防火墙</p>
+</li>
+<li><p>在两台主机上建立帐户并授权<code>slave</code></p>
+<ul>
+<li>在主机<code>MySQL</code>里执行授权命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT REPLICATION SLAVE ON *.* TO <span class="string">&#x27;slave&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;123456&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+<li>查询<code>M1</code>的状态<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show master status;</span><br></pre></td></tr></table></figure></li>
+<li>查询<code>M2</code>的状态<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show master status;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p> 分别记录下<code>File</code>和<code>Position</code>的值，执行完此步骤后不要再操作主服务器<code>MySQL</code>，防止主服务器状态值变化</p>
+</li>
+<li><p>在从机上配置需要复制的主机<br> <code>S1</code>复制<code>M1</code>，<code>S2</code>复制<code>M2</code></p>
+<ul>
+<li>复制主机的命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER TO MASTER_HOST=<span class="string">&#x27;主机的IP地址&#x27;</span>,</span><br><span class="line">MASTER_USER=<span class="string">&#x27;slave&#x27;</span>,</span><br><span class="line">MASTER_PASSWORD=<span class="string">&#x27;123456&#x27;</span>,</span><br><span class="line">MASTER_LOG_FILE=<span class="string">&#x27;mysql-bin.具体数字&#x27;</span>,MASTER_LOG_POS=具体值;</span><br></pre></td></tr></table></figure></li>
+<li>启动两台从服务器复制功能<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start slave;</span><br></pre></td></tr></table></figure></li>
+<li>查看从服务器状态<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show slave status\G;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p> 下面两个参数都是<code>Yes</code>，则说明主从配置成功！</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Slave_IO_Running: Yes</span><br><span class="line">Slave_SQL_Running: Yes</span><br></pre></td></tr></table></figure></li>
+<li><p>两个主机互相复制<br> <code>M2</code>复制<code>M1</code>，<code>M1</code>复制<code>M2</code>，如上</p>
+</li>
+<li><p><code>M1</code>主机新建库、新建表、<code>insert</code>记录，<code>M2</code>和<code>S1</code>、<code>S2</code>复制</p>
+</li>
+<li><p>停止从服务复制功能</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stop slave;</span><br></pre></td></tr></table></figure></li>
+<li><p>重新配置主从</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stop slave; </span><br><span class="line">reset master;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>修改<code>Mycat</code>的配置文件<code>schema.xml</code><br> 修改的<code>balance</code>属性，通过此属性配置读写分离的类型，为了双主双从读写分离<code>balance</code>设置为 $1$。</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">database</span>=<span class="string">&quot;testdb&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;1&quot;</span> <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span> <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- can have multi write hosts --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.140.124:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- can have multi read hosts --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">readHost</span> <span class="attr">host</span>=<span class="string">&quot;hostS1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.140.130:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM2&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.140.129:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- can have multi read hosts --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">readHost</span> <span class="attr">host</span>=<span class="string">&quot;hostS2&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.140.125:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>writeType=&quot;0&quot;</code>：所有写操作发送到配置的第一个<code>writeHost</code>，第一个挂了切到还生存的第二个</li>
+<li><code>writeType=&quot;1&quot;</code>，所有写操作都随机的发送到配置的<code>writeHost</code>，$1.5$ 以后废弃不推荐</li>
+<li><code>writeHost</code>，重新启动后以切换后的为准，切换记录在配置文件中：<code>dnindex.properties</code></li>
+<li><code>switchType=&quot;1&quot;</code><ul>
+<li>$1$：默认值，自动切换</li>
+<li>$-1$：不自动切换</li>
+<li>$2$：基于<code>MySQL</code>主从同步的状态决定是否切换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>启动<code>Mycat</code></p>
+</li>
+<li><p>验证读写分离</p>
+<ul>
+<li>在写主机<code>M1</code>数据库表<code>mytbl</code>中插入带系统变量数据，造成主从数据不一致<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> mytbl <span class="keyword">VALUES</span>(<span class="number">3</span>,@<span class="variable">@hostname</span>);</span><br></pre></td></tr></table></figure></li>
+<li>在<code>Mycat</code>里查询<code>mytbl</code>表，可以看到查询语句在<code>M2(centos01)</code>、<code>S1(centos03)</code>、<code>S2(centos04)</code>主从三个主机间切换</li>
+</ul>
+</li>
+<li><p>抗风险能力</p>
+<ol>
+<li>停止数据库<code>M1</code></li>
+<li>在<code>Mycat</code>里插入数据依然成功，<code>M2</code>自动切换为写主机 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> mytbl <span class="keyword">VALUES</span>(<span class="number">3</span>,@<span class="variable">@hostname</span>);</span><br></pre></td></tr></table></figure></li>
+<li>启动数据库<code>M1</code></li>
+<li>在<code>Mycat</code>里查询<code>mytbl</code>表,可以看到查询语句在<code>M1(centos02)</code>、<code>S1(centos03)</code>、<code>S2(centos04)</code>主从三个主机间切换</li>
+</ol>
+<p> <code>M1</code>、<code>M2</code>互做备机，负责写的主机宕机，备机切换负责写操作，保证数据库读写分离高可用性。</p>
+</li>
+</ol>
+<h1 id="垂直拆分——分库"><a href="#垂直拆分——分库" class="headerlink" title="垂直拆分——分库"></a>垂直拆分——分库</h1><p>一个数据库由很多表的构成，每个表对应着不同的业务，垂直切分是指按照业务将表进行分类，<br>分布到不同 的数据库上面，这样也就将数据或者说压力分担到不同的库上面，如下图：</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1636699851/1639746492-944d5f54.png"></p>
+</div>
+
+<p>系统被切分成了，用户，订单交易，支付几个模块。</p>
+<h2 id="如何划分表"><a href="#如何划分表" class="headerlink" title="如何划分表"></a>如何划分表</h2><p>问题：在两台主机上的两个数据库中的表，能否关联查询？</p>
+<p>答案：不可以关联查询。</p>
+<p>分库的原则：有紧密关联关系的表应该在一个库里，相互没有关联关系的表可以分到不同的库里。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> 客户表 <span class="keyword">rows</span>：<span class="number">20</span> 万</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> customer(</span><br><span class="line">    id <span class="type">INT</span> AUTO_INCREMENT,</span><br><span class="line">    NAME <span class="type">VARCHAR</span>(<span class="number">200</span>),</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id)</span><br><span class="line">);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> 订单表 <span class="keyword">rows</span>：<span class="number">600</span> 万</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders(</span><br><span class="line">    id <span class="type">INT</span> AUTO_INCREMENT,</span><br><span class="line">    order_type <span class="type">INT</span>,</span><br><span class="line">    customer_id <span class="type">INT</span>,</span><br><span class="line">    amount <span class="type">DECIMAL</span>(<span class="number">10</span>,<span class="number">2</span>),</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id)</span><br><span class="line">); </span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> 订单详细表 <span class="keyword">rows</span>：<span class="number">600</span> 万</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders_detail(</span><br><span class="line">    id <span class="type">INT</span> AUTO_INCREMENT,</span><br><span class="line">    detail <span class="type">VARCHAR</span>(<span class="number">2000</span>),</span><br><span class="line">    order_id <span class="type">INT</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id)</span><br><span class="line">);</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> 订单状态字典表 <span class="keyword">rows</span>：<span class="number">20</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> dict_order_type(</span><br><span class="line">    id <span class="type">INT</span> AUTO_INCREMENT,</span><br><span class="line">    order_type <span class="type">VARCHAR</span>(<span class="number">200</span>),</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>以上四个表如何分库？</p>
+<p>客户表分在一个数据库，另外三张都需要关联查询，分在另外一个数据库。</p>
+<h2 id="实现分库"><a href="#实现分库" class="headerlink" title="实现分库"></a>实现分库</h2><ol>
+<li>修改<code>schema.xml</code>配置文件 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">&quot;TESTDB&quot;</span> <span class="attr">checkSQLschema</span>=<span class="string">&quot;false&quot;</span> <span class="attr">sqlMaxLimit</span>=<span class="string">&quot;100&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;customer&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn2&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">database</span>=<span class="string">&quot;orders&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn2&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">database</span>=<span class="string">&quot;orders&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span> <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span> <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- can have multi write hosts --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.140.128:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span> <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span> <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- can have multi write hosts --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM2&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.140.127:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>新增两个空白库<br> 分库操作不是在原来的老数据库上进行操作，需要准备两台机器分别安装新的数据库，在数据节点<code>dn1</code>、<code>dn2</code>上分别创建数据库<code>orders</code>。 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE orders;</span><br></pre></td></tr></table></figure></li>
+<li>启动<code>Mycat</code></li>
+<li>访问<code>Mycat</code>进行分库<ol>
+<li>访问<code>Mycat</code> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -umycat -p123456 -h 192.168.140.134 -P 8066</span><br></pre></td></tr></table></figure></li>
+<li>切换到<code>TESTDB</code></li>
+<li>创建 $4$ 张表</li>
+<li>在<code>dn1</code>和<code>dn2</code>上查看表信息，可以看到成功分库</li>
+</ol>
+</li>
+</ol>
+<h1 id="水平拆分——分表"><a href="#水平拆分——分表" class="headerlink" title="水平拆分——分表"></a>水平拆分——分表</h1><p>相对于垂直拆分，水平拆分不是将表做分类，而是按照某个字段的某种规则来分散到多个库之中，每个表中包含一部分数据。简单来说，可以将数据的水平切分理解为是按照数据行的切分，就是将表中的某些行切分到一个数据库，而另外的某些行又切分到其他的数据库中，如图：</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1636699851/1639746525-12116416.png"></p>
+</div>
+
+<h2 id="实现分表"><a href="#实现分表" class="headerlink" title="实现分表"></a>实现分表</h2><ol>
+<li>选择要拆分的表<br> <code>MySQL</code>单表存储数据条数是有瓶颈的，单表达到 $1000$ 万条数据就达到了瓶颈，会影响查询效率，需要进行水平拆分（分表）进行优化。<br> <code>orders</code>、<code>orders_detail</code>都已经达到 $600$ 万行数据，需要进行分表优化。</li>
+<li>分表字段<br> 以<code>orders</code>表为例，可以根据不同自字段进行分表<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>分表字段</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>id</code>（主键、或创建时间）</td>
+<td>查询订单注重时效，历史订单被查询的次数少，如此分片会造成一个节点访问多，一个访问少，不平均。</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>customer_id</code>（客户<code>id</code>）</td>
+<td>根据客户<code>id</code>去分，两个节点访问平均，一个客户的所有订单都在同一个节点</td>
+</tr>
+</tbody></table>
+</li>
+<li>修改配置文件<code>schema.xml</code><br> 为<code>orders</code>表设置数据节点为<code>dn1</code>、<code>dn2</code>，并指定分片规则为<code>mod_rule</code>（自定义的名字） <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;orders&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;mod_rule&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>修改配置文件<code>rule.xml</code><br> 在<code>rule</code>配置文件里新增分片规则<code>mod_rule</code>，并指定规则适用字段为<code>customer_id</code>，还有选择分片算法<code>mod-long</code>（对字段求模运算），<code>customer_id</code>对两个节点求模，根据结果分片，配置算法<code>mod-long</code>参数<code>count</code>为 $2$，分成两个节点。 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;mod_rule&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>customer_id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>mod-long<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line">…</span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;mod-long&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByMod&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- how many data nodes --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;count&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>在数据节点<code>dn2</code>上建<code>orders</code>表</li>
+<li>重启<code>Mycat</code>，让配置生效</li>
+<li>访问<code>Mycat</code>实现分片<ul>
+<li>在<code>Mycat</code>里向<code>orders</code>表插入数据，<code>INSERT</code>字段不能省略<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(id,order_type,customer_id,amount) <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">101</span>,<span class="number">100</span>,<span class="number">100100</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(id,order_type,customer_id,amount) <span class="keyword">VALUES</span>(<span class="number">2</span>,<span class="number">101</span>,<span class="number">100</span>,<span class="number">100300</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(id,order_type,customer_id,amount) <span class="keyword">VALUES</span>(<span class="number">3</span>,<span class="number">101</span>,<span class="number">101</span>,<span class="number">120000</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(id,order_type,customer_id,amount) <span class="keyword">VALUES</span>(<span class="number">4</span>,<span class="number">101</span>,<span class="number">101</span>,<span class="number">103000</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(id,order_type,customer_id,amount) <span class="keyword">VALUES</span>(<span class="number">5</span>,<span class="number">102</span>,<span class="number">101</span>,<span class="number">100400</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders(id,order_type,customer_id,amount) <span class="keyword">VALUES</span>(<span class="number">6</span>,<span class="number">102</span>,<span class="number">100</span>,<span class="number">100020</span>);</span><br></pre></td></tr></table></figure></li>
+<li>在<code>Mycat</code>、<code>dn1</code>、<code>dn2</code>中查看<code>orders</code>表数据，分表成功</li>
+</ul>
+</li>
+</ol>
+<h2 id="Mycat-分片后的-join-查询"><a href="#Mycat-分片后的-join-查询" class="headerlink" title="Mycat 分片后的 join 查询"></a>Mycat 分片后的 join 查询</h2><p><code>orders</code>订单表已经进行分表操作了，和它关联的<code>orders_detail</code>订单详情表如何进行<code>join</code>查询。</p>
+<p>对<code>orders_detail</code>也要进行分片操作。<code>Join</code>的原理如下图：</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1636699851/1639746547-f40f5cf8.png"></p>
+</div>
+
+<ol>
+<li><p><code>ER</code>表<br> <code>Mycat</code>借鉴了<code>NewSQL</code>领域的新秀<code>Foundation DB</code>的设计思路，<code>Foundation DB</code>创新性的提<br> 出了<code>Table Group</code>的概念，其将子表的存储位置依赖于主表，并且物理上紧邻存放，因此彻底解决了<code>JION</code>的效率和性能问题，根据这一思路，提出了基于 E-R 关系的数据分片策略，子表的记录与所关联的父表记录存放在同一个数据分片上。</p>
+<ol>
+<li>修改<code>schema.xml</code>配置文件 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;orders&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;mod_rule&quot;</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">childTable</span> <span class="attr">name</span>=<span class="string">&quot;orders_detail&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> <span class="attr">joinKey</span>=<span class="string">&quot;order_id&quot;</span> <span class="attr">parentKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>在<code>dn2</code>创建<code>orders_detail</code>表</li>
+<li>重启<code>Mycat</code></li>
+<li>访问<code>Mycat</code>向<code>orders_detail</code>表插入数据 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_detail(id,detail,order_id) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;detail1&#x27;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_detail(id,detail,order_id) <span class="keyword">VALUES</span>(<span class="number">2</span>,<span class="string">&#x27;detail1&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_detail(id,detail,order_id) <span class="keyword">VALUES</span>(<span class="number">3</span>,<span class="string">&#x27;detail1&#x27;</span>,<span class="number">3</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_detail(id,detail,order_id) <span class="keyword">VALUES</span>(<span class="number">4</span>,<span class="string">&#x27;detail1&#x27;</span>,<span class="number">4</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_detail(id,detail,order_id) <span class="keyword">VALUES</span>(<span class="number">5</span>,<span class="string">&#x27;detail1&#x27;</span>,<span class="number">5</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_detail(id,detail,order_id) <span class="keyword">VALUES</span>(<span class="number">6</span>,<span class="string">&#x27;detail1&#x27;</span>,<span class="number">6</span>);</span><br></pre></td></tr></table></figure></li>
+<li>在<code>Mycat</code>、<code>dn1</code>、<code>dn2</code>中运行两个表<code>join</code>语句 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> o.<span class="operator">*</span>,od.detail <span class="keyword">from</span> orders o <span class="keyword">inner</span> <span class="keyword">join</span> orders_detail od <span class="keyword">on</span> o.id<span class="operator">=</span>od.order_id;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>全局表<br> 在分片的情况下，当业务表因为规模而进行分片以后，业务表与这些附属的字典表之间的关联，<br> 就成了比较 棘手的问题，考虑到字典表具有以下几个特性：</p>
+<ul>
+<li>变动不频繁</li>
+<li>数据量总体变化不大</li>
+<li>数据规模不大，很少有超过数十万条记录</li>
+</ul>
+<p> 鉴于此，Mycat 定义了一种特殊的表，称之为“全局表”，全局表具有以下特性：</p>
+<ul>
+<li>全局表的插入、更新操作会实时在所有节点上执行，保持各个分片的数据一致性</li>
+<li>全局表的查询操作，只从一个节点获取</li>
+<li>全局表可以跟任何一个表进行<code>JOIN</code>操作</li>
+</ul>
+<p> 将字典表或者符合字典表特性的一些表定义为全局表，则从另外一个方面，很好的解决了数据<code>JOIN</code>的难题。通过全局表+基于 E-R 关系的分片策略，<code>Mycat</code>可以满足 $80 %$ 以上的企业应用开发。</p>
+<ol>
+<li>修改<code>schema.xml</code>配置文件 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;orders&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;mod_rule&quot;</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">childTable</span> <span class="attr">name</span>=<span class="string">&quot;orders_detail&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> <span class="attr">joinKey</span>=<span class="string">&quot;order_id&quot;</span> <span class="attr">parentKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;dict_order_type&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">type</span>=<span class="string">&quot;global&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li>在<code>dn2</code>创建<code>dict_order_type</code>表</li>
+<li>重启<code>Mycat</code></li>
+<li>访问<code>Mycat</code>向<code>dict_order_type</code>表插入数据 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> dict_order_type(id,order_type) <span class="keyword">VALUES</span>(<span class="number">101</span>,<span class="string">&#x27;type1&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> dict_order_type(id,order_type) <span class="keyword">VALUES</span>(<span class="number">102</span>,<span class="string">&#x27;type2&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li>在<code>Mycat</code>、<code>dn1</code>、<code>dn2</code>中查询表数据 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> dict_order_type;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="常用分片规则"><a href="#常用分片规则" class="headerlink" title="常用分片规则"></a>常用分片规则</h2><ol>
+<li><p>取模<br> 此规则为对分片字段求摸运算。也是水平分表最常用规则。在<strong>实现分表</strong>中，<code>orders</code>表采用了此规则。</p>
+</li>
+<li><p>分片枚举<br> 通过在配置文件中配置可能的枚举<code>id</code>，自己配置分片，本规则适用于特定的场景，比如有些业务需要按照省份或区县来做保存，而全国省份区县固定的，这类业务使用本条规则。</p>
+<ol>
+<li><p>修改<code>schema.xml</code>配置文件</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;orders_ware_info&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding_by_intfile&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改<code>rule.xml</code>配置文件</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding_by_intfile&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>areacode<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>hash-int<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;hash-int&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByFileMap&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>partition-hash-int.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;type&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultNode&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>columns</code>：分片字段</li>
+<li><code>algorithm</code>：分片函数</li>
+<li><code>mapFile</code>：标识配置文件名称</li>
+<li><code>type</code>：$0$ 为<code>int</code>型、非 $0$ 为<code>String</code></li>
+<li><code>defaultNode</code>：默认节点，小于 $0$ 表示不设置默认节点，大于等于 $0$ 表示设置默认节点，设置默认节点如果碰到不识别的枚举值，就让它路由到默认节点，如不设置不识别就报错</li>
+</ul>
+</li>
+<li><p>修改<code>partition-hash-int.txt</code>配置文件</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">110=0</span><br><span class="line">120=1</span><br></pre></td></tr></table></figure></li>
+<li><p>重启<code>Mycat</code></p>
+</li>
+<li><p>访问<code>Mycat</code>创建表</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> 订单归属区域信息表</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> orders_ware_info(</span><br><span class="line">    `id` <span class="type">INT</span> AUTO_INCREMENT comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">    `order_id` <span class="type">INT</span> comment <span class="string">&#x27;订单编号&#x27;</span>,</span><br><span class="line">    `address` <span class="type">VARCHAR</span>(<span class="number">200</span>) comment <span class="string">&#x27;地址&#x27;</span>,</span><br><span class="line">    `areacode` <span class="type">VARCHAR</span>(<span class="number">20</span>) comment <span class="string">&#x27;区域编号&#x27;</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<li><p>插入数据</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_ware_info(id, order_id,address,areacode) <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">1</span>,<span class="string">&#x27;北京&#x27;</span>,<span class="string">&#x27;110&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders_ware_info(id, order_id,address,areacode) <span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="number">2</span>,<span class="string">&#x27;天津&#x27;</span>,<span class="string">&#x27;120&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>查询<code>Mycat</code>、<code>dn1</code>、<code>dn2</code>可以看到数据分片效果</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> orders_ware_info;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>范围约定<br> 此分片适用于，提前规划好分片字段某个范围属于哪个分片。</p>
+<ol>
+<li><p>修改<code>schema.xml</code>配置文件</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;payment_info&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;auto_sharding_long&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改<code>rule.xml</code>配置文件</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;auto_sharding_long&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>order_id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>rang-long<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;rang-long&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.AutoPartitionByLong&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>autopartition-long.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultNode&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>columns</code>：分片字段</li>
+<li><code>algorithm</code>：分片函数</li>
+<li><code>mapFile</code>：标识配置文件名称</li>
+<li><code>defaultNode</code>：默认节点，小于 $0$ 表示不设置默认节点，大于等于 $0$ 表示设置默认节点，设置默认节点如果碰到不识别的枚举值，就让它路由到默认节点，如不设置不识别就报错</li>
+</ul>
+</li>
+<li><p>修改<code>autopartition-long.txt</code>配置文件</p>
+ <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0-102=0</span><br><span class="line">103-200=1</span><br></pre></td></tr></table></figure></li>
+<li><p>重启<code>Mycat</code></p>
+</li>
+<li><p>访问<code>Mycat</code>创建表</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> 支付信息表 </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> payment_info(</span><br><span class="line">    `id` <span class="type">INT</span> AUTO_INCREMENT comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">    `order_id` <span class="type">INT</span> comment <span class="string">&#x27;订单编号&#x27;</span>,</span><br><span class="line">    `payment_status` <span class="type">INT</span> comment <span class="string">&#x27;支付状态&#x27;</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<li><p>插入数据</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> payment_info (id,order_id,payment_status) <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">101</span>,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> payment_info (id,order_id,payment_status) <span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="number">102</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> payment_info (id,order_id ,payment_status) <span class="keyword">VALUES</span> (<span class="number">3</span>,<span class="number">103</span>,<span class="number">0</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> payment_info (id,order_id,payment_status) <span class="keyword">VALUES</span> (<span class="number">4</span>,<span class="number">104</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>查询<code>Mycat</code>、<code>dn1</code>、<code>dn2</code>可以看到数据分片效果</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> payment_info;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>按日期（天）分片<br> 此规则为按天分片。设定时间格式、范围</p>
+<ol>
+<li><p>修改<code>schema.xml</code>配置文件</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;login_info&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding_by_date&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改<code>rule.xml</code>配置文件</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding_by_date&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>login_date<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>shardingByDate<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line">......</span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;shardingByDate&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByDate&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dateFormat&quot;</span>&gt;</span>yyyy-MM-dd<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sBeginDate&quot;</span>&gt;</span>2019-01-01<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sEndDate&quot;</span>&gt;</span>2019-01-04<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sPartionDay&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>columns</code>：分片字段</li>
+<li><code>algorithm</code>：分片函数</li>
+<li><code>dateFormat</code>：日期格式</li>
+<li><code>sBeginDate</code>：开始日期</li>
+<li><code>sEndDate</code>：结束日期,则代表数据达到了这个日期的分片后循环从开始分片</li>
+<li><code>sPartionDay</code>：分区天数，即默认从开始日期算起，分隔 $2$ 天一个分区</li>
+</ul>
+</li>
+<li><p>重启<code>Mycat</code></p>
+</li>
+<li><p>访问<code>Mycat</code>创建表</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> 用户信息表 </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> login_info(</span><br><span class="line">    `id` <span class="type">INT</span> AUTO_INCREMENT comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">    `user_id` <span class="type">INT</span> comment <span class="string">&#x27;用户编号&#x27;</span>,</span><br><span class="line">    `login_date` <span class="type">date</span> comment <span class="string">&#x27;登录日期&#x27;</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<li><p>插入数据</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> login_info(id,user_id,login_date) <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">101</span>,<span class="string">&#x27;2019-01-01&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> login_info(id,user_id,login_date) <span class="keyword">VALUES</span> (<span class="number">2</span>,<span class="number">102</span>,<span class="string">&#x27;2019-01-02&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> login_info(id,user_id,login_date) <span class="keyword">VALUES</span> (<span class="number">3</span>,<span class="number">103</span>,<span class="string">&#x27;2019-01-03&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> login_info(id,user_id,login_date) <span class="keyword">VALUES</span> (<span class="number">4</span>,<span class="number">104</span>,<span class="string">&#x27;2019-01-04&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> login_info(id,user_id,login_date) <span class="keyword">VALUES</span> (<span class="number">5</span>,<span class="number">103</span>,<span class="string">&#x27;2019-01-05&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> login_info(id,user_id,login_date) <span class="keyword">VALUES</span> (<span class="number">6</span>,<span class="number">104</span>,<span class="string">&#x27;2019-01-06&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><p>查询<code>Mycat</code>、<code>dn1</code>、<code>dn2</code>可以看到数据分片效果</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> login_info;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="全局序列"><a href="#全局序列" class="headerlink" title="全局序列"></a>全局序列</h2><p>在实现分库分表的情况下，数据库自增主键已无法保证自增主键的全局唯一。为此，<code>Mycat</code>提供了全局<code>sequence</code>，并且提供了包含本地配置和数据库配置等多种实现方式。</p>
+<ol>
+<li><p>本地文件<br> 此方式<code>Mycat</code>将<code>sequence</code>配置到文件中，当使用到<code>sequence</code>中的配置后，<code>Mycat</code>会更下<code>classpath</code>中的<code>sequence_conf.properties</code>文件中<code>sequence</code>当前的值。</p>
+<ul>
+<li>优点：本地加载，读取速度较快</li>
+<li>缺点：抗风险能力差，<code>Mycat</code>所在主机宕机后，无法读取本地文件</li>
+</ul>
+</li>
+<li><p>数据库方式<br> 利用数据库一个表 来进行计数累加。但是并不是每次生成序列都读写数据库，这样效率太低。<code>Mycat</code>会预加载一部分号段到<code>Mycat</code>的内存中，这样大部分读写序列都是在内存中完成的。如果内存中的号段用完了<code>Mycat</code>会再向数据库要一次。<br> 问：如果<code>Mycat</code>崩溃了，那内存中的序列岂不是都没了？<br> 是的。如果是这样，那么<code>Mycat</code>启动后会向数据库申请新的号段，原有号段会弃用。也就是说如果<code>Mycat</code>重启，那么损失是当前的号段没用完的号码，但是不会因此出现主键重复。</p>
+<ol>
+<li><p>建库序列脚本</p>
+<ol>
+<li>在<code>dn1</code>上创建全局序列表 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> MYCAT_SEQUENCE (NAME <span class="type">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,current_value <span class="type">INT</span> <span class="keyword">NOT</span></span><br><span class="line"><span class="keyword">NULL</span>,increment <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">100</span>, <span class="keyword">PRIMARY</span> KEY(NAME)) ENGINE<span class="operator">=</span>INNODB;</span><br></pre></td></tr></table></figure></li>
+<li>创建全局序列所需函数 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER $$ </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> mycat_seq_currval(seq_name <span class="type">VARCHAR</span>(<span class="number">50</span>)) <span class="keyword">RETURNS</span> <span class="type">VARCHAR</span>(<span class="number">64</span>)</span><br><span class="line"><span class="keyword">DETERMINISTIC</span> </span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">DECLARE</span> retval <span class="type">VARCHAR</span>(<span class="number">64</span>);</span><br><span class="line"><span class="keyword">SET</span> retval<span class="operator">=</span>&quot;-999999999,null&quot;;</span><br><span class="line"><span class="keyword">SELECT</span> CONCAT(<span class="built_in">CAST</span>(current_value <span class="keyword">AS</span> <span class="type">CHAR</span>),&quot;,&quot;,<span class="built_in">CAST</span>(increment <span class="keyword">AS</span> <span class="type">CHAR</span>)) <span class="keyword">INTO</span> retval <span class="keyword">FROM</span> MYCAT_SEQUENCE <span class="keyword">WHERE</span> NAME <span class="operator">=</span> seq_name;</span><br><span class="line"><span class="keyword">RETURN</span> retval;</span><br><span class="line"><span class="keyword">END</span> $$</span><br><span class="line">DELIMITER;</span><br><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> mycat_seq_setval(seq_name <span class="type">VARCHAR</span>(<span class="number">50</span>),<span class="keyword">VALUE</span> <span class="type">INTEGER</span>) <span class="keyword">RETURNS</span> </span><br><span class="line"><span class="type">VARCHAR</span>(<span class="number">64</span>)</span><br><span class="line"><span class="keyword">DETERMINISTIC</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">UPDATE</span> MYCAT_SEQUENCE</span><br><span class="line"><span class="keyword">SET</span> current_value <span class="operator">=</span> <span class="keyword">VALUE</span></span><br><span class="line"><span class="keyword">WHERE</span> NAME <span class="operator">=</span> seq_name;</span><br><span class="line"><span class="keyword">RETURN</span> mycat_seq_currval(seq_name);</span><br><span class="line"><span class="keyword">END</span> $$</span><br><span class="line">DELIMITER;</span><br><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> mycat_seq_nextval(seq_name <span class="type">VARCHAR</span>(<span class="number">50</span>)) <span class="keyword">RETURNS</span> <span class="type">VARCHAR</span>(<span class="number">64</span>) </span><br><span class="line"><span class="keyword">DETERMINISTIC</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">UPDATE</span> MYCAT_SEQUENCE</span><br><span class="line"><span class="keyword">SET</span> current_value <span class="operator">=</span> current_value <span class="operator">+</span> increment <span class="keyword">WHERE</span> NAME <span class="operator">=</span> seq_name;</span><br><span class="line"><span class="keyword">RETURN</span> mycat_seq_currval(seq_name);</span><br><span class="line"><span class="keyword">END</span> $$</span><br><span class="line">DELIMITER;</span><br></pre></td></tr></table></figure></li>
+<li>初始化序列表记录 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> MYCAT_SEQUENCE(NAME,current_value,increment) <span class="keyword">VALUES</span> (<span class="string">&#x27;ORDERS&#x27;</span>, <span class="number">400000</span>, <span class="number">100</span>);</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>修改<code>Mycat</code>配置</p>
+<ol>
+<li><p>修改<code>sequence_db_conf.properties</code><br> 意思是<code>orders</code>这个序列在<code>dn1</code>这个节点上，具体<code>dn1</code>节点是哪台机子，请参考<code>schema.xml</code></p>
+ <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sequence_db_conf.properties</span></span><br><span class="line"><span class="attr">GLOBAL</span>=<span class="string">dn1</span></span><br><span class="line"><span class="attr">COMPANY</span>=<span class="string">dn1</span></span><br><span class="line"><span class="attr">CUSTOMER</span>=<span class="string">dn1</span></span><br><span class="line"><span class="attr">ORDERS</span>=<span class="string">dn1</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改<code>server.xml</code><br> 全局序列类型：</p>
+<ul>
+<li>0：本地文件</li>
+<li>1：数据库方式</li>
+<li>2：时间戳方式</li>
+</ul>
+<p> 此处应该修改成 $1$。</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sequnceHandlerType&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--&lt;property name=&quot;useCompression&quot;&gt;1&lt;/property&gt;--&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>重启<code>Mycat</code></p>
+</li>
+</ol>
+</li>
+<li><p>验证全局序列</p>
+<ol>
+<li>登录<code>Mycat</code>，插入数据 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> orders(id,amount,customer_id,order_type) <span class="keyword">values</span>(next <span class="keyword">value</span> <span class="keyword">for</span> MYCATSEQ_ORDERS, <span class="number">1000</span>, <span class="number">101</span>, <span class="number">102</span>);</span><br></pre></td></tr></table></figure></li>
+<li>查询数据 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> orders;</span><br></pre></td></tr></table></figure></li>
+<li>重启<code>Mycat</code>后，再次插入数据，再查询</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>时间戳方式<br> 全局序列<code>ID= 64</code>位二进制<br> $42$（毫秒）+$5$（机器 ID）+$5$（业务编码）+$12$（重复累加）换算成十进制为 $18$ 位数的<code>long</code>类型，每毫秒可以并发 $12$ 位二进制的累加。</p>
+<ul>
+<li>优点：配置简单</li>
+<li>缺点：$18$ 位<code>ID</code>过长</li>
+</ul>
+</li>
+<li><p>自主生成全局序列<br> 可在<code>java</code>项目里自己生成全局序列，如下：</p>
+<ol>
+<li>根据业务逻辑组合</li>
+<li>可以利用<code>redis</code>的单线程原子性<code>incr</code>来生成序列，但，自主生成需要单独在工程中用<code>java</code> 代码实现，还是推荐使用<code>Mycat</code>自带全局序列</li>
+</ol>
+</li>
+</ol>
+<h1 id="基于-HA-机制的-Mycat-高可用"><a href="#基于-HA-机制的-Mycat-高可用" class="headerlink" title="基于 HA 机制的 Mycat 高可用"></a>基于 HA 机制的 Mycat 高可用</h1><p>在实际项目中，<code>Mycat</code>服务也需要考虑高可用性，如果<code>Mycat</code>所在服务器出现宕机，或<code>Mycat</code>服<br>务故障，需要有备机提供服务，需要考虑<code>Mycat</code>集群。</p>
+<h2 id="高可用方案"><a href="#高可用方案" class="headerlink" title="高可用方案"></a>高可用方案</h2><p>可以使用<code>HAProxy + Keepalived</code>配合两台<code>Mycat</code>搭起<code>Mycat</code>集群，实现高可用性。<code>HAProxy</code>实现了<code>MyCat</code>多节点的集群高可用和负载均衡，而<code>HAProxy</code>自身的高可用则可以通过<code>Keepalived</code>来实现。</p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1636699851/1639746595-437496f7.png"></p>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>角色</th>
+<th><code>IP</code>地址</th>
+<th>机器名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Mycat1</td>
+<td>192.168.140.128</td>
+<td>host79</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mycat2<br /></td>
+<td>192.168.140.127</td>
+<td>host80</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HAProxy（master）</td>
+<td>192.168.140.126</td>
+<td>host81</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Keepalived（master）</td>
+<td>192.168.140.126</td>
+<td>host81</td>
+</tr>
+<tr>
+<td>5</td>
+<td>HAProxy（backup）</td>
+<td>192.168.140.125</td>
+<td>host82</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Keepalived（backup）</td>
+<td>192.168.140.125</td>
+<td>host82</td>
+</tr>
+</tbody></table>
+<h2 id="安装配置-HAProxy"><a href="#安装配置-HAProxy" class="headerlink" title="安装配置 HAProxy"></a>安装配置 HAProxy</h2><ol>
+<li><p>安装<code>HAProxy</code></p>
+<ol>
+<li><p>准备好<code>HAProxy</code>安装包，传到<code>/opt</code>目录下</p>
+</li>
+<li><p>解压到<code>/usr/local/src</code></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf haproxy-1.5.18.tar.gz -C /usr/local/src</span><br></pre></td></tr></table></figure></li>
+<li><p>进入解压后的目录，查看内核版本，进行编译</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local/src/haproxy-1.5.18</span><br><span class="line"><span class="built_in">uname</span> -r</span><br><span class="line">make TARGET=linux310 PREFIX=/usr/local/haproxy ARCH=x86_64</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>ARGET=linux310</code>：内核版本，使用<code>uname -r</code>查看内核，如：<code>3.10.0-514.el7</code>，此时该参数就为<code>linux310</code></li>
+<li><code>ARCH=x86_64</code>：系统位数</li>
+<li><code>PREFIX=/usr/local/haprpxy</code>：<code>/usr/local/haprpxy</code>，为<code>haprpxy</code>安装路径</li>
+</ul>
+</li>
+<li><p>编译完成后，进行安装</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install PREFIX=/usr/local/haproxy</span><br></pre></td></tr></table></figure></li>
+<li><p>安装完成后，创建目录、创建<code>HAProxy</code>配置文件</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /usr/data/haproxy/</span><br><span class="line">vim /usr/local/haproxy/haproxy.conf</span><br></pre></td></tr></table></figure></li>
+<li><p>向配置文件中插入以下配置信息,并保存</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">global</span><br><span class="line">    log 127.0.0.1 local0</span><br><span class="line">    #log 127.0.0.1 local1 notice</span><br><span class="line">    #log loghost local0 info</span><br><span class="line">    maxconn 4096</span><br><span class="line">    chroot /usr/local/haproxy</span><br><span class="line">    pidfile /usr/data/haproxy/haproxy.pid</span><br><span class="line">    uid 99</span><br><span class="line">    gid 99</span><br><span class="line">    daemon</span><br><span class="line">    #debug</span><br><span class="line">    #quiet</span><br><span class="line">defaults</span><br><span class="line">    log global</span><br><span class="line">    mode tcp</span><br><span class="line">    option abortonclose</span><br><span class="line">    option redispatch</span><br><span class="line">    retries 3</span><br><span class="line">    maxconn 2000</span><br><span class="line">    timeout connect 5000</span><br><span class="line">    timeout client 50000</span><br><span class="line">    timeout server 50000</span><br><span class="line">listen proxy_status </span><br><span class="line">    bind :48066</span><br><span class="line">        mode tcp</span><br><span class="line">        balance roundrobin</span><br><span class="line">        server mycat_1 192.168.140.128:8066 check inter 10s</span><br><span class="line">        server mycat_2 192.168.140.127:8066 check inter 10s</span><br><span class="line">frontend admin_stats </span><br><span class="line">    bind :7777</span><br><span class="line">        mode http</span><br><span class="line">        stats enable</span><br><span class="line">        option httplog</span><br><span class="line">        maxconn 10</span><br><span class="line">        stats refresh 30s</span><br><span class="line">        stats uri /admin</span><br><span class="line">        stats auth admin:123123</span><br><span class="line">        stats hide-version</span><br><span class="line">        stats admin if TRUE</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>启动验证</p>
+<ol>
+<li>启动<code>HAProxy</code> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/haproxy/sbin/haproxy -f /usr/local/haproxy/haproxy.conf</span><br></pre></td></tr></table></figure></li>
+<li>查看<code>HAProxy</code>进程 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep haproxy</span><br></pre></td></tr></table></figure></li>
+<li>打开浏览器访问<code>http://192.168.140.125:7777/admin</code><ul>
+<li>在弹出框输入用户名：<code>admin</code>密码：<code>123456</code></li>
+<li>如果<code>Mycat</code>主备机均已启动，则可以看到如下图（<code>Mycat1</code>和<code>Mycat2</code>全绿）</li>
+</ul>
+</li>
+<li>验证负载均衡，通过<code>HAProxy</code>访问<code>Mycat</code> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -umycat -p123456 -h 192.168.140.126 -P 48066</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="配置-Keepalived"><a href="#配置-Keepalived" class="headerlink" title="配置 Keepalived"></a>配置 Keepalived</h2><ol>
+<li><p>安装<code>Keepalived</code></p>
+<ol>
+<li><p>准备好<code>Keepalived</code>安装包，传到<code>/opt</code>目录下</p>
+</li>
+<li><p>解压到<code>/usr/local/src</code></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf keepalived-1.4.2.tar.gz -C /usr/local/src</span><br></pre></td></tr></table></figure></li>
+<li><p>安装依赖插件</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y gcc openssl-devel popt-devel</span><br></pre></td></tr></table></figure></li>
+<li><p>进入解压后的目录，进行配置，进行编译</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local/src/keepalived-1.4.2</span><br><span class="line">./configure --prefix=/usr/local/keepalived</span><br></pre></td></tr></table></figure></li>
+<li><p>进行编译，完成后进行安装</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></li>
+<li><p>运行前配置</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /usr/local/src/keepalived-1.4.2/keepalived/etc/init.d/keepalived /etc/init.d/</span><br><span class="line"><span class="built_in">mkdir</span> /etc/keepalived</span><br><span class="line"><span class="built_in">cp</span> /usr/local/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/</span><br><span class="line"><span class="built_in">cp</span> /usr/local/src/keepalived-1.4.2/keepalived/etc/sysconfig/keepalived /etc/sysconfig/</span><br><span class="line"><span class="built_in">cp</span> /usr/local/keepalived/sbin/keepalived /usr/sbin/</span><br></pre></td></tr></table></figure></li>
+<li><p>修改配置文件</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/keepalived/keepalived.conf</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"># 修改内容如下</span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">    notification_email &#123;</span><br><span class="line">        xlcocoon@foxmail.com</span><br><span class="line">    &#125;</span><br><span class="line">    notification_email_from keepalived@showjoy.com</span><br><span class="line">    smtp_server 127.0.0.1</span><br><span class="line">    smtp_connect_timeout 30</span><br><span class="line">    router_id LVS_DEVEL</span><br><span class="line">    vrrp_skip_check_adv_addr</span><br><span class="line">    vrrp_garp_interval 0</span><br><span class="line">    vrrp_gna_interval 0</span><br><span class="line">&#125;</span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    # 主机配 MASTER，备机配 BACKUP</span><br><span class="line">    state MASTER</span><br><span class="line">    # 所在机器网卡</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    # 数值越大优先级越高</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        # 虚拟 IP</span><br><span class="line">        192.168.140.200</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">virtual_server 192.168.140.200 48066 &#123;</span><br><span class="line">    delay_loop 6</span><br><span class="line">    lb_algo rr</span><br><span class="line">    lb_kind NAT</span><br><span class="line">    persistence_timeout 50</span><br><span class="line">    protocol TCP</span><br><span class="line">    real_server 192.168.140.125 48066 &#123;</span><br><span class="line">        weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 3</span><br><span class="line">            retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    real_server 192.168.140.126 48600 &#123;</span><br><span class="line">        weight 1</span><br><span class="line">        TCP_CHECK &#123;</span><br><span class="line">            connect_timeout 3</span><br><span class="line">            nb_get_retry 3</span><br><span class="line">            delay_before_retry 3</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>启动验证</p>
+<ol>
+<li>启动<code>Keepalived</code> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service keepalived start</span><br></pre></td></tr></table></figure></li>
+<li>登录验证 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -umycat -p123456 -h 192.168.140.200 -P 48066</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h2 id="测试高可用"><a href="#测试高可用" class="headerlink" title="测试高可用"></a>测试高可用</h2><ol>
+<li>关闭<code>Mycat</code></li>
+<li>通过虚拟<code>ip</code>查询数据 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -umycat -p123456 -h 192.168.140.200 -P 48066</span><br></pre></td></tr></table></figure></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/">http://atideas.github.io/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Mycat/">Mycat</a></div><div class="post_share"><div class="social-share" data-image="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/11/12/MyCat/01.%E7%AE%80%E4%BB%8B/"><img class="prev-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MyCAT | 简介</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/13/MyCat/03.%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE/"><img class="next-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MyCAT | 安全设置</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/11/12/MyCat/01.%E7%AE%80%E4%BB%8B/" title="MyCAT | 简介"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-12</div><div class="title">MyCAT | 简介</div></div></a></div><div><a href="/2021/11/13/MyCat/03.%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE/" title="MyCAT | 安全设置"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-13</div><div class="title">MyCAT | 安全设置</div></div></a></div><div><a href="/2021/11/15/MyCat/04.%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7/" title="MyCAT | 安全设置"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-15</div><div class="title">MyCAT | 安全设置</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB"><span class="toc-number">1.</span> <span class="toc-text">读写分离</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%BB%E4%B8%80%E4%BB%8E"><span class="toc-number">1.1.</span> <span class="toc-text">一主一从</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E4%B8%BB%E5%8F%8C%E4%BB%8E"><span class="toc-number">1.2.</span> <span class="toc-text">双主双从</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9E%82%E7%9B%B4%E6%8B%86%E5%88%86%E2%80%94%E2%80%94%E5%88%86%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">垂直拆分——分库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%92%E5%88%86%E8%A1%A8"><span class="toc-number">2.1.</span> <span class="toc-text">如何划分表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%88%86%E5%BA%93"><span class="toc-number">2.2.</span> <span class="toc-text">实现分库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E6%8B%86%E5%88%86%E2%80%94%E2%80%94%E5%88%86%E8%A1%A8"><span class="toc-number">3.</span> <span class="toc-text">水平拆分——分表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%88%86%E8%A1%A8"><span class="toc-number">3.1.</span> <span class="toc-text">实现分表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mycat-%E5%88%86%E7%89%87%E5%90%8E%E7%9A%84-join-%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.2.</span> <span class="toc-text">Mycat 分片后的 join 查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%88%86%E7%89%87%E8%A7%84%E5%88%99"><span class="toc-number">3.3.</span> <span class="toc-text">常用分片规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%BA%8F%E5%88%97"><span class="toc-number">3.4.</span> <span class="toc-text">全局序列</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E-HA-%E6%9C%BA%E5%88%B6%E7%9A%84-Mycat-%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">基于 HA 机制的 Mycat 高可用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8%E6%96%B9%E6%A1%88"><span class="toc-number">4.1.</span> <span class="toc-text">高可用方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE-HAProxy"><span class="toc-number">4.2.</span> <span class="toc-text">安装配置 HAProxy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Keepalived"><span class="toc-number">4.3.</span> <span class="toc-text">配置 Keepalived</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-number">4.4.</span> <span class="toc-text">测试高可用</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="Mybatis | Mybatis开发dao"/></a><div class="content"><a class="title" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao">Mybatis | Mybatis开发dao</a><time datetime="2021-12-23T10:55:53.000Z" title="发表于 2021-12-23 18:55:53">2021-12-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

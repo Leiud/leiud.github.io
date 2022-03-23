@@ -1,0 +1,659 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>SpringCloud | 服务降级 | 漂泊者的理想三旬</title><meta name="keywords" content="SpringCloud, Hystrix"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Hystrix 断路器官方地址。 断路器本身是一种开关装置，当某个服务单元发生故障之后，涌过断路器的故障监控（类似熔断保险丝），向调用方返回一个符合预期的、可处理的备选响应（FallBack），而不是长时间的等待或者抛出调用方无法处理的异常，这样就保证了服务调用方的线程不会被长时间、不必要地占用，从而避免了故障在分布式系统中的蔓延，乃至雪崩。 概述服务雪崩多个微服务之间调用的时候，假设微服务A调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud | 服务降级">
+<meta property="og:url" content="http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="Hystrix 断路器官方地址。 断路器本身是一种开关装置，当某个服务单元发生故障之后，涌过断路器的故障监控（类似熔断保险丝），向调用方返回一个符合预期的、可处理的备选响应（FallBack），而不是长时间的等待或者抛出调用方无法处理的异常，这样就保证了服务调用方的线程不会被长时间、不必要地占用，从而避免了故障在分布式系统中的蔓延，乃至雪崩。 概述服务雪崩多个微服务之间调用的时候，假设微服务A调用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.paulzzh.com/touhou/random">
+<meta property="article:published_time" content="2021-12-22T09:08:56.000Z">
+<meta property="article:modified_time" content="2022-03-10T02:05:15.691Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="SpringCloud">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.paulzzh.com/touhou/random"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SpringCloud | 服务降级',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 10:05:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img.paulzzh.com/touhou/random')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SpringCloud | 服务降级</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-22T09:08:56.000Z" title="发表于 2021-12-22 17:08:56">2021-12-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T02:05:15.691Z" title="更新于 2022-03-10 10:05:15">2022-03-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SpringCloud | 服务降级"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Hystrix-断路器"><a href="#Hystrix-断路器" class="headerlink" title="Hystrix 断路器"></a>Hystrix 断路器</h1><p><a target="_blank" rel="noopener" href="https://github.com/Netflix/Hystrix/wiki/How-To-Use">官方地址</a>。</p>
+<p>断路器本身是一种开关装置，当某个服务单元发生故障之后，涌过断路器的故障监控（类似熔断保险丝），向调用方返回一个符合预期的、可处理的备选响应（<code>FallBack</code>），而不是长时间的等待或者抛出调用方无法处理的异常，这样就保证了服务调用方的线程不会被长时间、不必要地占用，从而避免了故障在分布式系统中的蔓延，乃至雪崩。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="服务雪崩"><a href="#服务雪崩" class="headerlink" title="服务雪崩"></a>服务雪崩</h3><p>多个微服务之间调用的时候，假设微服务<code>A</code>调用微服务<code>B</code>和微服务<code>C</code>，微服务<code>B</code>和微服务<code>C</code>又调用其它的微服务，这就是所谓的<strong>扇出</strong>。</p>
+<p>如果扇出的链路上某个微服务的调用响应时间过长或者不可用，对微服务<code>A</code>的调用就会占用越来越多的系统资源，进而引起系统崩溃，即所谓的<strong>雪崩效应</strong>。</p>
+<p>对于高流量的应用来说，单一的后端依赖可能会导致所有服务器上的所有资源都在几秒钟内饱和。比失败更糟糕的是，这些应用程序还可能导致服务之间的延迟增加，备份队列，线程和其他系统资源紧张，导致整个系统发生更多的级联故障。这些都表示需要对故障和延迟进行隔离和管理，以便单个依赖关系的失败，不能取消整个应用程序或系统。</p>
+<p>所以，通常当发现一个模块下的某个实例失败后，这时这个模块依然还会接收流量，然后这个有问题的模块还调用了其他的模块，这样就会发生级联故障，或者叫<strong>雪崩</strong>。</p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><code>Hystrix</code>是一个用于处理分布式系统的延迟和容错的开源库，在分布式系统里，许多依赖不可避免的会调用失败，比如超时、异常等，<code>Hystrix</code>能够保证在一个依赖出问题的情况下，<strong>不会导致整体服务失败，避免级联故障，以提高分布式系统的弹性</strong>。</p>
+<p><strong>断路器</strong>本身是一种开关装置，当某个服务单元发生故障后，通过断路器的故障监控（类似熔断保险丝），<strong>向调用方返回一个符合预期的、可处理的备选响应（<code>FallBack</code>），而不是长时间等待或抛出调用方无法处理的异常</strong>，这样就保证了服务调用方的线程不会被长时间、不必要的占用，从而避免了故障在分布式系统中的蔓延，乃至雪崩。</p>
+<p>功能：</p>
+<ul>
+<li>服务降级</li>
+<li>服务熔断</li>
+<li>接近实时的监控</li>
+<li>限流</li>
+<li>隔离</li>
+<li>…</li>
+</ul>
+<p><code>Hystrix</code>已<a target="_blank" rel="noopener" href="https://github.com/Netflix/Hystrix">停止更新</a>，进入<a target="_blank" rel="noopener" href="https://github.com/Netflix/Hystrix/wiki/How-To-Use">维护</a>阶段。</p>
+<h2 id="Hystrix-重要概念"><a href="#Hystrix-重要概念" class="headerlink" title="Hystrix 重要概念"></a>Hystrix 重要概念</h2><h3 id="服务降级（fallback）"><a href="#服务降级（fallback）" class="headerlink" title="服务降级（fallback）"></a>服务降级（fallback）</h3><p>服务器忙碌或者网络拥堵时，不让客户端等待并立刻返回一个友好提示：<code>fallback</code>。</p>
+<ul>
+<li>对方系统不可用了，需要给出一个兜底的方法，不要耗死</li>
+<li>向调用方返回一个符合预期的、可处理的备选响应（<code>FallBack</code>），而不是长时间的等待或者抛出调用方无法处理的异常，这样就保证了服务调用方的线程不会被长时间、不必要地占用，从而避免了故障在分布式系统中的蔓延，乃至雪崩</li>
+</ul>
+<p>降低发生的情况：</p>
+<ul>
+<li>程序运行异常</li>
+<li>超时</li>
+<li>服务熔断触发服务降级</li>
+<li>线程池/信号量打满也会导致服务降级</li>
+</ul>
+<h3 id="服务熔断（break）"><a href="#服务熔断（break）" class="headerlink" title="服务熔断（break）"></a>服务熔断（break）</h3><ul>
+<li>类比保险丝达到最大服务访问后，直接拒绝访问，拉闸限电，然后调用服务降级的方法并返回友好提示</li>
+<li>就是保险丝：服务的降级-&gt;进熔断-&gt;恢复调用链路</li>
+</ul>
+<h3 id="服务限流（flowlimit）"><a href="#服务限流（flowlimit）" class="headerlink" title="服务限流（flowlimit）"></a>服务限流（flowlimit）</h3><p>秒杀高并发等操作，严禁一窝蜂的过来拥挤，大家排队，一秒钟几个，有序进行。</p>
+<p>可见，上面的技术不论是消费者还是提供者，根据真实环境都是可以加入配置的。</p>
+<h2 id="Hystrix-案例"><a href="#Hystrix-案例" class="headerlink" title="Hystrix 案例"></a>Hystrix 案例</h2><p>首先构建一个<code>Eureka</code>作为服务中心的单机版微服务架构 ，这里使用之前 $7001$ 模块作为服务中心：把 $7001$ 改为单机版，方便后面进行案例测试。</p>
+<h3 id="服务构建"><a href="#服务构建" class="headerlink" title="服务构建"></a>服务构建</h3><ol>
+<li><p>新建模块<br>提供者<code>cloud-provider-hystrix-payment8001</code>。</p>
+</li>
+<li><p>改<code>pom</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- hystrix --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- eureka client --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 引用自己定义的 api 通用包，可以使用 Payment 支付 Entity --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.example.springcloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cloud-api-commons<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 监控 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 热部署 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--   一个 Java 工具包     --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>cn.hutool<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hutool-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>写<code>yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8001</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">    <span class="attr">application:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">cloud-provider-hystrix-payment</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">    <span class="attr">client:</span></span><br><span class="line">        <span class="attr">register-with-eureka:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">fetch-registry:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">service-url:</span></span><br><span class="line">            <span class="comment"># 单机版</span></span><br><span class="line">            <span class="attr">defaultZone:</span> <span class="string">http://localhost:7001/eureka</span></span><br><span class="line">            <span class="comment"># 集群版</span></span><br><span class="line">            <span class="comment"># defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka</span></span><br></pre></td></tr></table></figure></li>
+<li><p>主启动</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@EnableEurekaClient</span></span><br><span class="line">    <span class="meta">@SpringBootApplication</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PaymentHystrixMain8001</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">            SpringApplication.run(PaymentHystrixMain8001.class, args);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   ```  </span><br><span class="line"><span class="number">5.</span> 业务类</span><br><span class="line">   - `service`</span><br><span class="line">        ```java</span><br><span class="line">        <span class="meta">@Service</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PaymentService</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">            * 正常访问方法</span></span><br><span class="line"><span class="comment">            * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">            * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">public</span> String <span class="title function_">paymentInfo_OK</span><span class="params">(Integer id)</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;线程池：&quot;</span> + Thread.currentThread().getName() + <span class="string">&quot;\t paymentInfo_OK，id：&quot;</span> + id;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">            * 超时访问方法</span></span><br><span class="line"><span class="comment">            * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">            * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">            */</span></span><br><span class="line">            <span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOut</span><span class="params">(Integer id)</span>&#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">timeNumber</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(timeNumber);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;线程池：&quot;</span> + Thread.currentThread().getName() +</span><br><span class="line">                        <span class="string">&quot;\t paymentInfo_TimeOut，id：&quot;</span> + id + <span class="string">&quot;，耗时：&quot;</span> + timeNumber + <span class="string">&quot;秒&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>controller</code>   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PaymentController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    PaymentService paymentService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * spring的<span class="doctag">@Value</span>注解</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;server.port&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String ServerPort;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/payment/hystrix/ok/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_OK</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> paymentService.paymentInfo_OK(id);</span><br><span class="line">        log.info(<span class="string">&quot;result：&quot;</span> + result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/payment/hystrix/timeout/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOut</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> paymentService.paymentInfo_TimeOut(id);</span><br><span class="line">        log.info(<span class="string">&quot;result：&quot;</span> + result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>测试<br>启动 $7001$ 和 $8001$，访问：</p>
+<ul>
+<li><p><code>http://localhost:8001/payment/hystrix/ok/1</code></p>
+   <div align="center">
+
+<p>   <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432225-c9c8c1d9.png"></p>
+   </div></li>
+<li><p><code>http://localhost:8001/payment/hystrix/timeout/1</code></p>
+   <div align="center">
+
+<p>   <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432265-b3d47fc2.png"></p>
+   </div></li>
+</ul>
+</li>
+</ol>
+<h4 id="高并发测试"><a href="#高并发测试" class="headerlink" title="高并发测试"></a>高并发测试</h4><ol>
+<li>安装<code>JMeter</code><ol>
+<li><code>JMeter</code><a target="_blank" rel="noopener" href="http://jmeter.apache.org/download_jmeter.cgi">下载地址</a>，下载<code>tgz</code>和<code>zip</code>都可以</li>
+<li>进入解压后的目录的<code>bin</code>目录，找到<code>jmeter.properties</code>文件，修改语言<code>zh_CN</code></li>
+<li>从终端进入<code>bin</code>目录，输入<code>./jmeter</code>运行<code>jmeter</code>，修改成中文版</li>
+</ol>
+</li>
+<li>进行高并发测试<ol>
+<li>测试<code>http://localhost:8001/payment/hystrix/timeout/1</code>，请求 $20000$ 次</li>
+<li>访问·<a target="_blank" rel="noopener" href="http://localhost:8001/payment/hystrix/ok/1%C2%B7%EF%BC%8C%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E5%8F%98%E6%85%A2%E4%BA%86">http://localhost:8001/payment/hystrix/ok/1·，访问速度变慢了</a></li>
+</ol>
+</li>
+</ol>
+<p>从测试可以看出，当模拟的超长请求被高并发以后，访问普通的小请求速率也会被拉低。</p>
+<p><code>tomcat</code>的默认工作线程数被打满了，没有多余的线程来分解压力和处理。</p>
+<p>上面还是服务 $8001$ 自己测试，假如此时外部的消费者 $80$ 模块来访问，那消费者只能干等，最终导致消费端 $80$ 不满意，服务端 $8001$ 直接被拖死。</p>
+<p>测试可见，当启动高并发测试时，消费者访问也会变得很慢，甚至出现超时报错。</p>
+<h3 id="服务降级"><a href="#服务降级" class="headerlink" title="服务降级"></a>服务降级</h3><h4 id="故障现象"><a href="#故障现象" class="headerlink" title="故障现象"></a>故障现象</h4><ol>
+<li><p>新建<code>cloud-consumer-feign-hystrix-order80</code><br>以<code>Feign</code>为服务调用，<code>Eureka</code>为服务中心的模块，</p>
+</li>
+<li><p>改<code>pom</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- openfeign --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- hystrix --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- eureka client --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 引用自己定义的 api 通用包，可以使用 Payment 支付 Entity --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.example.springcloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cloud-api-commons<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 热部署 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>写<code>yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line">    <span class="attr">client:</span></span><br><span class="line">        <span class="attr">register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">        <span class="attr">service-url:</span></span><br><span class="line">        <span class="attr">defaultZone:</span> <span class="string">http://localhost:7001/eureka</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置超时时间</span></span><br><span class="line"><span class="comment"># 默认值</span></span><br><span class="line"><span class="comment"># hystrix.command.default.execution.timeout.enable=true    </span></span><br><span class="line"><span class="comment"># 为 false 则超时控制有 ribbon 控制，为 true 则 hystrix 超时和 ribbon 超时都使用，但是谁小谁生效，默认为 true</span></span><br><span class="line"><span class="comment"># 默认值  熔断器的超时时长默认 1 秒，最常修改的参数</span></span><br><span class="line"><span class="comment"># hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=1000 </span></span><br><span class="line"><span class="comment"># 因此，配置 Ribbon 的 超时时长即可，注意：hystrix 默认自带 ribbon 包</span></span><br><span class="line"><span class="attr">ribbon:</span></span><br><span class="line">    <span class="attr">ReadTimeout:</span> <span class="number">4000</span></span><br><span class="line">    <span class="attr">ConnectTimeout:</span> <span class="number">4000</span></span><br></pre></td></tr></table></figure></li>
+<li><p>主启动</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderHystrixMain80</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(OrderHystrixMain80.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>业务类</p>
+<ul>
+<li><code>service</code>   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@FeignClient(value = &quot;CLOUD-PROVIDER-HYSTRIX-PAYMENT&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">PaymentHystrixService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/payment/hystrix/ok/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_OK</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/payment/hystrix/timeout/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOut</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>controller</code>   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderHystrixController</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> PaymentHystrixService paymentHystrixService;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/consumer/payment/hystrix/ok/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_OK</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> paymentHystrixService.paymentInfo_OK(id);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/consumer/payment/hystrix/timeout/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOut</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> paymentHystrixService.paymentInfo_TimeOut(id);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>测试<br>启动 $80$，进行测试：</p>
+<ul>
+<li><p><code>http://localhost/consumer/payment/hystrix/ok/1</code></p>
+   <div align="center">
+
+<p>   <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432311-35433a1f.png"></p>
+   </div></li>
+<li><p><code>http://localhost/consumer/payment/hystrix/timeout/1</code></p>
+   <div align="center">
+
+<p>   <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432341-e85d41d3.png"></p>
+   </div></li>
+</ul>
+</li>
+<li><p>启动<code>jmeter</code>，然后再进行测试</p>
+<ol>
+<li>$20000$ 个线程访问 $8001$</li>
+<li>消费端 $80$ 微服务再去访问正常的<code>Ok</code>微服务 $8001$ 地址<ul>
+<li><a target="_blank" rel="noopener" href="http://localhost/consumer/payment/hystrix/ok/1">http://localhost/consumer/payment/hystrix/ok/1</a></li>
+</ul>
+</li>
+<li>消费者 $80$<ul>
+<li>要么转圈圈等等</li>
+<li>要么消费端报超时错误</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>现象<ul>
+<li>$8001$ 同一层次的其他接口服务被困死，因为<code>tomcat</code>线程池里面的工作线程已经被挤占完毕</li>
+<li>$80$ 此时调用 $8001$，客户端响应慢，转圈圈</li>
+</ul>
+</li>
+</ul>
+<p>正是因为有上述故障或不佳表现，才有我们的降级、容错、限流等技术诞生。</p>
+<h4 id="故障解决"><a href="#故障解决" class="headerlink" title="故障解决"></a>故障解决</h4><ul>
+<li>解决<ul>
+<li>超时导致服务器变慢（转圈）<ul>
+<li>超时不再等待</li>
+</ul>
+</li>
+<li>出错（宕机或程序运行出错）<ul>
+<li>出错要有兜底</li>
+</ul>
+</li>
+<li>对方服务（$8001$）超时了，调用者（$80$）不能一直卡死等待，必须有服务降级</li>
+<li>对方服务（$8001$）宕机了，调用者（$80$）不能一直卡死等待，必须有服务降级</li>
+<li>对方服务（$8001$）<code>OK</code>，调用者（$80$）自己出故障或有自我要求（自己的等待时间小于服务提供者），自己处理降级</li>
+</ul>
+</li>
+</ul>
+<h4 id="服务降级-1"><a href="#服务降级-1" class="headerlink" title="服务降级"></a>服务降级</h4><p>一般服务降级放在客户端，即消费者端 ，但是提供者端一样能使用。</p>
+<p>首先提供者，即 $8001$ 先从自身找问题，设置自身调用超时的峰值，峰值内正常运行，超出峰值需要有兜底的方法处理，作服务降级<code>fallback</code>。</p>
+<p><code>@HystrixCommand</code>降级配置，可以在里面指定 超时/出错 的回调方法，作为兜底方法。</p>
+<p>一旦调用服务方法失败并抛出错误信息后，会自动调用<code>@HystrixCommand</code>标注好的<code>fallbackMethod</code>调用类中的指定方法。 </p>
+<p><strong>注意：配置过的热部署方式对<code>java</code>代码的改动明显，但对<code>@HystrixCommand</code>内属性的修改建议重启微服务。</strong></p>
+<h5 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h5><ol>
+<li><p>修改 $8001$ 中<code>PaymentService</code>的<code>paymentInfo_TimeOut</code>方法，并添加<code>paymentInfo_TimeOutHandler</code>方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 超时访问方法</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@HystrixCommand</span> 降级配置，可以在里面指定 超时/出错 的回调方法，作为兜底方法</span></span><br><span class="line"><span class="comment">* 一旦调用服务方法失败并抛出错误信息后，会自动调用 <span class="doctag">@HystrixCommand</span> 标注好的 fallbackMethod 调用类中的指定方法</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@HystrixCommand(</span></span><br><span class="line"><span class="meta">        // 超时后回调方法</span></span><br><span class="line"><span class="meta">        fallbackMethod = &quot;paymentInfo_TimeOutHandler&quot;,</span></span><br><span class="line"><span class="meta">        commandProperties = &#123;</span></span><br><span class="line"><span class="meta">        //设置自身超时调用时间的峰值为 3 秒，峰值内可以正常运行，超过了需要有兜底的方法 fallbackMethod 处理，服务降级 fallback</span></span><br><span class="line"><span class="meta">        @HystrixProperty(</span></span><br><span class="line"><span class="meta">                // 时间单位</span></span><br><span class="line"><span class="meta">                name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;,</span></span><br><span class="line"><span class="meta">                // 超时时间</span></span><br><span class="line"><span class="meta">                value = &quot;3000&quot;)</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOutHandler</span><span class="params">(Integer id)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;8001 提供者，线程池：&quot;</span> + Thread.currentThread().getName() +</span><br><span class="line">            <span class="string">&quot;\t paymentInfo_TimeOutHandler 系统繁忙，请稍后再试，id：&quot;</span> + id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在 $8001$ 的主启动类上添加<code>@EnableCircuitBreaker</code>注解，启用断路器</p>
+</li>
+<li><p>启动 $7001$ 和 $8001$，测试 $8001$ 的<code>fallback</code>，访问<code>http://localhost:8001/payment/hystrix/timeout/1</code>成功进入<code>fallback</code>方法（并且<code>fallback</code>方法是用<code>Hystrix</code>的线程池）</p>
+<div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432385-e3f663bb.png"></p>
+ </div></li>
+<li><p>去掉<code>sleep</code>，改为 $1 / 0$，测试方法运行异常，访问<code>http://localhost:8001/payment/hystrix/timeout/1</code>，也可以进入<code>fallback</code>方法</p>
+<div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432420-55e34448.png"></p>
+ </div></li>
+</ol>
+<p>这里故意制造两个异常：</p>
+<ol>
+<li><code>int i = 10 / 0;</code>，计算异常</li>
+<li>能接受 $3$ 秒钟但运行 $5$ 秒钟，超时异常</li>
+</ol>
+<p>出现异常后当前服务就不可用了，需要做服务降级，这里兜底的方法都是<code>paymentInfo_TimeOutHandler</code>。</p>
+<h5 id="消费端"><a href="#消费端" class="headerlink" title="消费端"></a>消费端</h5><p>上面的案例是服务端降级，现在服务端处理 $3s$，然后返回信息。但是如果消费端只能等 $1s$ ，这时就需要消费端也有降级方法。</p>
+<p>$80$ 的降级。原理是一样的，上面的<code>@HystrixCommand</code>降级可以放在服务端，也可以放在消费端，但一般放在客户端。</p>
+<ol>
+<li><p>在 $80$ 的<code>yml</code>中添加</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line">    <span class="attr">hystrix:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在 $80$ 的主启动类添加<code>@EnableHystrix</code>注解，注意区别在服务端添加的注解是<code>@EnableCircuitBreaker</code></p>
+</li>
+<li><p>修改<code>OrderHystrixController</code>的<code>paymentInfo_TimeOut</code>方法，并添加<code>paymentTimeOutFallbackMethod</code>方法<br>很明显<code>service</code>层是接口，所以在消费者的<code>controller</code>层进行降级。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand(fallbackMethod = &quot;paymentTimeOutFallbackMethod&quot;, commandProperties = &#123;</span></span><br><span class="line"><span class="meta">        @HystrixProperty(</span></span><br><span class="line"><span class="meta">                name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, </span></span><br><span class="line"><span class="meta">                // 只等 1.5 s</span></span><br><span class="line"><span class="meta">                value = &quot;1500&quot;)</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/consumer/payment/hystrix/timeout/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOut</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> paymentHystrixService.paymentInfo_TimeOut(id);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">paymentTimeOutFallbackMethod</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;消费者 80，支付系统繁忙&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 $7001$，$8001$，$80$，访问<code>http://localhost/consumer/payment/hystrix/timeout/1</code>（如果是提供者那边出问题，并且消费者设置了<code>fallback</code>，会优先进入消费者的<code>fallback</code>）</p>
+<div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432456-6ac8e63a.png"></p>
+ </div></li>
+<li><p>在上面的<code>paymentInfo_TimeOut</code>中添加<code>int i = 1 / 0;</code>，运行异常也会进入 $80$ 的<code>fallback</code>方法</p>
+<div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432456-6ac8e63a.png"></p>
+ </div></li>
+</ol>
+<ul>
+<li><p>目前问题</p>
+<ol>
+<li>每个业务方法对应一个兜底的方法，代码膨胀</li>
+<li>兜底的方法和业务逻辑在一起，代码混乱</li>
+</ol>
+</li>
+<li><p>解决办法</p>
+<ol>
+<li><p>代码膨胀<br>   设置全局<code> fallback</code>方法，除了个别重要核心业务有专属，其他普通的可以通过<code>@DefaultProperties(defaultFullback=&quot;&quot;)</code>跳转到统一处理结果页面。</p>
+<ol>
+<li><p>在 $80$ 的<code>OrderHystrixController</code>中添加全局<code>fallback</code>方法</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 全局 fallback 方法，不能有传参</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">payment_Global_FallbackMethod</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Global 异常处理信息，请稍后再试！&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在<code>OrderHystrixController</code>类上加上<code>@DefaultProperties(defaultFallback = &quot;payment_Global_FallbackMethod&quot;)</code>，设置全局<code>fallback</code>方法</p>
+</li>
+<li><p>把<code>paymentInfo_TimeOut</code>方法的<code>@HystrixCommand(...)</code>注释，替换为<code>@HystrixCommand</code></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @HystrixCommand(fallbackMethod = &quot;paymentTimeOutFallbackMethod&quot;, commandProperties = &#123;</span></span><br><span class="line"><span class="comment">//        @HystrixProperty(</span></span><br><span class="line"><span class="comment">//                name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;,</span></span><br><span class="line">                <span class="comment">// 只等 1.5 s</span></span><br><span class="line"><span class="comment">//                value = &quot;1500&quot;)</span></span><br><span class="line"><span class="comment">// &#125;)</span></span><br><span class="line"><span class="meta">@HystrixCommand</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/consumer/payment/hystrix/timeout/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOut</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">10</span> /<span class="number">0</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> paymentHystrixService.paymentInfo_TimeOut(id);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>进行测试，访问<code>http://localhost/consumer/payment/hystrix/timeout/1</code></p>
+ <div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432622-e8e0324b.png"></p>
+ </div></li>
+</ol>
+</li>
+<li><p>代码混乱<br>   服务降级是客户端去调用服务端，碰上服务端宕机或关闭。本次案例服务降级处理是<strong>在客户端 $80$ 实现完成的</strong>，与服务端 $8001$ 没关系，只需要为<code>Feign</code>客户端定义的接口添加一个服务降级处理的实现类即可实现解耦。</p>
+<p>   $80$ 已经有<code>PaymentHystrixService</code>接口，重新新建一个类<code>PaymentFullback</code>实现该接口，<strong>统一为接口里面的方法进行异常处理</strong>。</p>
+<ol>
+<li><p>在 $80$ 的<code>service</code>包下新建<code>PaymentFallbackService</code>类，实现<code>PaymentHystrixService</code>接口</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 统一为接口里面的方法进行异常处理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PaymentFallbackService</span> <span class="keyword">implements</span> <span class="title class_">PaymentHystrixService</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 兜底方法，根据上述配置，程序内发生异常、或者运行超时，都会执行该兜底方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_OK</span><span class="params">(Integer id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;----PaymentFallbackService\t fallback-paymentInfo_OK----&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 兜底方法，根据上述配置，程序内发生异常、或者运行超时，都会执行该兜底方法</span></span><br><span class="line"><span class="comment">     * @param id</span></span><br><span class="line"><span class="comment">     * @return</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">paymentInfo_TimeOut</span><span class="params">(Integer id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;----PaymentFallbackService\t fallback-paymentInfo_TimeOut----&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>要在<code>yml</code>中加上：（在之前就加上了）</p>
+ <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用于服务降级 在注解 @FeignClient 中添加 fallback 属性值</span></span><br><span class="line"><span class="attr">feign:</span></span><br><span class="line">    <span class="attr">hystrix:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+<li><p>给<code>PaymentHystrixService</code>接口的<code>@FeignClient</code>注解加上<code>fallback = PaymentFallbackService.class</code>属性，指定回调的<code>class</code>类用于出错进行<code>fallback</code>处理</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@FeignClient(value = &quot;CLOUD-PROVIDER-HYSTRIX-PAYMENT&quot;, </span></span><br><span class="line"><span class="meta">// 指定回调的 class 类</span></span><br><span class="line"><span class="meta">fallback = PaymentFallbackService.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">PaymentHystrixService</span> &#123;</span><br></pre></td></tr></table></figure></li>
+<li><p>配置超时时间</p>
+ <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置超时时间</span></span><br><span class="line"><span class="comment"># 默认值</span></span><br><span class="line"><span class="comment"># hystrix.command.default.execution.timeout.enable=true    </span></span><br><span class="line"><span class="comment"># 为 false 则超时控制有 ribbon 控制，为 true 则 hystrix 超时和 ribbon 超时都使用，但是谁小谁生效，默认为 true</span></span><br><span class="line"><span class="comment"># 默认值  熔断器的超时时长默认 1 秒，最常修改的参数</span></span><br><span class="line"><span class="comment"># hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=1000 </span></span><br><span class="line"><span class="comment"># 因此，配置 Ribbon 的 超时时长即可，注意：hystrix 默认自带 ribbon 包</span></span><br><span class="line"><span class="attr">ribbon:</span></span><br><span class="line">    <span class="attr">ReadTimeout:</span> <span class="number">4000</span></span><br><span class="line">    <span class="attr">ConnectTimeout:</span> <span class="number">4000</span></span><br></pre></td></tr></table></figure></li>
+<li><p>启动 $7001$，$8001$，$80$，然后先访问<code>http://localhost/consumer/payment/hystrix/ok/1</code>，成功访问</p>
+ <div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432659-82c60697.png"></p>
+ </div></li>
+<li><p>关掉 $8001$，模拟提供者宕机，刷新页面</p>
+ <div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432691-60e313ac.png"></p>
+ </div>
+
+<p> 此时服务端提供者已经宕机了，但是由于做了服务降级处理，让客户端在服务端不可用时也会获得提示信息而不会挂起耗死服务器。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="服务熔断"><a href="#服务熔断" class="headerlink" title="服务熔断"></a>服务熔断</h3><p>熔断机制是应对雪崩效应的一种微服务链路保护机制，当扇出链路的某个微服务不可用或者响应时间太长时，会进行服务的降级，进而熔断该节点微服务的调用，快速返回<strong>错误</strong>的响应信息。</p>
+<p>当检测到该节点微服务响应正常后恢复调用链路。</p>
+<p>在<code>SpringCloud</code>框架机制通过<code>Hystrix</code>实现，<code>Hystrix</code>会监控微服务见调用的状况，当失败的调用到一个阈值，默认是 $5$ 秒内 $20$ 次调用失败就会启动熔断机制，熔断机制的注解是<code>@HystrixCommand</code>。</p>
+<p>实际上服务熔断和服务降级没有任何关系，就像<code>java</code>和<code>javaScript</code>。服务熔断，有点自我恢复的味道。</p>
+<h4 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h4><ol>
+<li><p>在 $8001$ 的<code>PaymentService</code>中添加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 在 10s 内 10 次请求有 60% 失败就打开断路器，先看次数，再看百分比</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@HystrixCommand(fallbackMethod = &quot;paymentCircuitBreaker_fallback&quot;,commandProperties = &#123;</span></span><br><span class="line"><span class="meta">        // 是否开启断路器</span></span><br><span class="line"><span class="meta">        @HystrixProperty(name = &quot;circuitBreaker.enabled&quot;, value = &quot;true&quot;),                      //开启断路器</span></span><br><span class="line"><span class="meta">        // 请求次数</span></span><br><span class="line"><span class="meta">        @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;10&quot;),         //请求总数阈值（默认20）</span></span><br><span class="line"><span class="meta">        // 时间窗口期</span></span><br><span class="line"><span class="meta">        @HystrixProperty(name = &quot;circuitBreaker.sleepWindowInMilliseconds&quot;, value = &quot;10000&quot;),   //休眠时间窗口期（休眠多久进入半开模式（单位毫秒，默认5秒））</span></span><br><span class="line"><span class="meta">        // 失败率达到多少后跳闸</span></span><br><span class="line"><span class="meta">        @HystrixProperty(name = &quot;circuitBreaker.errorThresholdPercentage&quot;, value = &quot;60&quot;),       //请求次数的错误率达到多少跳闸（百分率%，默认50%）</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">paymentCircuitBreaker</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(id &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">throw</span>  <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;****id 不能为负数&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">String</span> <span class="variable">serialNumber</span> <span class="operator">=</span> IdUtil.simpleUUID();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>  Thread.currentThread().getName() + <span class="string">&quot;\t&quot;</span> + <span class="string">&quot;调用成功，流水号：&quot;</span> + serialNumber;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">paymentCircuitBreaker_fallback</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;id 不能为负数,请稍后再试， id: &quot;</span> + id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在 $8001$ 的<code>PaymentController</code>中添加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/payment/circuit/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">paymentCircuitBreaker</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Integer id)</span>&#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> paymentService.paymentCircuitBreaker(id);</span><br><span class="line">    log.info(<span class="string">&quot;result：&quot;</span> + result);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 $7001$ 和 $8001$</p>
+<ol>
+<li><p>访问<code>http://localhost:8001/payment/circuit/-1</code>（输入超过 $6$ 次进入熔断）</p>
+  <div align="center">
+
+<p>  <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432753-26d552fe.png"></p>
+  </div></li>
+<li><p>访问<code>http://localhost:8001/payment/circuit/1</code>，但熔断 $10$ 秒内就算是正确的请求也返回错误信息</p>
+  <div align="center">
+
+<p>  <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432787-1432fb3a.png"></p>
+  </div></li>
+<li><p>$10$ 秒后进入半开模式，对请求进行处理，此时如果是正确的请求，那么就关闭熔断，否则再次进入熔断，$10$ 秒后再次开启半开模式，对请求进行处理，直到半开模式处理到正确请求</p>
+  <div align="center">
+
+<p>  <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432818-e2a52d3a.png"></p>
+  </div></li>
+</ol>
+</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><a target="_blank" rel="noopener" href="https://martinfowler.com/bliki/CircuitBreaker.html">作者博客</a></p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432857-489ce3ff.png"></p>
+</div>
+
+<p>如果请求次数的错误率超过指定值，开启熔断，经过一段时间后，变为半开模式，然后放进一个请求进行处理，如果请求处理成功，关闭熔断；如果还是报错，继续进入熔断，再经过一段时间后，变为半开模式，再进行对下一个请求进行处理，一直在熔断，半开模式来回切换，直到请求成功，关闭熔断。</p>
+<p>熔断状态：</p>
+<ul>
+<li>熔断打开：请求不再进行调用当前服务，内部设置时钟一般为<code>MTTR</code>（平均故障处理时间），当打开时长达到所设时钟则进入半熔断状态</li>
+<li>熔断关闭：熔断关闭不会对服务进行熔断</li>
+<li>熔断半开：部分请求根据规则调用当前服务，如果请求成功目符合规则，则认为当前服务恢复正常，关闭熔断。\</li>
+</ul>
+<p>涉及到断路器的三个重要参数：快照时间窗、请求总数阀值、错误百分比阀值</p>
+<ol>
+<li>快照时间窗：断路器确定是否打开需要统计一些请求和错误数据而统计的时间范围就是快照时间窗，默认为最近的 $10$ 秒。</li>
+<li>请求总数阀值：在快照时间窗内，必须满足请求总数阀值才有资格熔断。默认为 $20$，意味着在 $10$ 秒内，如果该<code>Hystrix</code>命令的调用次数不足 $20$ 次，即使所有的请求都超时或具他原因失败，断路器都不会打开。</li>
+<li>错误百分比阀值：当请求总数在快照时间窗内超过了阀值，上日发生了 $30$ 次调用，如果在这 $30$ 次调用中，有 $15$ 次发生了超时异常，也就是超过 $50 % $ 的错误百分比，在默认设定 $50 % $ 阀值情况，这时候就会将断路器打开。</li>
+</ol>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432886-dbea1c15.png"></p>
+</div>
+
+<p>断路器什么时候起作用：</p>
+<blockquote>
+<p>The precise way that the circuit opening and closing occurs is as follows:</p>
+<ol>
+<li>Assuming the volume across a circuit meets a certain threshold (<code>HystrixCommandProperties.circuitBreakerRequestVolumeThreshold()</code>)…</li>
+<li>And assuming that the error percentage exceeds the threshold error percentage (<code>HystrixCommandProperties.circuitBreakerErrorThresholdPercentage()</code>)…</li>
+<li>Then the circuit-breaker transitions from <code>CLOSED</code> to <code>OPEN</code>.</li>
+<li>While it is open, it short-circuits all requests made against that circuit-breaker.</li>
+<li>After some amount of time (<code>HystrixCommandProperties.circuitBreakerSleepWindowInMilliseconds()</code>), the next single request is let through (this is the <code>HALF-OPEN</code> state). If the request fails, the circuit-breaker returns to the <code>OPEN</code> state for the duration of the sleep window. If the request succeeds, the circuit-breaker transitions to CLOSED and the logic in 1. takes over again.经过一段时间后，如果有1个尝试成功了，就慢慢尝试恢复<br>参考：<a target="_blank" rel="noopener" href="https://github.com/Netflix/Hystrix/wiki/How-it-Works#CircuitBreaker">https://github.com/Netflix/Hystrix/wiki/How-it-Works#CircuitBreaker</a></li>
+</ol>
+</blockquote>
+<p>断路器开启或关闭的条件：</p>
+<ol>
+<li>当满足一定阈值时（默认 $10$ 秒内超过 $20$ 个请求次数）</li>
+<li>当失败率达到一定的时候（默认 $10$ 秒超过 $50 %$ 的请求失败）</li>
+<li>到达以上阈值，断路器将会开启</li>
+<li>当开启时，所有请求都不会进行转发</li>
+<li>一段时间之后（默认 $5$ 秒），断路器是半开状态，会让其中一个请求进行转发，如果成功，断路器会关闭，若失败，继续开启，重复 $4$ 和 $5$</li>
+</ol>
+<p>断路器打开之后：</p>
+<ol>
+<li><p>再有请求调用的时候，将不会调用主逻辑，而是直接调用降级<code>fullback</code>。通过断路器，实现了自动的发现错误并将降级逻辑切换为主逻辑，减少响应延迟的效果。</p>
+</li>
+<li><p>原来的主逻辑要如何恢复呢？<br>对于这一问题，<code>Hystrix</code>也为我们实现了自动恢复功能。</p>
+<p>当断路器打开，对主逻辑进行熔断后，<code>Hystrix</code>会启动一个休眠1时间窗，在这个时间窗内，降级逻辑是临时的成为主逻辑，当休眠时间窗到期，断路器将进入半开状态，释放一次请求到原来的主逻辑上，如果此次请求正常返回，那么断路器将继续闭合，主逻辑恢复，如果这次请求依然有问题，断路器继续进入打开状态，休眠时间窗重新计时。</p>
+</li>
+</ol>
+<p>上面提到的全局服务降级，并且是<code>feign+hystrix</code>整合，即<code>service</code>实现类的方式，如何做全局配置？</p>
+<p>上面有做全局配置时，设置超时时间的方式，可以从中获得灵感，即在<code>yml</code>文件中进行熔断配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">hystrix:</span></span><br><span class="line"><span class="attr">command:</span></span><br><span class="line"><span class="attr">default:</span></span><br><span class="line"><span class="attr">circuitBreaker:</span></span><br><span class="line">    <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">requestVolumeThreshold:</span> <span class="number">10</span></span><br><span class="line">    <span class="attr">sleepWindowInMilliseconds:</span> <span class="number">10000</span></span><br><span class="line">    <span class="attr">errorThresholdPercentage:</span> <span class="number">60</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="服务限流"><a href="#服务限流" class="headerlink" title="服务限流"></a>服务限流</h3><p>会在后面高级篇<code>alibaba</code>的<code>Sentinel</code>讲解。</p>
+<h2 id="Hystrix-工作流程"><a href="#Hystrix-工作流程" class="headerlink" title="Hystrix 工作流程"></a>Hystrix 工作流程</h2><p><a target="_blank" rel="noopener" href="https://github.com/Netflix/Hystrix/wiki/How-it-Works">官网说明</a></p>
+<div align="center">
+
+<p><img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432924-b16f5df0.png"></p>
+</div>
+
+<ol>
+<li>创建<code>HystrixCommand</code>（用在依赖的服务返回单个操作结果的时候） 或<code>HystrixObserableCommand</code>（用在依赖的服务返回多个操作结果的时候） 对象。</li>
+<li>命令执行。<br>其中<code>HystrixComand</code>实现了下面前两种执行方式；而<code>HystrixObservableCommand</code>实现了后两种执行方式：    <ul>
+<li><code>execute()</code>：同步执行，从依赖的服务返回一个单一的结果对象， 或是在发生错误的时候抛出异常</li>
+<li><code>queue()</code>：异步执行， 直接返回 一个<code>Future</code>对象， 其中包含了服务执行结束时要返回的单一结果对象</li>
+<li><code>observe()</code>：返回<code>Observable</code>对象，它代表了操作的多个结果，它是一个<code>Hot Obserable</code>（不论 “事件源” 是否有 “订阅者”，都会在创建后对事件进行发布，所以对于<code>Hot Observable</code>的每一个 “订阅者” 都有可能是从 “事件源” 的中途开始的，并可能只是看到了整个操作的局部过程）。</li>
+<li><code>toObservable()</code>： 同样会返回<code>Observable</code>对象，也代表了操作的多个结果，但它返回的是一个<code>Cold Observable</code>（没有 “订阅者” 的时候并不会发布事件，而是进行等待，直到有 “订阅者” 之后才发布事件，所以对于<code>Cold Observable</code> 的订阅者，它可以保证从一开始看到整个操作的全部过程）。</li>
+</ul>
+</li>
+<li>若当前命令的请求缓存功能是被启用的， 并且该命令缓存命中， 那么缓存的结果会立即以<code>Observable</code>对象的形式返回</li>
+<li>检查断路器是否为打开状态。如果断路器是打开的，那么<code>Hystrix</code>不会执行命令，而是转接到<code>fallback</code>处理逻辑（第 $8$ 步）；如果断路器是关闭的，检查是否有可用资源来执行命令（第 $5$ 步）</li>
+<li>线程池/请求队列/信号量是否占满。如果命令依赖服务的专有线程池和请求队列，或者信号量（不使用线程池的时候）已经被占满，那么<code>Hystrix</code>也不会执行命令， 而是转接到<code>fallback</code>处理逻辑（第 $8$ 步）</li>
+<li><code>Hystrix</code>会根据我们编写的方法来决定采取什么样的方式去请求依赖服务。<ul>
+<li><code>HystrixCommand.run()</code>：返回一个单一的结果，或者抛出异常</li>
+<li><code>HystrixObservableCommand.construct()</code>：返回一个<code>Observable</code>对象来发射多个结果，或通过<code>onError</code>发送错误通知</li>
+</ul>
+</li>
+<li><code>Hystrix</code>会将 “成功”、”失败”、”拒绝”、”超时” 等信息报告给断路器， 而断路器会维护一组计数器来统计这些数据。断路器会使用这些统计数据来决定是否要将断路器打开，来对某个依赖服务的请求进行 “熔断/短路”</li>
+<li>当命令执行失败的时候，<code>Hystrix</code>会进入<code>fallback</code>尝试回退处理， 我们通常也称该操作为”服务降级”。<br>而能够引起服务降级处理的情况有下面几种：<ul>
+<li>第 $4$ 步： 当前命令处于”熔断/短路”状态，断路器是打开的时候</li>
+<li>第 $5$ 步： 当前命令的线程池、 请求队列或 者信号量被占满的时候</li>
+<li>第 $6$ 步：<code>HystrixObservableCommand.construct()</code>或<code>HystrixCommand.run()</code>抛出异常的时候</li>
+</ul>
+</li>
+<li>当<code>Hystrix</code>命令执行成功之后， 它会将处理结果直接返回或是以<code>Observable</code>的形式返回</li>
+</ol>
+<p><code>tips</code>：如果我们没有为命令实现降级逻辑或者在降级处理逻辑中抛出了异常，<code>Hystrix</code>依然会返回一个<code>Observable</code>对象， 但是它不会发射任何结果数据，而是通过<code>onError</code>方法通知命令立即中断请求，并通过<code>onError()</code>方法将引起命令失败的异常发送给调用者。</p>
+<h2 id="Hystrix-DashBoard"><a href="#Hystrix-DashBoard" class="headerlink" title="Hystrix DashBoard"></a>Hystrix DashBoard</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>除了隔离依赖服务的调用以外，<code>Hystrix</code>还提供了准实时的调用监控（<code>HystrixDashboard</code>），<code>Hystrix</code>会持续地记录所有通过<code>Hystrix</code>发起的请求的执行信息，并以统计报表和图形的形式展示给用户，包括每秒执行多少请求多少成功，多少失败等。<code>Netflix</code>通过<code>hystrix-metrics-event-stream</code>实现了对以上指标的监控。<code>SpringCloud</code>也提供了<code>HystrixDashboard</code>的整合，对监控内容转化成可视化界面。</p>
+<h3 id="案例-1"><a href="#案例-1" class="headerlink" title="案例"></a>案例</h3><ol>
+<li><p>新建模块<code>cloud-consumer-hystrix-dashboard9001</code></p>
+</li>
+<li><p>改<code>pom</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--   hystrix 仪表盘图形化     --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 引入自己定义的 api 通用包，可以使用 Payment 支付 Entity --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.example.springcloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cloud-api-commons<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 热部署 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>写<code>yml</code></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">9001</span></span><br></pre></td></tr></table></figure></li>
+<li><p>主启动类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@EnableHystrixDashboard</span> 启用 Hystrix 仪表板</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@EnableHystrixDashboard</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HystrixDashboardMain9001</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(HystrixDashboard9001Main.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 $9001$，在浏览器中输入<code>http://localhost:9001/hystrix</code></p>
+<div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432957-34044e99.png"></p>
+ </div></li>
+</ol>
+<h3 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h3><p>下面使用上面 $9001$ <code>Hystrix Dashboard</code>项目，来监控 $8001$ 项目<code>Hystrix</code>的实时情况。</p>
+<p>注意 $8001$ 被监控的时候<code>pom</code>里要<code>actuator</code>依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>$8001$ 主启动类上加<code>@EnableCircuitBreaker</code>，用于对豪猪熔断机制的支持</p>
+</li>
+<li><p>$8001$ 在主启动类中添加</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 此配置是为了服务监控而配置，与服务容错本身无关，springcloud 升级后的坑</span></span><br><span class="line"><span class="comment"> * ServletRegistrationBean 因为 SpringBoot 的默认路径不是 “/hystrix.stream&quot;</span></span><br><span class="line"><span class="comment"> * 只要在自己的项目里配置上下的 servlet 就可以了</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> ServletRegistrationBean <span class="title function_">getServlet</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">HystrixMetricsStreamServlet</span> <span class="variable">streamServlet</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">HystrixMetricsStreamServlet</span>() ;</span><br><span class="line">    <span class="type">ServletRegistrationBean</span> <span class="variable">registrationBean</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServletRegistrationBean</span>(streamServlet);</span><br><span class="line">    registrationBean.setLoadOnStartup(<span class="number">1</span>);</span><br><span class="line">    registrationBean.addUrlMappings(<span class="string">&quot;/hystrix.stream&quot;</span>);</span><br><span class="line">    registrationBean.setName(<span class="string">&quot;HystrixMetricsStreamServlet&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span>  registrationBean;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 $9001$，$7001$，$8001$</p>
+<ol>
+<li><p>$9001$ 监控 $8001$</p>
+  <div align="center">
+
+<p>  <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640432993-20749bc1.png"></p>
+  </div>
+ 
+<p>  <code>Hystrix-Dashboard</code>会一直在<code>loading...</code>中，解决办法如下：</p>
+<pre><code> 1. 启动`cloud-consumer-feign-hystrix-order80`模块
+ 2. 通过`Feign`访问新服务：`http://localhost/consumer/payment/hystrix/timeout/1`
+      注意：经过本人测试通过`RestTemplate`的方式调用，仍然没有效果
+ 3. 当通过`Feign`调用一次新服务后，`hystrix.stream`正常
+</code></pre>
+  <div align="center">
+
+<p>  <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433023-40333b10.png"></p>
+  </div></li>
+<li><p>在浏览器输入<code>http://localhost:8001/payment/circuit/1</code>和<code>http://localhost:8001/payment/circuit/-1</code></p>
+<ol>
+<li><p>输入<code>http://localhost:8001/payment/circuit/1</code>，正确的访问，熔断关闭</p>
+ <div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433061-725f92a6.png"></p>
+ </div></li>
+<li><p>多次输入<code>http://localhost:8001/payment/circuit/-1</code>，错误的访问，熔断开启，访问错误率 $100 %$</p>
+ <div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433095-cabd064d.png"></p>
+ </div></li>
+<li><p>稍等一会，再输入正确的访问<code>http://localhost:8001/payment/circuit/1</code>，熔断会关闭</p>
+ <div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433125-54037ee2.png"></p>
+ </div></li>
+<li><p>如何看仪表盘</p>
+<ol>
+<li><p>$7$ 色</p>
+  <div align="center">
+
+<p>  <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433157-03e7a47c.png"></p>
+  </div></li>
+<li><p>$1$ 圈<br>  实心圆：共有两种含义。它通过颜色的变化代表了实例的健康程度，它的健康度从绿色&lt;黄色&lt;橙色&lt;红色递减。</p>
+<p>  该实心圆除了颜色的变化之外，它的大小也会根据实例的请求流量发生变化，流量越大该实心圆就越大。所以通过该实心圆的展示，就可以在大量的实例中快速的发现故障实例和高压力实例。</p>
+</li>
+<li><p>$1$ 线<br>  曲线：用来记录2分钟内流量的相对变化，可以通过它来观察到流量的上升和下降趋势。</p>
+</li>
+<li><p>整图说明</p>
+ <div align="center">
+
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433190-478ad70b.png"></p>
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433222-022bad99.png"></p>
+<p> <img src="https://cdn.jsdelivr.net/gh/atideas/assets/1640164136/1640433239-b4b695a3.png"></p>
+ </div></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/">http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SpringCloud/">SpringCloud</a></div><div class="post_share"><div class="social-share" data-image="https://img.paulzzh.com/touhou/random" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/13/SpringCloud/03.%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8/"><img class="prev-cover" src="https://api.ixiaowai.cn/api/api.php" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SpringCloud | 服务调用</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/"><img class="next-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Mybatis | Mybatis开发dao</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/11/30/SpringCloud/01.%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="SpringCloud | 基础入门"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-30</div><div class="title">SpringCloud | 基础入门</div></div></a></div><div><a href="/2021/12/13/SpringCloud/03.%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8/" title="SpringCloud | 服务调用"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-13</div><div class="title">SpringCloud | 服务调用</div></div></a></div><div><a href="/2021/12/03/SpringCloud/02.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册中心"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">SpringCloud | 服务注册中心</div></div></a></div><div><a href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-27</div><div class="title">SpringCloud | 服务网关</div></div></a></div><div><a href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img class="cover" src="https://api.ixiaowai.cn/api/api.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-30</div><div class="title">SpringCloud | 服务配置</div></div></a></div><div><a href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-10</div><div class="title">SpringCloud | 熔断与限流</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hystrix-%E6%96%AD%E8%B7%AF%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">Hystrix 断路器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9"><span class="toc-number">1.1.1.</span> <span class="toc-text">服务雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">简介</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hystrix-%E9%87%8D%E8%A6%81%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.</span> <span class="toc-text">Hystrix 重要概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7%EF%BC%88fallback%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">服务降级（fallback）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD%EF%BC%88break%EF%BC%89"><span class="toc-number">1.2.2.</span> <span class="toc-text">服务熔断（break）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%EF%BC%88flowlimit%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">服务限流（flowlimit）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hystrix-%E6%A1%88%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">Hystrix 案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%9E%84%E5%BB%BA"><span class="toc-number">1.3.1.</span> <span class="toc-text">服务构建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E5%B9%B6%E5%8F%91%E6%B5%8B%E8%AF%95"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">高并发测试</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-number">1.3.2.</span> <span class="toc-text">服务降级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E7%8E%B0%E8%B1%A1"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">故障现象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E8%A7%A3%E5%86%B3"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">故障解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7-1"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">服务降级</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">1.3.2.3.1.</span> <span class="toc-text">服务端</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E7%AB%AF"><span class="toc-number">1.3.2.3.2.</span> <span class="toc-text">消费端</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD"><span class="toc-number">1.3.3.</span> <span class="toc-text">服务熔断</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81"><span class="toc-number">1.3.4.</span> <span class="toc-text">服务限流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hystrix-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.4.</span> <span class="toc-text">Hystrix 工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hystrix-DashBoard"><span class="toc-number">1.5.</span> <span class="toc-text">Hystrix DashBoard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="toc-number">1.5.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-1"><span class="toc-number">1.5.2.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%88%98"><span class="toc-number">1.5.3.</span> <span class="toc-text">实战</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao"><img src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="Mybatis | Mybatis开发dao"/></a><div class="content"><a class="title" href="/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/" title="Mybatis | Mybatis开发dao">Mybatis | Mybatis开发dao</a><time datetime="2021-12-23T10:55:53.000Z" title="发表于 2021-12-23 18:55:53">2021-12-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
