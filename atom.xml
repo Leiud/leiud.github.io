@@ -218,57 +218,6 @@
   </entry>
   
   <entry>
-    <title>SpringMVC | 异常处理</title>
-    <link href="http://atideas.github.io/2021/12/12/SpringMVC/10.%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"/>
-    <id>http://atideas.github.io/2021/12/12/SpringMVC/10.%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</id>
-    <published>2021-12-12T09:20:47.396Z</published>
-    <updated>2022-03-10T02:06:18.711Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;我们知道，系统中异常包括：编译时异常和运行时异常RuntimeException，前者通过捕获异常从而获取异常信息，后者主要通过规范代码开发、测试通过手段减少运行时异常的发生。在开发中，不管是dao层、service层还是controller层，都有可能抛出异常，在spri</summary>
-        
-      
-    
-    
-    
-    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="SpringMVC" scheme="http://atideas.github.io/tags/SpringMVC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SpringMVC | json 交互</title>
-    <link href="http://atideas.github.io/2021/12/12/SpringMVC/09.json%E4%BA%A4%E4%BA%92/"/>
-    <id>http://atideas.github.io/2021/12/12/SpringMVC/09.json%E4%BA%A4%E4%BA%92/</id>
-    <published>2021-12-12T09:20:47.396Z</published>
-    <updated>2022-03-10T02:06:15.912Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;　　json数据格式在接口调用中、html页面中比较常用，json格式比较简单，解析也比较方便，所以使用很普遍。在springmvc中，也支持对json数据的解析和转换，这篇文章主要总结一下springmvc中如何和前台交互json数据&lt;/p&gt;
-&lt;h1</summary>
-        
-      
-    
-    
-    
-    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="SpringMVC" scheme="http://atideas.github.io/tags/SpringMVC/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Mybatis | 逆向工程</title>
     <link href="http://atideas.github.io/2021/12/12/Mybatis/08.%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/"/>
     <id>http://atideas.github.io/2021/12/12/Mybatis/08.%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/</id>
@@ -511,6 +460,56 @@
         
         
     <summary type="html">&lt;h1 id=&quot;死信队列&quot;&gt;&lt;a href=&quot;#死信队列&quot; class=&quot;headerlink&quot; title=&quot;死信队列&quot;&gt;&lt;/a&gt;死信队列&lt;/h1&gt;&lt;h2 id=&quot;死信的概念&quot;&gt;&lt;a href=&quot;#死信的概念&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="RabbitMQ" scheme="http://atideas.github.io/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RabbitMQ | 发布确认与交换机</title>
+    <link href="http://atideas.github.io/2021/11/22/RabbitMQ/02.%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA/"/>
+    <id>http://atideas.github.io/2021/11/22/RabbitMQ/02.%E5%8F%91%E5%B8%83%E7%A1%AE%E8%AE%A4%E4%B8%8E%E4%BA%A4%E6%8D%A2%E6%9C%BA/</id>
+    <published>2021-11-22T12:36:33.000Z</published>
+    <updated>2022-03-10T02:03:13.594Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;发布确认&quot;&gt;&lt;a href=&quot;#发布确认&quot; class=&quot;headerlink&quot; title=&quot;发布确认&quot;&gt;&lt;/a&gt;发布确认&lt;/h1&gt;&lt;h2 id=&quot;发布确认原理&quot;&gt;&lt;a href=&quot;#发布确认原理&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="RabbitMQ" scheme="http://atideas.github.io/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RabbitMQ | 消息队列</title>
+    <link href="http://atideas.github.io/2021/11/19/RabbitMQ/01.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"/>
+    <id>http://atideas.github.io/2021/11/19/RabbitMQ/01.%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</id>
+    <published>2021-11-19T07:28:34.000Z</published>
+    <updated>2022-03-10T02:03:10.946Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;MQ-的相关概念&quot;&gt;&lt;a href=&quot;#MQ-的相关概念&quot; class=&quot;headerlink&quot; title=&quot;MQ 的相关概念&quot;&gt;&lt;/a&gt;MQ 的相关概念&lt;/h1&gt;&lt;h2 id=&quot;什么是-MQ&quot;&gt;&lt;a href=&quot;#什么是-MQ&quot;</summary>
         
       
     
