@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Hibernate | HQL语句 | 漂泊者的理想三旬</title><meta name="keywords" content="Hibernate"><meta name="author" content="Feng Deng"><meta name="copyright" content="Feng Deng"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Hibernate提供了强大的查询系统，使用Hibernate有多种查询方法可以选择：可以使用Hibernate的HQL查询，也可以使用条件查询，甚至可以使用原生的SQL查询语句。其中HQL查询时Hibernate配置的功能强大的查询语句。HQL是非常有意识的被设计为完全面向对象的查询，它可以理解如继承、多态 和关联之类的概念。 HQL查询　　HQL的语法和SQL很相似，但是HQL是一种面向对象的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hibernate | HQL语句">
+<meta property="og:url" content="http://atideas.github.io/2017/11/03/Hibernate/05.HQL%E8%AF%AD%E5%8F%A5/index.html">
+<meta property="og:site_name" content="漂泊者的理想三旬">
+<meta property="og:description" content="Hibernate提供了强大的查询系统，使用Hibernate有多种查询方法可以选择：可以使用Hibernate的HQL查询，也可以使用条件查询，甚至可以使用原生的SQL查询语句。其中HQL查询时Hibernate配置的功能强大的查询语句。HQL是非常有意识的被设计为完全面向对象的查询，它可以理解如继承、多态 和关联之类的概念。 HQL查询　　HQL的语法和SQL很相似，但是HQL是一种面向对象的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.paulzzh.com/touhou/random">
+<meta property="article:published_time" content="2017-11-03T12:28:47.000Z">
+<meta property="article:modified_time" content="2022-03-24T01:16:03.853Z">
+<meta property="article:author" content="Feng Deng">
+<meta property="article:tag" content="Hibernate">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.paulzzh.com/touhou/random"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/atideas/assets/static/favicon.ico"><link rel="canonical" href="http://atideas.github.io/2017/11/03/Hibernate/05.HQL%E8%AF%AD%E5%8F%A5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-36LL6FC11S"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36LL6FC11S');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hibernate | HQL语句',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-24 09:16:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/all.css"><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="漂泊者的理想三旬" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://img.paulzzh.com/touhou/random')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">漂泊者的理想三旬</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-comments"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Hibernate | HQL语句</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2017-11-03T12:28:47.000Z" title="发表于 2017-11-03 20:28:47">2017-11-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-24T01:16:03.853Z" title="更新于 2022-03-24 09:16:03">2022-03-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Hibernate | HQL语句"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2017/11/03/Hibernate/05.HQL%E8%AF%AD%E5%8F%A5/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count" data-xid="/2017/11/03/Hibernate/05.HQL%E8%AF%AD%E5%8F%A5/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><code>Hibernate</code>提供了强大的查询系统，使用Hibernate有多种查询方法可以选择：可以使用Hibernate的HQL查询，也可以使用条件查询，甚至可以使用原生的SQL查询语句。其中HQL查询时Hibernate配置的功能强大的查询语句。HQL是非常有意识的被设计为完全面向对象的查询，它可以理解如继承、多态 和关联之类的概念。</p>
+<h1 id="HQL查询"><a href="#HQL查询" class="headerlink" title="HQL查询"></a>HQL查询</h1><p>　　HQL的语法和SQL很相似，但是HQL是一种面向对象的查询语句，它的操作对象是类、实例、属性等，而SQL的操作对象 是数据表、列等数据库对象。</p>
+<p>　　由于HQL是完全面向对象的查询语句，因此可以支持继承、多态等特性。</p>
+<p>　　HQL查询依赖于Query类，每一个Query实例对应一个查询对象，它的执行是通过Session的createQuery()方法来获得的。</p>
+<h2 id="执行HQL查询的步骤"><a href="#执行HQL查询的步骤" class="headerlink" title="执行HQL查询的步骤"></a>执行HQL查询的步骤</h2><p>　　1、获得Hibernate Session对象</p>
+<p>　　2、编写HQL语句</p>
+<p>　　3、调用Session的createQuery方法创建查询对象</p>
+<p>　　4、如果HQL语句包含参数，则调用Query的setXxx方法为参数赋值</p>
+<p>　　5、调用Query对象的list等方法返回查询结果。</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">query</span><span class="params">()</span>&#123;</span><br><span class="line">		<span class="type">Session</span> <span class="variable">session</span> <span class="operator">=</span> HibernateUtil.getSession();</span><br><span class="line">		<span class="type">Transaction</span> <span class="variable">tx</span> <span class="operator">=</span> session.beginTransaction();</span><br><span class="line">		<span class="comment">//以HQL语句创建Query对象，执行setString方法为HQL语句的参数赋值</span></span><br><span class="line">		<span class="comment">//Query调用list方法访问查询的全部实例</span></span><br><span class="line">		<span class="type">List</span> <span class="variable">list</span> <span class="operator">=</span> session.createQuery(<span class="string">&quot;select distinct p from Person p where p.name=:name&quot;</span>)</span><br><span class="line">		           .setString(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;chenssy&quot;</span>).list();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//遍历查询结果</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">Iterator</span> <span class="variable">iterator</span> <span class="operator">=</span> list.iterator();iterator.hasNext();) &#123;</span><br><span class="line">		<span class="type">Person</span> <span class="variable">p</span> <span class="operator">=</span> (Person) iterator.next();</span><br><span class="line">		System.out.println(<span class="string">&quot;id=&quot;</span>+p.getId()+<span class="string">&quot;,age=&quot;</span>+p.getAge());</span><br><span class="line">	&#125;</span><br><span class="line">	session.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">上面的程序先编写HQL语句后，使用Session的createQuery(hql)方法创建一个Query，Query对象使用setXxx方法为HQL语句的参数赋值，最后调用list()方法返回查询的全部结果。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在这里Query对象可以连续多次调用setXxx方法为HQL参数赋值。这是因为Hibernate Query的setXxx方法的返回值为Query本身，因此程序创建Query后，可以直接多次调用setXxx方法为HQL语句的参数赋值。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Query对象还包含如下两个方法：</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setFirstResult(<span class="type">int</span> firstResult)：设置返回的结果集从第几条记录开始</span><br><span class="line">setMaxResult(<span class="type">int</span> maxResult)：设置本次查询返回的结果数目</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这两个方法用于对HQL查询实现分页控制</span><br></pre></td></tr></table></figure>
+
+<h1 id="HQL查询的from子句"><a href="#HQL查询的from子句" class="headerlink" title="HQL查询的from子句"></a>HQL查询的from子句</h1><p>　　Hibernate中最简单的查询语句的形式如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Person</span><br></pre></td></tr></table></figure>
+
+<p>　　From关键字后面紧跟持久化类的类名</p>
+<p>　　大多数情况下, 你需要指定一个别名, 原因是你可能需要在查询语句的其它部分引用到Person</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<p>　　子句中可以同时出现多个类, 其查询结果是产生一个笛卡儿积或产生跨表的连接</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person  <span class="keyword">as</span> p ,MyEvent <span class="keyword">as</span> e</span><br></pre></td></tr></table></figure>
+
+<h1 id="关联与连接"><a href="#关联与连接" class="headerlink" title="关联与连接"></a>关联与连接</h1><p>　　当程序需要从多个数据表中获取数据时，Hibernate使用关联映射来处理底层数据表之间的连接，一旦我们提供了正确的关联映射后，当程序通过Hibernate进行持久化访问时，将可利用Hibernate的关联来进行连接。</p>
+<p>　　HQL支持两种关联join的形式：implicit(隐式) 与explicit（显式）</p>
+<p>　　显式form子句中明确给出了join关键字，而隐式使用英文点号(.)来连接关联实体。</p>
+<p>　　受支持的连接类型是从ANSI SQL中借鉴来的。</p>
+<p>　　inner join（内连接）</p>
+<p>　　left outer join（左外连接）</p>
+<p>　　right outer join（右外连接）</p>
+<p>　　full join (全连接，并不常用)</p>
+<p>　　使用显式连接，可以通过with关键字来提供额外的join条件</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person <span class="keyword">as</span> p <span class="keyword">inner</span> <span class="keyword">join</span> p.myEvent e <span class="keyword">with</span> p.id<span class="operator">=</span>e.id </span><br></pre></td></tr></table></figure>
+
+<p>从上面可以看出with关键字的作用等同于SQL中on关键字的作用：用于指定连接条件。还有，一个”fetch”连接允许仅仅使用一个选择语句就将相关联的对象或一组值的集合随着他们的父对象的初始化而被初始化，这种方法在使用到集合的情况下尤其有用，对于关联和集合来说，它有效的代替了映射文件中的外联接与延迟声明（lazy declarations）。</p>
+<p>对于隐式连接和显示连接有如下两个区别：</p>
+<ol>
+<li>显式连接底层将转换成SQL99的交叉连接，显式连接底层将转换成SQL99的inner join、left join、right join等连接。</li>
+<li>隐式连接和显式连接查询后返回的结果不同。使用隐式连接查询返回的结果是多个被查询实体组成的集合。使用显式连接的结果分为两种：如果HQL语句中省略select关键字时，返回的结果也是集合，但集合元素是被查询持久化对象、所有被关联的持久化对象所组成的数组。如果没有省略select关键字，返回的结果同样是集合，集合中的元素是跟在select关键字后的持久化对象组成的数组。</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Form Person <span class="keyword">as</span> p <span class="keyword">inner</span> <span class="keyword">join</span> p.myEvent <span class="keyword">as</span> e <span class="keyword">with</span> p.id<span class="operator">=</span>e.id            <span class="operator">/</span><span class="operator">/</span>..........<span class="number">.1</span></span><br><span class="line"><span class="keyword">Select</span> p <span class="keyword">from</span> Person <span class="keyword">as</span> p <span class="keyword">inner</span> <span class="keyword">join</span> p.myEvent <span class="keyword">as</span> e <span class="keyword">with</span> p.id<span class="operator">=</span>e.id     <span class="operator">/</span><span class="operator">/</span>........<span class="number">.2</span> </span><br></pre></td></tr></table></figure>
+
+
+<p>……..1中返回的结构是有Person实体和ＭyEvent实体组成的数组集合。而………2 返回的结果是只有Person组成的集合。</p>
+<p>对于有集合属性的。Hibernate默认采用延迟加载策略。如对于持久化类Person，有集合属性myEvent。加载Person实例时，默认是不加载myEvent的，如果session被关闭了，Person实例将会无法访问到关联的myEvent属性的。为了解决这个问题，可以再Hibernate映射文件中配置指定:lazy=”false”来关闭延迟加载。或者使用join fetch:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person <span class="keyword">as</span> p <span class="keyword">join</span> <span class="keyword">fetch</span> p.myEvent</span><br></pre></td></tr></table></figure>
+
+<p>一个fetch连接通常不需要被指定别名, 因为相关联的对象不应当被用在 where 子句 (或其它任何子句)中。同时，相关联的对象并不在查询的结果中直接返回，但可以通过他们的父对象来访问到他们。</p>
+<p>使用fetch关键字时需要注意以下几个问题：</p>
+<ol>
+<li>fetch不应该与setMaxResults()和setFirstResults()共用，</li>
+<li>fetch不能与独立的with条件一起使用</li>
+<li>如果在一次查询中fetch多个集合，可以查询返回的笛卡尔积</li>
+<li>full join fetch和right join fetch没有任何意义</li>
+<li>对于bag映射而言，同时join fetch多个结合时可能会出现非预期结果</li>
+</ol>
+<h1 id="select子句"><a href="#select子句" class="headerlink" title="select子句"></a>select子句</h1><p>Select子句用于选择将哪些对象与属性返回到查询结果集中。当然select选择的属性必须是from后持久化类包含的属性。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> p.name <span class="keyword">from</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<p>select查询语句可以返回值为任何类型的属性，包括返回类型为某种组件(Component)的属性：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> p.myEvent.title <span class="keyword">from</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<p>　　select查询语句可以返回多个对象和（或）属性，存放在 Object[]队列中：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> p,e <span class="keyword">from</span> Person <span class="keyword">as</span> p <span class="keyword">inner</span> <span class="keyword">join</span> p.myEvent <span class="keyword">as</span> e <span class="keyword">with</span> p.id<span class="operator">=</span>e.id</span><br></pre></td></tr></table></figure>
+
+<p>　　Select查询语句也支持将选择出的属性存放到一个List对象中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> <span class="keyword">new</span> List(p.name,p.age) <span class="keyword">from</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<p>　　Select查询语句还可以将选择出的属性直接封装成一个对象。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> <span class="keyword">new</span> ClassTest(p.id,p.name,p.age) <span class="keyword">from</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<p>　　但前提是ClassTest支持p.id，p.name，p.age的构造前，假如p.id的数据类型是int，p.name的数据类型是String，p.age的数据类型是int，那么ClassTest必须有如下构造器：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ClassTest(<span class="type">int</span> id,String name,<span class="type">int</span> age)</span><br></pre></td></tr></table></figure>
+
+<p>　　Select还支持给选定的表达式名别名：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> p.name <span class="keyword">as</span> personname <span class="keyword">from</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<p>　　这种做法在与子句select new map一起使用时最有用:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> <span class="keyword">new</span> map(p.name <span class="keyword">as</span> personname) <span class="keyword">from</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<h1 id="聚集函数"><a href="#聚集函数" class="headerlink" title="聚集函数"></a>聚集函数</h1><p>　　受支持的聚集函数如下：</p>
+<p>　　avg(…), sum(…), min(…), max(…)</p>
+<p>　　count(*)</p>
+<p>　　count(…), count(distinct …), count(all…)</p>
+<p>　　Select子句也支持使用distinct和all关键字，此时的效果与SQL中的效果相同。</p>
+<h1 id="多态查询"><a href="#多态查询" class="headerlink" title="多态查询"></a>多态查询</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hibernate可以理解多态查询，from后跟持久化类名，不仅会查出该持久化类的全部实例还好查询出该类的全部子类的全部实例。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Person <span class="keyword">as</span> p</span><br></pre></td></tr></table></figure>
+
+<p>　　该查询语句不仅会查询出Person的全部实例，还会查询出Person的子类：Teacher的全部属性。</p>
+<p>　　Hibernate 可以在from子句中指定任何 Java 类或接口. 查询会返回继承了该类的所有持久化子类 的实例或返回声明了该接口的所有持久化类的实例。下面的查询语句返回所有的被持久化的对象：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> java.lang.Object o</span><br></pre></td></tr></table></figure>
+
+<h1 id="Where子句"><a href="#Where子句" class="headerlink" title="Where子句"></a>Where子句</h1><p>　　where子句允许你将返回的实例列表的范围缩小. 如果没有指定别名，你可以使用属性名来直接引用属性:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person  <span class="keyword">where</span> age <span class="operator">&lt;</span> <span class="number">40</span> </span><br></pre></td></tr></table></figure>
+
+<p>　　如果指派了别名，需要使用完整的属性名:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person <span class="keyword">as</span> p <span class="keyword">where</span> p.age<span class="operator">&lt;</span><span class="number">40</span></span><br></pre></td></tr></table></figure>
+
+<p>　　复合属性表达式增强了where子句的功能：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> person p <span class="keyword">where</span> p.myEvent.title <span class="keyword">like</span> &quot;%你是&quot;</span><br></pre></td></tr></table></figure>
+
+<p>　　该查询语句被翻译为一个含有内连接的SQL查询语句。</p>
+<p>　　只要没有出现集合属性，HQL语句可使用点号来隐式连接多个数据表：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> person p <span class="keyword">where</span> p.myEvent.event.name <span class="keyword">like</span> &quot;%hhh&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>　　上的语句SQL需要连接三张表。</p>
+<p>　　=运算符不仅可以被用来比较属性的值，也可以用来比较实例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Cat cat, Cat rival <span class="keyword">where</span> cat.mate <span class="operator">=</span> rival.mate</span><br><span class="line"><span class="keyword">from</span> Cat cat, Cat rival <span class="keyword">where</span> cat.mate <span class="operator">=</span> rival.mate</span><br></pre></td></tr></table></figure>
+
+<p>　　特殊属性（小写）id可以用来表示一个对象的唯一的标识符</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person p <span class="keyword">where</span> p.id<span class="operator">=</span><span class="number">1</span></span><br><span class="line"><span class="keyword">From</span> Person p <span class="keyword">where</span> p.myEvent.id<span class="operator">=</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>　　第二个查询是有效的。此时不需要进行表连接，而完全使用面向对象的方式查询！</p>
+<p>　　在进行多态持久化的情况下，class关键字用来存取一个实例的鉴别之。嵌入where自己中的java类名将会被作为该类的鉴别值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Person <span class="keyword">as</span> p <span class="keyword">where</span> p.class <span class="operator">=</span> Teacher</span><br></pre></td></tr></table></figure>
+
+<p>　　在执行多态的时候，默认会选出Person及其所有子类的实例，但是上面的HQL语句，将只会选出Teacher类的实例。</p>
+<p>　　当where子句的运算符只支持基本类型或者字符串时，where子句中的属性表达式必须以基本类型或者字符串结尾，不要使用组件类型属性结尾。</p>
+<h1 id="order-by-子句"><a href="#order-by-子句" class="headerlink" title="order by 子句"></a>order by 子句</h1><p>　　查询返回的列表(list)可以按照一个返回的类或组件（components)中的任何属性（property）进行排序：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person <span class="keyword">as</span> p ordery <span class="keyword">by</span> p.id</span><br></pre></td></tr></table></figure>
+
+<p>　　可选的asc或desc关键字指明了按照升序或降序进行排序.</p>
+<h1 id="group-by子句"><a href="#group-by子句" class="headerlink" title="group by子句"></a>group by子句</h1><p>　　一个返回聚集值(aggregate values)的查询可以按照一个返回的类或组件（components)中的任何属性（property）进行分组：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> p.id,p.name <span class="keyword">from</span> Person p <span class="keyword">group</span> <span class="keyword">by</span> p.age</span><br></pre></td></tr></table></figure>
+
+<p>　　可以使用having子句对分组进行过滤</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Select</span> p.id,p.name <span class="keyword">from</span> Person p <span class="keyword">group</span> <span class="keyword">by</span> p.age <span class="keyword">having</span> p.age <span class="keyword">between</span> <span class="number">10</span> <span class="keyword">and</span> <span class="number">40</span></span><br></pre></td></tr></table></figure>
+
+<p>　　注意:group by子句与 order by子句中都不能包含算术表达式。也要注意Hibernate目前不会扩展group的实体,因此你不能写group by cat,除非cat的所有属性都不是聚集的。你必须明确的列出所有的非聚集属性。</p>
+<h1 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h1><p>　　对于支持子查询的数据库，Hibernate支持在查询中使用子查询。一个子查询必须被圆括号包围起来（经常是SQL聚集函数的圆括号）。 甚至相互关联的子查询（引用到外部查询中的别名的子查询）也是允许的。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person p <span class="keyword">where</span> p.age <span class="operator">&gt;</span> (<span class="keyword">select</span> <span class="built_in">avg</span>(p1.age) <span class="keyword">from</span> Person p1 )</span><br></pre></td></tr></table></figure>
+
+<p>　　与SQL子查询相同，如果子查询是多行结果集，则应该使用多行运算符。同时HQL子查询只可以在select子句或者where子句中出现。</p>
+<p>　　如果在select子查询或的列表中包含多项，则在HQL中需要使用一个元组构造符：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">From</span> Person <span class="keyword">as</span> p <span class="keyword">where</span> (p.name,p.age) <span class="keyword">in</span> (<span class="keyword">select</span> s.name,s,age <span class="keyword">from</span> Student <span class="keyword">as</span> s)</span><br></pre></td></tr></table></figure>
+
+<h1 id="命名查询"><a href="#命名查询" class="headerlink" title="命名查询"></a>命名查询</h1><p>　　HQL查询还支持将查询所用的HQL语句放在配置文件中，而不是程序代码中。通过这种方式，可以大大提高程序的解耦。</p>
+<p>　　在Hibernate映射文件中使用&lt;query…/&gt;元素来定义命名查询。使用&lt;query…/&gt;元素是需要指定一个name属性，该属性指定该命名查询的名字。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">query</span> <span class="attr">name</span>=<span class="string">&quot;namedQuery&quot;</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 此处确定命名查询的HQL语句 --&gt;</span></span><br><span class="line">		from Person as p</span><br><span class="line"><span class="tag">&lt;/<span class="name">query</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>　　Session提供一个getNamedQuery(String name)方法用于获取指定命名HQL查询并且创建Query对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">namedQuery</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="type">Session</span> <span class="variable">session</span> <span class="operator">=</span> HibernateUtil.getSession();</span><br><span class="line">	<span class="type">Transaction</span> <span class="variable">tx</span> <span class="operator">=</span> session.beginTransaction();</span><br><span class="line">	<span class="comment">//执行命名查询</span></span><br><span class="line">	<span class="type">List</span> <span class="variable">list</span> <span class="operator">=</span> session.getNamedQuery(<span class="string">&quot;namedQuery&quot;</span>).list();</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">Iterator</span> <span class="variable">iterator</span> <span class="operator">=</span> list.iterator();iterator.hasNext();) &#123;</span><br><span class="line">		<span class="type">Person</span> <span class="variable">p</span> <span class="operator">=</span> (Person) iterator.next();</span><br><span class="line">		System.out.println(p.getName());</span><br><span class="line">	&#125;</span><br><span class="line">	tx.commit();</span><br><span class="line">	session.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Feng Deng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://atideas.github.io/2017/11/03/Hibernate/05.HQL%E8%AF%AD%E5%8F%A5/">http://atideas.github.io/2017/11/03/Hibernate/05.HQL%E8%AF%AD%E5%8F%A5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://atideas.github.io" target="_blank">漂泊者的理想三旬</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hibernate/">Hibernate</a></div><div class="post_share"><div class="social-share" data-image="https://img.paulzzh.com/touhou/random" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/atideas/assets/static/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2017/11/03/Hibernate/04.QBC%E8%AF%AD%E5%8F%A5/"><img class="prev-cover" src="https://api.yimian.xyz/img?type=moe&amp;size=1920x1080" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Hibernate | QBC语句</div></div></a></div><div class="next-post pull-right"><a href="/2017/11/04/Hibernate/06.%E5%AE%9E%E4%BE%8B/"><img class="next-cover" src="https://img.paulzzh.com/touhou/random" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hibernate | 实例</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2017/11/03/Hibernate/01.%E7%AE%80%E4%BB%8B/" title="Hibernate | 简介"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-11-03</div><div class="title">Hibernate | 简介</div></div></a></div><div><a href="/2017/11/03/Hibernate/03.%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" title="Hibernate | 基本使用"><img class="cover" src="https://www.dmoe.cc/random.php" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-11-03</div><div class="title">Hibernate | 基本使用</div></div></a></div><div><a href="/2017/11/03/Hibernate/02.%E8%AF%A6%E8%A7%A3/" title="Hibernate | 详解"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-11-03</div><div class="title">Hibernate | 详解</div></div></a></div><div><a href="/2017/11/03/Hibernate/04.QBC%E8%AF%AD%E5%8F%A5/" title="Hibernate | QBC语句"><img class="cover" src="https://api.yimian.xyz/img?type=moe&size=1920x1080" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-11-03</div><div class="title">Hibernate | QBC语句</div></div></a></div><div><a href="/2017/11/04/Hibernate/06.%E5%AE%9E%E4%BE%8B/" title="Hibernate | 实例"><img class="cover" src="https://img.paulzzh.com/touhou/random" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-11-04</div><div class="title">Hibernate | 实例</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/atideas/assets/static/avatar.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Feng Deng</div><div class="author-info__description">一身转战三千里，一剑曾当百万师</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">174</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/atideas"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/atideas" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3153896464@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎访问我的博客！</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HQL%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.</span> <span class="toc-text">HQL查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8CHQL%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.</span> <span class="toc-text">执行HQL查询的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.2.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HQL%E6%9F%A5%E8%AF%A2%E7%9A%84from%E5%AD%90%E5%8F%A5"><span class="toc-number">2.</span> <span class="toc-text">HQL查询的from子句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E4%B8%8E%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">关联与连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#select%E5%AD%90%E5%8F%A5"><span class="toc-number">4.</span> <span class="toc-text">select子句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%81%9A%E9%9B%86%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">聚集函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.</span> <span class="toc-text">多态查询</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Where%E5%AD%90%E5%8F%A5"><span class="toc-number">7.</span> <span class="toc-text">Where子句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#order-by-%E5%AD%90%E5%8F%A5"><span class="toc-number">8.</span> <span class="toc-text">order by 子句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#group-by%E5%AD%90%E5%8F%A5"><span class="toc-number">9.</span> <span class="toc-text">group by子句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="toc-number">10.</span> <span class="toc-text">子查询</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E6%9F%A5%E8%AF%A2"><span class="toc-number">11.</span> <span class="toc-text">命名查询</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 熔断与限流"/></a><div class="content"><a class="title" href="/2022/01/10/SpringCloud/08.%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%90%E6%B5%81/" title="SpringCloud | 熔断与限流">SpringCloud | 熔断与限流</a><time datetime="2022-01-10T13:17:54.000Z" title="发表于 2022-01-10 21:17:54">2022-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务注册和配置中心"/></a><div class="content"><a class="title" href="/2022/01/05/SpringCloud/07.%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="SpringCloud | 服务注册和配置中心">SpringCloud | 服务注册和配置中心</a><time datetime="2022-01-05T14:19:38.000Z" title="发表于 2022-01-05 22:19:38">2022-01-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置"><img src="https://api.ixiaowai.cn/api/api.php" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务配置"/></a><div class="content"><a class="title" href="/2021/12/30/SpringCloud/06.%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/" title="SpringCloud | 服务配置">SpringCloud | 服务配置</a><time datetime="2021-12-30T13:16:50.000Z" title="发表于 2021-12-30 21:16:50">2021-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务网关"/></a><div class="content"><a class="title" href="/2021/12/27/SpringCloud/05.%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" title="SpringCloud | 服务网关">SpringCloud | 服务网关</a><time datetime="2021-12-27T12:34:37.000Z" title="发表于 2021-12-27 20:34:37">2021-12-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/" title="SpringCloud | 服务降级"><img src="https://img.paulzzh.com/touhou/random" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/atideas/assets/static/404.jpg'" alt="SpringCloud | 服务降级"/></a><div class="content"><a class="title" href="/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/" title="SpringCloud | 服务降级">SpringCloud | 服务降级</a><time datetime="2021-12-22T09:08:56.000Z" title="发表于 2021-12-22 17:08:56">2021-12-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By Feng Deng</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">愿漂泊的人都有酒喝,孤独的人都会唱歌</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '1UHXekkb2FIztWkcxykWIrb5-9Nh9j0Va',
+      appKey: 'paFEd6U94HDMBJ5ejtxfxBwM',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: {"tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png"},
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

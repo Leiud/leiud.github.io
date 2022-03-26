@@ -117,31 +117,6 @@
   </entry>
   
   <entry>
-    <title>Mybatis | Mybatis开发dao</title>
-    <link href="http://atideas.github.io/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/"/>
-    <id>http://atideas.github.io/2021/12/23/Mybatis/03.Mybatis%E5%BC%80%E5%8F%91dao/</id>
-    <published>2021-12-23T10:55:53.000Z</published>
-    <updated>2022-03-10T01:49:50.414Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;sqlSession-使用范围&quot;&gt;&lt;a href=&quot;#sqlSession-使用范围&quot; class=&quot;headerlink&quot; title=&quot;sqlSession 使用范围&quot;&gt;&lt;/a&gt;sqlSession 使用范围&lt;/h1&gt;&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="Mybatis" scheme="http://atideas.github.io/tags/Mybatis/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SpringCloud | 服务降级</title>
     <link href="http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/"/>
     <id>http://atideas.github.io/2021/12/22/SpringCloud/04.%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7/</id>
@@ -189,56 +164,6 @@
     
     
     <category term="SpringCloud" scheme="http://atideas.github.io/tags/SpringCloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Java多线程 | 同步集合类</title>
-    <link href="http://atideas.github.io/2021/12/12/Multithread/09.%E5%90%8C%E6%AD%A5%E9%9B%86%E5%90%88%E7%B1%BB/"/>
-    <id>http://atideas.github.io/2021/12/12/Multithread/09.%E5%90%8C%E6%AD%A5%E9%9B%86%E5%90%88%E7%B1%BB/</id>
-    <published>2021-12-12T09:20:47.521Z</published>
-    <updated>2022-03-10T01:49:39.050Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;传统集合的缺陷&quot;&gt;&lt;a href=&quot;#传统集合的缺陷&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="Java多线程" scheme="http://atideas.github.io/tags/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mybatis | 逆向工程</title>
-    <link href="http://atideas.github.io/2021/12/12/Mybatis/08.%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/"/>
-    <id>http://atideas.github.io/2021/12/12/Mybatis/08.%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/</id>
-    <published>2021-12-12T09:20:47.365Z</published>
-    <updated>2022-03-10T01:50:02.512Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;什么是逆向工程&quot;&gt;&lt;a href=&quot;#什么是逆向工程&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-    
-    <category term="Mybatis" scheme="http://atideas.github.io/tags/Mybatis/"/>
     
   </entry>
   
@@ -519,6 +444,81 @@
     
     
     <category term="RabbitMQ" scheme="http://atideas.github.io/tags/RabbitMQ/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyCAT | 安全设置</title>
+    <link href="http://atideas.github.io/2021/11/15/MyCat/04.%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7/"/>
+    <id>http://atideas.github.io/2021/11/15/MyCat/04.%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7/</id>
+    <published>2021-11-15T00:23:06.000Z</published>
+    <updated>2022-03-10T02:00:02.621Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Mycat-监控工具&quot;&gt;&lt;a href=&quot;#Mycat-监控工具&quot; class=&quot;headerlink&quot; title=&quot;Mycat 监控工具&quot;&gt;&lt;/a&gt;Mycat 监控工具&lt;/h1&gt;&lt;h2 id=&quot;Mycat-web-简介&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Mycat" scheme="http://atideas.github.io/tags/Mycat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyCAT | 安全设置</title>
+    <link href="http://atideas.github.io/2021/11/13/MyCat/03.%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE/"/>
+    <id>http://atideas.github.io/2021/11/13/MyCat/03.%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE/</id>
+    <published>2021-11-13T00:41:59.000Z</published>
+    <updated>2022-03-10T01:50:11.925Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;Mycat-安全设置&quot;&gt;&lt;a href=&quot;#Mycat-安全设置&quot; class=&quot;headerlink&quot; title=&quot;Mycat 安全设置&quot;&gt;&lt;/a&gt;Mycat 安全设置&lt;/h1&gt;&lt;h2 id=&quot;权限配置&quot;&gt;&lt;a href=&quot;#权限配置&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Mycat" scheme="http://atideas.github.io/tags/Mycat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MyCAT | 实例</title>
+    <link href="http://atideas.github.io/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/"/>
+    <id>http://atideas.github.io/2021/11/12/MyCat/02.%E5%AE%9E%E4%BE%8B/</id>
+    <published>2021-11-12T08:21:36.000Z</published>
+    <updated>2022-03-10T01:50:09.294Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;读写分离&quot;&gt;&lt;a href=&quot;#读写分离&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="笔记" scheme="http://atideas.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Mycat" scheme="http://atideas.github.io/tags/Mycat/"/>
     
   </entry>
   
